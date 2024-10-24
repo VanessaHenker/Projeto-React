@@ -1,9 +1,23 @@
 function App() {
   return (
     <>
-      <div>
-        <h1>hello mundo</h1>
-      </div>
+      <nav>
+        <div>
+          <h1>NavBar</h1>
+        </div>
+      </nav>
+
+      <section>
+        <div>
+          <h1>Section1</h1>
+        </div>
+
+        <div>
+          <h2>Section2</h2>
+        </div>
+      </section>
+
+      <footer><h1>footer</h1></footer>
     </>
   )
 }
