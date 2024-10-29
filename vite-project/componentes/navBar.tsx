@@ -1,6 +1,6 @@
 export function NavBar(){
   return(
-    <>Olá</>
+    <div>Olá</div>
   );
 
 }
