@@ -1,6 +1,10 @@
 export function NavBar(){
   return(
-    <div>Olá</div>
+    <nav>
+          <div>
+            <h1>NavBar</h1>
+          </div>
+        </nav>
   );
 
 }
