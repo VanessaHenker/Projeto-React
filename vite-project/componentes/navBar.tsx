@@ -1,10 +1,7 @@
-export function NavBar(){
-  return(
-    <nav>
-          <div>
-            <h1>NavBar</h1>
-          </div>
-        </nav>
-  );
+import React from 'react';
 
+export function NavBar() {
+  return (
+    <div>Olá</div>
+  );
 }
