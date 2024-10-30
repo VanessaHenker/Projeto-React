@@ -1,10 +1,10 @@
 import './App.css';
-import navBar from './componentes/navBar.tsx';
+import { NavBar } from './componentes/navBar.tsx'; // Ajuste o nome para corresponder à exportação
 
 function App() {
   return (
     <div>
-      <navBar /> {/* Componente de navegação */}
+      <NavBar /> {/* Agora está em maiúsculas para corresponder à exportação */}
 
       <main>
         <section>
