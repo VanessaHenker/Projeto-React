@@ -1,12 +1,12 @@
-import './App.css'
-
-import { NavBar } from './componentes/navBar';
+// src/App.tsx
+import './App.css';
+import { NavBar } from './componentes/navBar'; // Corrija o caminho se necessário
 
 function App() {
   return (
     <>
       <div>
-       <NavBar />
+        <NavBar /> {/* Aqui você usa o componente NavBar */}
 
         <section>
           <div>
@@ -23,7 +23,7 @@ function App() {
         </footer>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
