@@ -1,6 +1,8 @@
 // src/App.tsx
 import './App.css';
-import { NavBar } from './componentes/navBar'; // Corrija o caminho se necessário
+import { NavBar } from './componentes/navBar';
+
+
 
 function App() {
   return (
