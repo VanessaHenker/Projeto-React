@@ -1,12 +1,12 @@
 import './App.css'
-import {navBar} from './componentes/navBar';
+import { NavBar } from './componentes/navBar';
 
 
 function App() {
   return (
     <>
       <div>
-        <navBar />
+        <NavBar />
 
         <section>
           <div>
