@@ -1,15 +1,11 @@
-// src/App.tsx
 import './App.css';
-import { NavBar } from './componentes/navBar';
-
-
+import NavBar from './componentes/navBar.tsx';
 
 function App() {
   return (
     <>
       <div>
-        <NavBar /> {/* Aqui você usa o componente NavBar */}
-
+        <NavBar /> {/* Mantido em minúsculas para corresponder ao nome da exportação */}
         <section>
           <div>
             <h1>section 1</h1>
