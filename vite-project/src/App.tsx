@@ -1,27 +1,22 @@
 import './App.css';
-import NavBar from './componentes/navBar.tsx';
+import navBar from './componentes/navBar.tsx';
 
 function App() {
   return (
-    <>
-      <div>
-        <NavBar /> {/* Mantido em minúsculas para corresponder ao nome da exportação */}
-        
+    <div>
+      <navBar /> {/* Componente de navegação */}
+
+      <main>
         <section>
-          <div>
-            <h1>section 1</h1>
-          </div>
-
-          <div>
-            <h2>section 2</h2>
-          </div>
+          <h1>Bem-vindo(a)!</h1>
+          <p>Este é um exemplo de seção inicial.</p>
         </section>
+      </main>
 
-        <footer>
-          <h1>footer</h1>
-        </footer>
-      </div>
-    </>
+      <footer>
+        <p>&copy; 2024 Cake Bliss. Todos os direitos reservados.</p>
+      </footer>
+    </div>
   );
 }
 
