@@ -6,6 +6,7 @@ function App() {
     <>
       <div>
         <NavBar /> {/* Mantido em minúsculas para corresponder ao nome da exportação */}
+        
         <section>
           <div>
             <h1>section 1</h1>
