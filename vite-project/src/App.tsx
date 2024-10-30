@@ -2,7 +2,6 @@ import './App.css'
 
 import { NavBar } from './componentes/navBar';
 
-
 function App() {
   return (
     <>
