@@ -1,11 +1,11 @@
 import './App.css';
-import NavBar from './componentes/navBar';
+import NavBar from 'componentes/navBar.tsx';
 
 
 function App() {
   return (
     <div>
-      <NavBar /> {/* Import necessário para usar o componente NavBar */}
+      <NavBar />
 
       <main>
         <section>
