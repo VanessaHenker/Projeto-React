@@ -1,20 +1,19 @@
 import './App.css'
+import NavBar from './componentes/navBar';
+
+
 
 function App() {
   return (
     <>
       <div>
-        <nav>
-          <div>
-            <h1>NavBar</h1>
-          </div>
-        </nav>
+        <NavBar />
 
         <section>
           <div>
             <h1>section 1</h1>
           </div>
-          
+
           <div>
             <h2>section 2</h2>
           </div>
