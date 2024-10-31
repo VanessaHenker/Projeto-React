@@ -1,8 +1,7 @@
 {
-  "compilerOptions": {
-    "baseUrl": "./src",
-    "paths": {
-      "componentes/*": ["componentes/*"]
-    }
-  }
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

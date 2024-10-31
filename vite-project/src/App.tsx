@@ -1,26 +1,25 @@
 import './App.css';
-declare module 'componentes/*';
-
-import { NavBar } from 'componentes/navBar';
-
 
 
 function App() {
   return (
-    <div>
-      <NavBar />
-
-      <main>
+    <>
+      <div>
         <section>
-          <h1>Bem-vindo(a)!</h1>
-          <p>Este é um exemplo de seção inicial.</p>
-        </section>
-      </main>
+          <div>
+            <h1>section 1</h1>
+          </div>
 
-      <footer>
-        <p>&copy; 2024 Cake Bliss. Todos os direitos reservados.</p>
-      </footer>
-    </div>
+          <div>
+            <h2>section 2</h2>
+          </div>
+        </section>
+
+        <footer>
+          <h1>footer</h1>
+        </footer>
+      </div>
+    </>
   );
 }
 
