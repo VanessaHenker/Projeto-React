@@ -1,5 +1,8 @@
 import './App.css';
-import NavBar from 'componentes/navBar.tsx';
+declare module 'componentes/*';
+
+import { NavBar } from 'componentes/navBar';
+
 
 
 function App() {
