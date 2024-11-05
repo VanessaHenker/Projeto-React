@@ -1,25 +1,22 @@
 import './App.css';
 
-
 function App() {
   return (
-    <>
-      <div>
-        <section>
-          <div>
-            <h1>section 1</h1>
-          </div>
+    <div className="app-container">
+      <section className="section">
+        <div className="section-content">
+          <h1>Section 1</h1>
+        </div>
 
-          <div>
-            <h2>section 2</h2>
-          </div>
-        </section>
+        <div className="section-content">
+          <h2>Section 2</h2>
+        </div>
+      </section>
 
-        <footer>
-          <h1>footer</h1>
-        </footer>
-      </div>
-    </>
+      <footer className="footer">
+        <h1>Footer</h1>
+      </footer>
+    </div>
   );
 }
 
