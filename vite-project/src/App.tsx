@@ -3,11 +3,7 @@ import './App.css';
 function App() {
   return (
     <>
-    <nav>
-      <div>
-        <h1>NavBar</h1>
-      </div>
-    </nav>
+    <nav
 
     <section>
       <h1>
