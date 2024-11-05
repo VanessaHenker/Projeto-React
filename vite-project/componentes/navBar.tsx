@@ -11,3 +11,4 @@ function Component2() {
 export const componentsArray = [Component1, Component2];
 // Ou como um objeto
 export const componentsObject = { Component1, Component2 };
+
