@@ -1,10 +1,11 @@
+// src/App.tsx
 import './App.css';
-import { NavBar } from './componentes/NavBar';
+import { NavBar } from './components/navBar'; // Importa o NavBar
 
-function App() {
+function App(): JSX.Element {
   return (
     <div className="app-container">
-      <NavBar /> {/* Inclui o NavBar aqui */}
+      <NavBar /> {/* Exibe o NavBar */}
 
       <section className="section">
         <div className="section-content">
