@@ -1,8 +1,7 @@
 // App.tsx
 
 import './App.css';
-import { Component1, Component2 } from './navBar';
-
+import { Component1, Component2 } from './navBar.tsx';
 function App() {
   return (
     <>
