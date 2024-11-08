@@ -1,4 +1,7 @@
+// App.tsx
+import React from 'react';
 import './App.css';
+import { Component1, Component2 } from './ComponentFile';
 
 function App() {
   return (
@@ -9,10 +12,12 @@ function App() {
 
       <section>
         <h1>Section 1</h1>
+        <Component1 />
       </section>
 
       <section>
         <h1>Section 2</h1>
+        <Component2 />
       </section>
 
       <footer>
