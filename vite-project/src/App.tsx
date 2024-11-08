@@ -1,6 +1,8 @@
 // App.tsx
+
 import './App.css';
-import { Component1, Component2 } from './navBar.tsx';
+import { Component1, Component2 } from './ComponentFile';
+
 function App() {
   return (
     <>
