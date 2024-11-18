@@ -1,10 +1,11 @@
-import { NavBar } from './src/componentes';
+import { NavBar } from "./componentes/navBar";
+
 
 function App() {
   return (
     <>
-      <NavBar /> {/* Uso correto do componente */}
-      
+    <NavBar/>
+    <NavBar/>
       <section>
         <div>
           <h1>Section 1</h1>
