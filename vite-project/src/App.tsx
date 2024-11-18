@@ -1,12 +1,13 @@
+import { NavBar } from './src/componentes';
+
 function App() {
   return (
     <>
-    
-
+      <NavBar /> {/* Uso correto do componente */}
+      
       <section>
         <div>
           <h1>Section 1</h1>
-
         </div>
 
         <div>
@@ -18,7 +19,7 @@ function App() {
         <h1>Footer</h1>
       </footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
