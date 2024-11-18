@@ -1,4 +1,6 @@
+import { Footer } from "./componentes/footer";
 import { NavBar } from "./componentes/navBar";
+import { Section } from "./componentes/section";
 
 
 function App() {
@@ -7,10 +9,9 @@ function App() {
     <NavBar/>
     <NavBar/>
      
-
-      <footer>
-        <h1>Footer</h1>
-      </footer>
+    <Section/>
+     
+     <Footer/>
     </>
   );
 }
