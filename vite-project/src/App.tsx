@@ -1,11 +1,7 @@
 function App() {
   return (
     <>
-      <nav>
-        <div>
-          <h1>NavBar</h1>
-        </div>
-      </nav>
+    
 
       <section>
         <div>
