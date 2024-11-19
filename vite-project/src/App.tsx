@@ -11,7 +11,7 @@ function App() {
      
     <Section/>
      
-     <Footer/>
+    <Footer/>
     </>
   );
 }
