@@ -1,17 +1,22 @@
 import { Footer } from "./componentes/footer";
-import { NavBar } from "./componentes/navBar";
+import { NavBar } from "./componentes/navBar"; 
 import { Section } from "./componentes/section";
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <BrowserRouter>  
+    <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<>
-          <NavBar/>
-          <Section/>
-          <Footer/>
-        </>}></Route>
+        <Route
+          path="/login"
+          element={
+            <>
+              <NavBar />
+              <Section />
+              <Footer />
+            </>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
