@@ -1,18 +1,21 @@
 import { Footer } from "./componentes/footer";
 import { NavBar } from "./componentes/navBar";
 import { Section } from "./componentes/section";
-
+import {BrowserRouter, Routes, Route} from "react-router-dom"
 
 function App() {
   return (
-    <>
-    <NavBar/>
-    <NavBar/>
-     
-    <Section/>
-     
-    <Footer/>
-    </>
+    <BrowserRouter>  
+      <Routes>
+        <Route path="/Login" element={<>
+        <div>
+          <h1>Login</h1>
+        </div>
+        </>}>
+
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
