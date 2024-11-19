@@ -7,15 +7,11 @@ function App() {
   return (
     <BrowserRouter>  
       <Routes>
-        <Route 
-        path="/login" element={
-          <>
-          <div>
-            <h1>Login</h1>
-          </div>
-        </>}>
-
-        </Route>
+        <Route path="/login" element={<>
+          <NavBar/>
+          <Section/>
+          <Footer/>
+        </>}></Route>
       </Routes>
     </BrowserRouter>
   );
