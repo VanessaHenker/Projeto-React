@@ -13,9 +13,13 @@ function App() {
           <Section/>
           <Footer/>
         </>}>
-
-       </Route>
-    
+      </Route>
+        
+      <Route path="/home"
+        element={<> 
+          <h2>Home</h2>
+        </>}>
+      </Route>
       </Routes>
     </BrowserRouter>
   );
