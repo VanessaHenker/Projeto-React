@@ -5,10 +5,10 @@ import { Footer } from './componentes/footer';
 import { AppRoutes } from './routes';
 import Frase from './componentes/frases';
 import SayMyName from './componentes/sayMyName';
+import Pessoa from './componentes/pessoa';
 
 function App() {
   const nome = 'Vanessa'
-
   const url = "https://via.placeholder.com/150"
 
   return (
@@ -24,6 +24,7 @@ function App() {
 
       <div className='teste'>
         <SayMyName nome = {nome}/>
+        <Pessoa nome = "Vanessa" idade = "30" prof = "secretaria" foto= "https://via.placeholder.com/100" />
       </div>
       </BrowserRouter>
   );
