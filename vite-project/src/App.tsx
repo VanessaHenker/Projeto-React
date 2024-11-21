@@ -21,8 +21,8 @@ function App() {
         <img src={url} alt="MinhaImg" />
         <Frase />
       </div>
-
       <SayMyName/>
+     
     </BrowserRouter>
   );
 }
