@@ -1,21 +1,13 @@
-// Definindo a interface para as props
-interface PessoaProps {
-  foto: string; 
-  nome: string;
-  idade: string;
-  prof: string;
-}
-// Função simples que recebe props
-function Pessoa(props: PessoaProps) {
+// Função simples que recebe os parâmetros diretamente
+function Pessoa(nome: string, idade: number, prof: string, foto: string){
   return (
     <>
-      <img src={props.foto} alt="Pessoa" />
-      <h2>Nome: {props.nome}</h2>
-      <p>Idade: {props.idade}</p>
-      <p>Profissão {props.prof}</p>
+      <img src={foto} alt="Pessoa" />
+      <h2>Nome: {nome}</h2>
+      <p>Idade: {idade}</p>
+      <p>Profissão: {prof}</p>
     </>
   );
 }
-
 
 export default Pessoa;
