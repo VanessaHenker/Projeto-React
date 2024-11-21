@@ -1,8 +1,11 @@
+.color{
+  color: brown;
+}
 .teste{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: brown;
   font-size: 20px;
 }
+

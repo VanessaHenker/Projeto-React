@@ -16,14 +16,17 @@ function App() {
       <AppRoutes />
       <Footer />
       {/*   Conteudo aula 2 */}
-      <div className='teste'>
+      <div className='teste color'>
         <p>Olá, {name}</p>
         <img src={url} alt="MinhaImg" />
         <Frase />
       </div>
-      <SayMyName nome = 'Vanessa'/>
-     
-    </BrowserRouter>
+
+      <div className='teste'>
+        <SayMyName nome = 'Vanessa'/>
+        <SayMyName nome = 'João'/>
+      </div>
+      </BrowserRouter>
   );
 }
 
