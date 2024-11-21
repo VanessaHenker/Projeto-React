@@ -6,10 +6,6 @@ import { AppRoutes } from './routes';
 function App() {
   const name = 'Vanessa'
 
-  function soma(a, b) {
-    return a + b
-  }
-
   const url = "https://via.placeholder.com/150"
 
   return (
@@ -18,9 +14,10 @@ function App() {
       <Footer />
 
     {/*   Conteudo aula 2 */}
-      <p>Olá, {name}</p>
-      <p>Soma: {soma(1, 2)}</p>
+    <div className='app'>
+      <p className= 'teste'>Olá, {name}</p>
       <img src={url} alt="MinhaImg" />
+    </div>
     </BrowserRouter>
   );
 }
