@@ -12,6 +12,7 @@ function App() {
       <Footer/>
 
       <p>Olá, {name}</p>
+      <p>Soma: {2 + 2}</p>
     </BrowserRouter>
   );
 }
