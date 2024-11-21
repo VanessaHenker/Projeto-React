@@ -1,11 +1,11 @@
 import './app.css';
 
 import { BrowserRouter } from 'react-router-dom';
-/* import { Footer } from './componentes/footer';
-import { AppRoutes } from './routes'; */
+
 import Frase from './componentes/frases';
 import SayMyName from './componentes/sayMyName';
 import Pessoa from './componentes/pessoa';
+import List from './componentes/list';
 
 function App() {
   const nome = 'Vanessa'
@@ -25,6 +25,8 @@ function App() {
       <div className='teste'>
         <SayMyName nome = {nome}/>
         <Pessoa nome = "Vanessa" idade = {20} prof = "secretaria" foto= "https://via.placeholder.com/100" />
+      
+        <List/>
       </div>
       </BrowserRouter>
   );
