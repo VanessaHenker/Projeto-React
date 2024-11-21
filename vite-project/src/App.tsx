@@ -24,7 +24,7 @@ function App() {
 
       <div className='teste'>
         <SayMyName nome = {nome}/>
-        <Pessoa nome = "Vanessa" idade = "30" prof = "secretaria" foto= "https://via.placeholder.com/100" />
+        <Pessoa nome = "Vanessa" idade = {20} prof = "secretaria" foto= "https://via.placeholder.com/100" />
       </div>
       </BrowserRouter>
   );

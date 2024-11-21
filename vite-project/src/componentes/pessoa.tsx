@@ -1,5 +1,5 @@
 // Função com desestruturação diretamente nos parâmetros
-function Pessoa({ nome, idade, prof, foto }: { nome: string; idade: string | string; prof: string; foto: string }) {
+function Pessoa({ nome, idade, prof, foto }: { nome: string; idade: string | number; prof: string; foto: string }) {
   return (
     <>
       <img src={foto} alt="Pessoa" />
