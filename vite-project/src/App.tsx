@@ -7,7 +7,7 @@ import Frase from './componentes/frases';
 import SayMyName from './componentes/sayMyName';
 
 function App() {
-  const name = 'Vanessa'
+  const nome = 'Vanessa'
 
   const url = "https://via.placeholder.com/150"
 
@@ -17,14 +17,13 @@ function App() {
       <Footer />
       {/*   Conteudo aula 2 */}
       <div className='teste color'>
-        <p>Olá, {name}</p>
+        <p>Olá, {nome}</p>
         <img src={url} alt="MinhaImg" />
         <Frase />
       </div>
 
       <div className='teste'>
-        <SayMyName nome = 'Vanessa'/>
-        <SayMyName nome = 'João'/>
+        <SayMyName nome = {nome}/>
       </div>
       </BrowserRouter>
   );
