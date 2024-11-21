@@ -1,8 +1,8 @@
 import './app.css';
 
 import { BrowserRouter } from 'react-router-dom';
-import { Footer } from './componentes/footer';
-import { AppRoutes } from './routes';
+/* import { Footer } from './componentes/footer';
+import { AppRoutes } from './routes'; */
 import Frase from './componentes/frases';
 import SayMyName from './componentes/sayMyName';
 import Pessoa from './componentes/pessoa';
@@ -13,8 +13,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AppRoutes />
-      <Footer />
+     {/*  <AppRoutes />
+      <Footer /> */}
       {/*   Conteudo aula 2 */}
       <div className='teste color'>
         <p>Olá, {nome}</p>
