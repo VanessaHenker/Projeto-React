@@ -4,10 +4,14 @@ import { AppRoutes } from './routes';
 
 
 function App() {
+  const name = 'Vanessa'
+
   return (
     <BrowserRouter>
       <AppRoutes/>
       <Footer/>
+
+      <p>Olá, {name}</p>
     </BrowserRouter>
   );
 }
