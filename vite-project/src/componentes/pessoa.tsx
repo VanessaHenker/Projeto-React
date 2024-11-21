@@ -1,5 +1,5 @@
-// Função simples que recebe os parâmetros diretamente
-function Pessoa(nome: string, idade: number, prof: string, foto: string){
+// Função com desestruturação diretamente nos parâmetros
+function Pessoa({ nome, idade, prof, foto }: { nome: string; idade: string | string; prof: string; foto: string }) {
   return (
     <>
       <img src={foto} alt="Pessoa" />
