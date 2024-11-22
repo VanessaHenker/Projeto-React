@@ -1,8 +1,10 @@
+import Login from "./componets/Login"
+
 
 function App() {
   return (
     <>
-     <h1>Olá</h1>
+      <Login/>
     </>
   )
 }
