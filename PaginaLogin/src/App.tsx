@@ -5,10 +5,10 @@ import Createa from "./componets/Createa";
 import Login from "./componets/Login";
 
 const App: React.FC = () => {
-  const [isSignIn, setIsSignIn] = useState(false);  // Definindo o estado para alternar entre login e cadastro
+  const [isSignIn, setIsSignIn] = useState(false);  
 
   const handleButtonClick = () => {
-    setIsSignIn(!isSignIn);  // Altera o estado entre login e criação de conta
+    setIsSignIn(!isSignIn); 
   };
 
   return (

@@ -1,4 +1,3 @@
-import React from 'react';
 import FormName from './FromName';
 import FormLogin from './FormLogin';
 import IconSocial from './IconSocial';
@@ -20,12 +19,12 @@ const Login: React.FC<LoginProps> = ({ onButtonClick }) => {
 
       <section className="conteudo-coluna-secundario">
         <h2 className="conteudo-titulo titulo-secundario">create account</h2>
-        <IconSocial/>
+        <IconSocial />
         <p className="conteudo-subtitulo descricao-secundaria">or use your email for registration: </p>
-        <form className= "conteudo-principal-form">
-          <FormName/>
+        <form className="conteudo-principal-form">
+          <FormName />
           <FormLogin />
-          
+
           <button className="btn button-secundario">sign up</button>
         </form>
       </section>
