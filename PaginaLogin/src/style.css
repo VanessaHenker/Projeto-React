@@ -9,3 +9,135 @@
 body{
   font-family: 'Opens Sans', sans-serif;
 }
+
+.conteudo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color:  #ecf0f1;
+}
+
+.content{
+  background-color: #ffffff;
+  border-radius: 15px;
+  width: 960px;
+  height: 70%;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.content::before{
+  content: "";
+  position: absolute;
+  background-color: #58af9b;
+  width: 40%;
+  height: 100%;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+
+  left: 0;
+}
+
+.conteudo-principal{
+  display: flex;
+}
+
+.conteudo-coluna-principal{
+  text-align: center;
+  width: 40%;
+  z-index: 10;
+}
+
+.conteudo-titulo{
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.titulo-secundario{
+  color: #58af9b;
+}
+
+.conteudo-subtitulo{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 30px;
+  text-transform: capitalize;
+}
+
+.descricao-primaria{
+  color: #ffffff;
+}
+
+.descricao-secundaria{
+  color: #7f8c8d;
+}
+
+.btn{
+  border-radius: 15px;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding: 10px 50px;
+  color: #ffffff;
+  cursor: pointer; /* testar*/
+  width: 150px;
+  font-weight: bold;
+  align-self: center;
+  border: none;
+  margin-top: 1rem;
+}
+
+.button-primario{
+  background-color: transparent;
+  border: 1px solid #fff;
+  transition: .5s;
+}
+
+.button-primario:hover{
+  background-color: #fff;
+  color: #58af9b;
+}
+
+.button-secundario{
+  background-color: #58af9b;
+  border: 1px solid #58af9b;
+  transition: background-color .5s;
+}
+
+.button-secundario:hover{
+  background-color: #fff;
+  border: 1px solid #58af9b;
+  color: #58af9b;
+}
+
+.conteudo-coluna-secundario{
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.midia-social{
+  margin: 1rem 0 
+}
+
+.lista-midia-social{
+  display: flex;
+  list-style-type: none;
+}
+
+.item-midia-social{
+  border: 1px solid  #bdc3c7;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  color: #95a5a6;
+}
+
+.item-midia-social a{
+  color: #95a5a6;
+}
