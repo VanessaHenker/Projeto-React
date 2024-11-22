@@ -1,4 +1,7 @@
 import React from 'react';
+import FormName from './FromName';
+import FormLogin from './FormLogin';
+import IconSocial from './IconSocial';
 
 interface LoginProps {
   onButtonClick: () => void;
@@ -14,6 +17,18 @@ const Login: React.FC<LoginProps> = ({ onButtonClick }) => {
         <button id="signin" className="btn button-primario" onClick={onButtonClick}>
           Sign in
         </button>
+      </section>
+
+      <section className="conteudo-coluna-secundario">
+        <h2 className="conteudo-titulo titulo-secundario">create account</h2>
+        <IconSocial/>
+        <p className="conteudo-subtitulo descricao-secundaria">or use your email for registration: </p>
+        <form className= "conteudo-principal-form">
+          <FormName/>
+          <FormLogin />
+          
+          <button className="btn button-secundario">sign up</button>
+        </form>
       </section>
     </div>
   );
