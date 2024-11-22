@@ -7,7 +7,7 @@ function Createa() {
         <h2 className="conteudo-titulo titulo-primario">hello, friend</h2>
         <p className="conteudo-subtitulo descricao-primaria">Enter your personal details</p>
         <p className="conteudo-subtitulo descricao-primaria">and start journey with us</p>
-        <button id="sigup" className="btn button-primario">sign up</button>
+        <button id="signup" className="btn button-primario">sign up</button>
       </section>
 
       <section className="conteudo-coluna-secundario">

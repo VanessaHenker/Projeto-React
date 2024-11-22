@@ -13,5 +13,5 @@ function App() {
     </>
   )
 }
-
+<script src = "script.js"></script>
 export default App
