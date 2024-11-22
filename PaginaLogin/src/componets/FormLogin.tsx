@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'; 
 
-function FromLogin() {
+function FormLogin() {
   return (
     <>
       <label className="label-input" htmlFor="email">
@@ -17,4 +17,4 @@ function FromLogin() {
   );
 }
 
-export default FromLogin;
+export default FormLogin;
