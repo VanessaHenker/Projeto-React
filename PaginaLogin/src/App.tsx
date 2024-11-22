@@ -1,20 +1,19 @@
-import './style.css';
-import { useState } from 'react';
+import React, { useEffect } from "react";
+import "./style.css";
 import Createa from "./componets/Createa";
 import Login from "./componets/Login";
 
 function App() {
-  const [mode, setMode] = useState("sign-in-js");
+  useEffect(() => {
+    // Importar o script após o carregamento do componente
+    import("./script.ts");
+  }, []);
 
   return (
-    <>
-      <main className={`conteudo ${mode}`}>
-        <button id="signin" onClick={() => setMode("sign-in-js")}>Sign In</button>
-        <button id="signup" onClick={() => setMode("sign-up-js")}>Sign Up</button>
-        <Login />
-        <Createa />
-      </main>
-    </>
+    <main className="conteudo">
+     <Login/>
+     <Createa/>
+    </main>
   );
 }
 
