@@ -3,7 +3,7 @@ import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 
 function FormLogin() {
   return (
-    <div>
+    <>
       <label className="label-input">
         <FontAwesomeIcon icon={faEnvelope} className="icon-modify" />
         <input type="email" placeholder="Email" />
@@ -13,7 +13,7 @@ function FormLogin() {
         <FontAwesomeIcon icon={faLock} className="icon-modify" />
         <input type="password" placeholder="Password" />
       </label>
-    </div>
+    </>
   );
 }
 

@@ -164,23 +164,18 @@ body{
   border-color: #58af9b;
 }
 
-.conteudo-principal-from{
+.conteudo-principal-form{
   display: flex;
   flex-direction: column;
   width: 55%;
 }
 
-.conteudo-principal-from input{
+.conteudo-principal-form input{
   height: 45px;
   width: 100%;
   border: none;
   background-color: #ecf0f1;
   outline: none;
-}
-
-input:-webkit-autofill{    
-  -webkit-box-shadow: 0 0 0px 1000px #ecf0f1 inset !important;
-  -webkit-text-fill-color: #000000 !important;
 }
 
 .label-input{

@@ -16,14 +16,14 @@ function Login() {
         <h2 className="conteudo-titulo titulo-secundario">create account</h2>
         <IconSocial />
         <p className="conteudo-subtitulo descricao-secundaria">or use your email for registration: </p>
-        <form className= "conteudoprincialfrom">
+        <form className= "conteudo-principal-form">
           <FormName />
           <FormLogin />
-
+          
           <button className="btn button-secundario">sign up</button>
         </form>
       </section>
-       </div>
+    </div>
   )
 }
 
