@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const btnSignin = document.querySelector<HTMLButtonElement>("#signin");
   const btnSignup = document.querySelector<HTMLButtonElement>("#signup");
-  const body = document.querySelector<HTMLBodyElement>("body");
+  const body = document.querySelector<HTMLBodyElement>("div");
 
   if (btnSignin && btnSignup && body) {
     btnSignin.addEventListener("click", () => {
