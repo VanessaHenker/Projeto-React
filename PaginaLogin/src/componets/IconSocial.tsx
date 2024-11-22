@@ -1,8 +1,7 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGooglePlusG, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
 
-const IconSocial: React.FC = () => {
+function IconSocial() {
   return (
     <div className="midia-social">
       <ul className="lista-midia-social">
@@ -26,6 +25,6 @@ const IconSocial: React.FC = () => {
       </ul>
     </div>
   );
-};
+}
 
 export default IconSocial;
