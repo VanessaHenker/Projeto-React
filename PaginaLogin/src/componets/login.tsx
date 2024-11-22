@@ -1,3 +1,4 @@
+
 import FormName from "./FromName"
 import IconSocial from "./IconSocial"
 
@@ -18,6 +19,7 @@ function Login() {
           <p className="conteudo-subtitulo descricao-secundaria">or use your email for registration: </p>
           <form className="conteudo-princial-from">
             <FormName/>
+            
           </form>
         </section>
       </div>
