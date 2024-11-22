@@ -1,4 +1,3 @@
-
 import FormLogin from "./FormLogin"
 import FormName from "./FromName"
 import IconSocial from "./IconSocial"
@@ -24,7 +23,7 @@ function Login() {
           <button className="btn button-secundario">sign up</button>
         </form>
       </section>
-    </div>
+       </div>
   )
 }
 
