@@ -1,4 +1,6 @@
 import React from 'react';
+import IconSocial from './IconSocial';
+import FormLogin from './FormLogin';
 
 interface CreateaProps {
   onButtonClick: () => void;
@@ -14,6 +16,19 @@ const Createa: React.FC<CreateaProps> = ({ onButtonClick }) => {
         <button id="signup" className="btn button-primario" onClick={onButtonClick}>
           Sign up
         </button>
+      </section>
+
+      <section className="conteudo-coluna-secundario">
+        <h2 className="conteudo-titulo titulo-secundario">Sign in to developer</h2>
+        <IconSocial />
+        <p className="conteudo-subtitulo descricao-secundaria">or use your email account</p>
+        <form className="conteudo-principal-from">
+          <FormLogin/>
+
+          <a className="password">forgot your password?</a>
+
+        <button className="btn button-secundario">sign in</button>
+        </form>
       </section>
     </div>
   );

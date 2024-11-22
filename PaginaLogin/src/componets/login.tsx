@@ -6,7 +6,6 @@ import IconSocial from './IconSocial';
 interface LoginProps {
   onButtonClick: () => void;
 }
-
 const Login: React.FC<LoginProps> = ({ onButtonClick }) => {
   return (
     <div className="content conteudo-principal">
