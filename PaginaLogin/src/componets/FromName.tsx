@@ -1,13 +1,16 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons'; 
 
-function App() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; 
+import { faUser } from '@fortawesome/free-regular-svg-icons'; 
+
+function FormName() {
   return (
-    <div>
-      <h1>Testando Font Awesome</h1>
-      <FontAwesomeIcon icon={faUser} />
-    </div>
+    <>
+      <label className="label-input" htmlFor="name">
+        <FontAwesomeIcon icon={faUser} className="icon-modify" /> {/* Ícone renderizado */}
+        <input id="name" type="text" placeholder="Name" />
+      </label>
+    </>
   );
 }
 
-export default App;
+export default FormName;
