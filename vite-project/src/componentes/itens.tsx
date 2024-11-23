@@ -1,7 +1,10 @@
-function Item(props: { marca: string }) {
+
+
+function Item(props: { marca: string; anoLancamento : number }) {
   return (
     <>
-      <li>{props.marca}</li>
+      <li>{props.marca} - {props.anoLancamento}</li>
+
     </>
   );
 }
