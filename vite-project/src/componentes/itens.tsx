@@ -1,4 +1,4 @@
-
+import PropType from 'prop-types';
 
 function Item(props: { marca: string; anoLancamento : number }) {
   return (
@@ -7,6 +7,16 @@ function Item(props: { marca: string; anoLancamento : number }) {
 
     </>
   );
+}
+
+Item.propTypes = {
+  marca: PropType.string.isRequired,
+  anoLancamento: PropType.number
+}
+
+Item.defaultProps = {
+  marca: 'Faltou marca',
+  anoLancamento: 0,
 }
 
 export default Item;
