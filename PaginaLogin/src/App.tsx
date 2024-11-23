@@ -12,12 +12,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={isSignIn ? 'sign-in-js' : 'sign-up-js'}> {/* A classe é alterada com base no estado */}
-      <main className="conteudo">
+    <main className={isSignIn ? 'sign-in-js' : 'sign-up-js'}>
+      <div className="conteudo">
         <Login onButtonClick={handleButtonClick} />
         <Createa onButtonClick={handleButtonClick} />
-      </main>
-    </div>
+      </div>
+    </main>
   );
 };
 

@@ -193,6 +193,7 @@ body {
   padding: 0 5px;
 }
 
+
 /* second content*/
 
 .conteudo-principal-secundario {
@@ -215,10 +216,14 @@ body {
   font-size: 14px;
   margin: 15px 0;
   text-align: center;
+  cursor: pointer;
 }
-
 .password::first-letter {
   text-transform: capitalize;
+}
+
+.password:hover{
+  color: #040404;
 }
 
 /* js*/
