@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import IconSocial from './IconSocial';
 import FormLogin from './FormLogin';
+import FormName from './FromName';
 
 interface CreateaProps {
   onButtonClick: () => void;
-  onCreateAccount: (email: string, password: string) => boolean;
+  onCreateAccount: (email: string, password: string, name: string) => boolean;
 }
 
 const Createa: React.FC<CreateaProps> = ({ onButtonClick, onCreateAccount }) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleCreateAccount = (e: React.FormEvent) => {
     e.preventDefault();
-    onCreateAccount(email, password);
+    onCreateAccount(email, password, name);
   };
 
   return (
@@ -32,6 +34,7 @@ const Createa: React.FC<CreateaProps> = ({ onButtonClick, onCreateAccount }) => 
         <IconSocial />
         <p className="conteudo-subtitulo descricao-secundaria">or use your email for registration</p>
         <form className="conteudo-principal-form" onSubmit={handleCreateAccount}>
+          <FormName setName={setName} />
           <FormLogin setEmail={setEmail} setPassword={setPassword} />
           <button className="btn button-secundario" type="submit">Sign up</button>
         </form>

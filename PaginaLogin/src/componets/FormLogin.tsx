@@ -1,23 +1,39 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 
 interface FormLoginProps {
+  email: string;
+  password: string;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
+  emailValid: boolean;
+  passwordValid: boolean;
 }
 
-const FormLogin: React.FC<FormLoginProps> = ({ setEmail, setPassword }) => {
+const FormLogin: React.FC<FormLoginProps> = ({
+  email,
+  password,
+  setEmail,
+  setPassword,
+  emailValid,
+  passwordValid,
+}) => {
   return (
     <>
-      <label className="label-input">
-        <FontAwesomeIcon icon={faEnvelope} className="icon-modify" />
-        <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <label className={`label-input ${emailValid ? 'input-valid' : 'input-invalid'}`}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </label>
-
-      <label className="label-input">
-        <FontAwesomeIcon icon={faLock} className="icon-modify" />
-        <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+      <label className={`label-input ${passwordValid ? 'input-valid' : 'input-invalid'}`}>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </label>
     </>
   );

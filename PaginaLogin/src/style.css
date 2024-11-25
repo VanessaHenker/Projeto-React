@@ -188,6 +188,14 @@ body {
   margin: 8px;
 }
 
+.input-valid input {
+  border: 2px solid green;
+}
+
+.input-invalid input {
+  border: 2px solid red;
+}
+
 .icon-modify {
   color: #7f8c8d;
   padding: 0 5px;

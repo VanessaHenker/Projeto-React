@@ -8,33 +8,39 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onButtonClick, onLogin }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    onLogin(email, password);
+
+    const isValid = onLogin(email, password);
+
+    setEmailValid(isValid);
+    setPasswordValid(isValid);
   };
 
   return (
-    <div className="content conteudo-principal">
+    <div className="content conteudo-principal-secundario">
       <section className="conteudo-coluna-principal">
-        <h2 className="conteudo-titulo titulo-primario">Welcome back!</h2>
-        <p className="conteudo-subtitulo descricao-primaria">To keep with your personal info</p>
-        <p className="conteudo-subtitulo descricao-primaria">Please login with personal info</p>
-        <button className="btn button-primario" onClick={onButtonClick}>
-          Sign in
-        </button>
-      </section>
-
-      <section className="conteudo-coluna-secundario">
         <h2 className="conteudo-titulo titulo-secundario">Sign in to developer</h2>
         <IconSocial />
         <p className="conteudo-subtitulo descricao-secundaria">or use your email account</p>
         <form className="conteudo-principal-form" onSubmit={handleLogin}>
-          <FormLogin setEmail={setEmail} setPassword={setPassword} />
+          <FormLogin
+            email={email}
+            password={password}
+            setEmail={setEmail}
+            setPassword={setPassword}
+            emailValid={emailValid}
+            passwordValid={passwordValid}
+          />
           <a className="password">forgot your password?</a>
-          <button className="btn button-secundario" type="submit">Sign in</button>
+          <button className="btn button-secundario" type="submit">
+            Sign in
+          </button>
         </form>
       </section>
     </div>
