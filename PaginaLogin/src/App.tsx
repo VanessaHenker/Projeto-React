@@ -15,7 +15,7 @@ const App: React.FC = () => {
     <main className={isSignIn ? 'sign-in-js' : 'sign-up-js'}>
       <div className="conteudo">
         <Login onButtonClick={handleButtonClick} />
-        <Createa onButtonClick={handleButtonCcclick} />
+        <Createa onButtonClick={handleButtonClick} />
       </div>
     </main>
   );
