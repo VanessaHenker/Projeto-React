@@ -8,7 +8,7 @@ interface FormLoginProps {
 }
 
 const FormLogin: React.FC<FormLoginProps> = ({ setEmail, setPassword }) => {
-  const [emailValid, setEmailValid] = useState<boolean | null>(null); // null = neutro, true = válido, false = inválido
+  const [emailValid, setEmailValid] = useState<boolean | null>(null);
   const [passwordValid, setPasswordValid] = useState<boolean | null>(null);
 
   const validateEmail = (email: string) => {
@@ -19,17 +19,25 @@ const FormLogin: React.FC<FormLoginProps> = ({ setEmail, setPassword }) => {
   const handleEmailBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
     setEmail(email);
-    setEmailValid(validateEmail(email));
+    if (email.trim() === "") {
+      setEmailValid(null); // Não exibe ícone se estiver vazio
+    } else {
+      setEmailValid(validateEmail(email));
+    }
   };
 
   const handlePasswordBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value;
     setPassword(password);
-    setPasswordValid(password.length >= 6); // Senha válida com 6+ caracteres
+    if (password.trim() === "") {
+      setPasswordValid(null); // Não exibe ícone se estiver vazio
+    } else {
+      setPasswordValid(password.length >= 6);
+    }
   };
 
   const renderValidationIcon = (isValid: boolean | null) => {
-    if (isValid === null) return null; // Não mostrar ícone inicialmente
+    if (isValid === null) return null; // Não mostrar ícone se não validado ou vazio
     return isValid ? (
       <FontAwesomeIcon icon={faCheck} className="icon-valid" />
     ) : (
