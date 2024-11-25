@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import IconSocial from './IconSocial';
 import FormLogin from './FormLogin';
+import FormName from './FromName';
 
 interface CreateaProps {
   onButtonClick: () => void;
@@ -32,6 +33,7 @@ const Createa: React.FC<CreateaProps> = ({ onButtonClick, onCreateAccount }) => 
         <IconSocial />
         <p className="conteudo-subtitulo descricao-secundaria">or use your email for registration</p>
         <form className="conteudo-principal-form" onSubmit={handleCreateAccount}>
+          <FormName/>
           <FormLogin setEmail={setEmail} setPassword={setPassword} />
           <button className="btn button-secundario" type="submit">Sign up</button>
         </form>
