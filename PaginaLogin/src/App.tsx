@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const handleButtonClick = () => {
     setIsSignIn(!isSignIn); 
   };
-  //COD
+ 
   return (
     <main className={isSignIn ? 'sign-in-js' : 'sign-up-js'}>
       <div className="conteudo">
