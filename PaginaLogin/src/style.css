@@ -176,9 +176,9 @@ body {
 .conteudo-principal-form input {
   height: 45px;
   width: 100%;
-  border: none;
+  
   background-color: #ecf0f1;
-  outline: none;
+
 }
 
 .label-input {
@@ -188,13 +188,6 @@ body {
   margin: 8px;
 }
 
-.input-valid input {
-  border: 2px solid green;
-}
-
-.input-invalid input {
-  border: 2px solid red;
-}
 
 .icon-modify {
   color: #7f8c8d;
