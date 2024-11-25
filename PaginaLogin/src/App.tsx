@@ -11,13 +11,13 @@ const App: React.FC = () => {
     setIsSignIn(!isSignIn);
   };
 
-  const handleCreateAccount = (email: string, password: string, name: string) => {
+  const handleCreateAccount = (email: string, password: string) => {
     const users = JSON.parse(localStorage.getItem("users") || "{}");
     if (users[email]) {
       alert("Email já cadastrado!");
       return false;
     }
-    users[email] = { password, name };
+    users[email] = password;
     localStorage.setItem("users", JSON.stringify(users));
     alert("Conta criada com sucesso!");
     return true;
@@ -25,8 +25,8 @@ const App: React.FC = () => {
 
   const handleLogin = (email: string, password: string) => {
     const users = JSON.parse(localStorage.getItem("users") || "{}");
-    if (users[email] && users[email].password === password) {
-      alert(`Bem-vindo, ${users[email].name}!`);
+    if (users[email] && users[email] === password) {
+      alert("Login realizado com sucesso!");
       return true;
     }
     alert("Email ou senha incorretos!");
