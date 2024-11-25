@@ -35,7 +35,7 @@ const Createa: React.FC<CreateaProps> = ({ onButtonClick, onCreateAccount }) => 
         <p className="conteudo-subtitulo descricao-secundaria">or use your email for registration</p>
         <form className="conteudo-principal-form" onSubmit={handleCreateAccount}>
           <FormName setName={setName} />
-          <FormLogin setEmail={setEmail} setPassword={setPassword} />
+          <FormLogin setEmail={setEmail} setPassword={setPassword} email={''} password={''} emailValid={false} passwordValid={false} />
           <button className="btn button-secundario" type="submit">Sign up</button>
         </form>
       </section>

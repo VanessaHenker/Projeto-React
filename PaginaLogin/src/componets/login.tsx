@@ -3,8 +3,8 @@ import IconSocial from './IconSocial';
 import FormLogin from './FormLogin';
 
 interface LoginProps {
-  onButtonClick: () => void;
-  onLogin: (email: string, password: string) => boolean;
+  onButtonClick: () => void; // Recebe a função para alternar entre login e cadastro
+  onLogin: (email: string, password: string) => boolean; // Validação do login
 }
 
 const Login: React.FC<LoginProps> = ({ onButtonClick, onLogin }) => {
@@ -29,19 +29,31 @@ const Login: React.FC<LoginProps> = ({ onButtonClick, onLogin }) => {
         <IconSocial />
         <p className="conteudo-subtitulo descricao-secundaria">or use your email account</p>
         <form className="conteudo-principal-form" onSubmit={handleLogin}>
-          <FormLogin
-            email={email}
-            password={password}
-            setEmail={setEmail}
-            setPassword={setPassword}
-            emailValid={emailValid}
-            passwordValid={passwordValid}
-          />
+          <label className={`label-input ${emailValid ? 'input-valid' : 'input-invalid'}`}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
+          <label className={`label-input ${passwordValid ? 'input-valid' : 'input-invalid'}`}>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
           <a className="password">forgot your password?</a>
           <button className="btn button-secundario" type="submit">
             Sign in
           </button>
         </form>
+        {/* Aqui está o botão para alternar para a tela de cadastro */}
+        <button className="btn button-primario" onClick={onButtonClick}>
+          Create an account
+        </button>
       </section>
     </div>
   );
