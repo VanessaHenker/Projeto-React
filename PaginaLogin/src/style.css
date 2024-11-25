@@ -176,9 +176,9 @@ body {
 .conteudo-principal-form input {
   height: 45px;
   width: 100%;
-  
+  border: none;
   background-color: #ecf0f1;
-
+  outline: none;
 }
 
 .label-input {
@@ -186,6 +186,36 @@ body {
   display: flex;
   align-items: center;
   margin: 8px;
+}
+
+.label-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.label-input input {
+  flex: 1;
+  padding-right: 30px; /* Espaço para o ícone */
+}
+
+.icon-valid {
+  position: absolute;
+  right: 10px;
+  color: rgb(76, 160, 76);
+  font-size: 18px;
+}
+
+.icon-invalid {
+  position: absolute;
+  right: 10px;
+  color: rgb(159, 53, 53);
+  font-size: 18px;
+}
+
+.icon-modify {
+  margin-right: 10px;
 }
 
 

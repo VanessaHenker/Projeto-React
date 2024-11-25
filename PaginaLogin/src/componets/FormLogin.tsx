@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faLock, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 interface FormLoginProps {
   setEmail: (email: string) => void;
@@ -28,9 +28,13 @@ const FormLogin: React.FC<FormLoginProps> = ({ setEmail, setPassword }) => {
     setPasswordValid(password.length >= 6); // Senha válida com 6+ caracteres
   };
 
-  const getBorderColor = (isValid: boolean | null) => {
-    if (isValid === null) return ''; // Sem cor inicial
-    return isValid ? 'green' : 'red'; // Verde para válido, vermelho para inválido
+  const renderValidationIcon = (isValid: boolean | null) => {
+    if (isValid === null) return null; // Não mostrar ícone inicialmente
+    return isValid ? (
+      <FontAwesomeIcon icon={faCheck} className="icon-valid" />
+    ) : (
+      <FontAwesomeIcon icon={faTimes} className="icon-invalid" />
+    );
   };
 
   return (
@@ -41,9 +45,9 @@ const FormLogin: React.FC<FormLoginProps> = ({ setEmail, setPassword }) => {
           type="email"
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
-          onBlur={handleEmailBlur} // Valida ao perder o foco
-          style={{ borderColor: getBorderColor(emailValid) }}
+          onBlur={handleEmailBlur}
         />
+        {renderValidationIcon(emailValid)}
       </label>
 
       <label className="label-input">
@@ -52,9 +56,9 @@ const FormLogin: React.FC<FormLoginProps> = ({ setEmail, setPassword }) => {
           type="password"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
-          onBlur={handlePasswordBlur} // Valida ao perder o foco
-          style={{ borderColor: getBorderColor(passwordValid) }}
+          onBlur={handlePasswordBlur}
         />
+        {renderValidationIcon(passwordValid)}
       </label>
     </>
   );
