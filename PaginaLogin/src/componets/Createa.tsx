@@ -24,7 +24,7 @@ const Createa: React.FC<CreateProps> = ({ onButtonClick,onCreateAccount}) => {
           Sign up
         </button>
       </section>
-
+      
       <section className="conteudo-coluna-secundario">
         <h2 className="conteudo-titulo titulo-secundario">Create an account</h2>
         <IconSocial />
