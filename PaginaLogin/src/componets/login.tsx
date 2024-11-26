@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import IconSocial from './IconSocial';
 import FormLogin from './FormLogin';
 
-
 interface LoginProps {
   onButtonClick: () => void;
   onLogin: (email: string, password: string) => boolean
@@ -17,7 +16,7 @@ const Login: React.FC<LoginProps> = ({ onButtonClick, onLogin }) => {
     onLogin(email, password);
   };
 
-  return (
+  return (  
     <div className="content conteudo-principal">
       <section className="conteudo-coluna-principal">
         <h2 className="conteudo-titulo titulo-primario">Welcome back!</h2>
