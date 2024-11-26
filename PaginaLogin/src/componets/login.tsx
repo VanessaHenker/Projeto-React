@@ -1,11 +1,14 @@
+import React, {useState} from 'react';
 
-
-function login() {
-  return (
-    <div>
-      
-    </div>
-  )
+interface LoginProps{
+  onButtonClick: () => void;
+  onLogin: (email: string, password: string) => boolean
 }
 
-export default login
+const Login: React.FC<LoginProps> = ({onButtonClick, onLogin}) =>{
+  const 
+
+}
+
+
+export default Login
