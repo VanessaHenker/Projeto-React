@@ -6,8 +6,13 @@ interface LoginProps{
 }
 
 const Login: React.FC<LoginProps> = ({onButtonClick, onLogin}) =>{
-  const 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    onLogin(email, password);
+  };
 }
 
 
