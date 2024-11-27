@@ -1,3 +1,4 @@
+import { useState } from "react";
 
 
 interface FormLoginProps {
@@ -6,5 +7,6 @@ interface FormLoginProps {
 }
 
 const FormLogin: React.FC<FormLoginProps> = ({setemail, setPassword}) =>{
- c 
+ const[emailValid, setEmailValid] = useState<boolean | null>(null);
+ const[passwordValid, setPasswordValid] = useState<boolean | null>(null);
 }
