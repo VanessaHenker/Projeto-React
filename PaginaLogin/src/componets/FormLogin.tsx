@@ -2,5 +2,9 @@
 
 interface FormLoginProps {
   setemail: (email: string) => void;
-  setPass
+  setPassword: (password: string) => void;
+}
+
+const FormLogin: React.FC<FormLoginProps> = ({setemail, setPassword}) =>{
+ c 
 }
