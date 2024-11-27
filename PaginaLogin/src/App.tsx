@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import './style.css';
 
-import Createa from "./componets/Createa";
-import Login from "./componets/Login";
+import Create from "./components/Create";
+import Login from "./components/Login";
 
 const App: React.FC = () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -37,7 +36,7 @@ const App: React.FC = () => {
     <main className={isSignIn ? 'sign-in-js' : 'sign-up-js'}>
       <div className="conteudo">
         <Login onButtonClick={handleButtonClick} onLogin={handleLogin} />
-        <Createa onButtonClick={handleButtonClick} onCreateAccount={handleCreateAccount} />
+        <Create onButtonClick={handleButtonClick} onCreateAccount={handleCreateAccount} />
       </div>
     </main>
   );
