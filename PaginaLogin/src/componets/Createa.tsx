@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
+import IconSocial from './IconSocial';
+import FormLogin from './FormLogin';
+import FormName from './FromName';
 
-
-interface CreateProps{
+interface CreateaProps {
   onButtonClick: () => void;
-  onCreateAccount: (email : string, password: string) => boolean;
+  onCreateAccount: (email: string, password: string) => boolean;
 }
 
-const Createa: React.FC<CreateProps> = ({ onButtonClick,onCreateAccount}) => {
-  const [email, setEmail], = useState("");
+const Createa: React.FC<CreateaProps> = ({ onButtonClick, onCreateAccount }) => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleCreateAccount = (e: React.FormEvent) =>{
+  const handleCreateAccount = (e: React.FormEvent) => {
     e.preventDefault();
     onCreateAccount(email, password);
-  }
-  return(
+  };
+
+  return (
     <div className="content conteudo-principal-secundario">
       <section className="conteudo-coluna-principal">
         <h2 className="conteudo-titulo titulo-primario">Hello, Friend</h2>
@@ -24,7 +27,7 @@ const Createa: React.FC<CreateProps> = ({ onButtonClick,onCreateAccount}) => {
           Sign up
         </button>
       </section>
-      
+
       <section className="conteudo-coluna-secundario">
         <h2 className="conteudo-titulo titulo-secundario">Create an account</h2>
         <IconSocial />
@@ -36,6 +39,7 @@ const Createa: React.FC<CreateProps> = ({ onButtonClick,onCreateAccount}) => {
         </form>
       </section>
     </div>
-      
   );
-}
+};
+
+export default Createa;
