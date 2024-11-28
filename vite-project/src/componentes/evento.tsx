@@ -1,8 +1,8 @@
-
+import React from "react"
 
 function Evento() {
 
-  function meuEvento(){
+  function meuEvento(e: React.MouseEvent<HTMLButtonElement>){
     console.log("opa, fui ativado!")
   }
 
