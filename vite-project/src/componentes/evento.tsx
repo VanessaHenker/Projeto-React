@@ -1,10 +1,15 @@
 
 
 function Evento() {
+
+  function meuEvento(){
+    
+  }
+
   return (
     <div>
       <p>clique para disparar um evento</p>
-      <button>clique aqui</button>
+      <button onClick={meuEvento}>clique aqui</button>
     </div>
   )
 }

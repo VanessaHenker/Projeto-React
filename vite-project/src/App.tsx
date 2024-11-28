@@ -1,8 +1,8 @@
+import Evento from "./componentes/evento";
+
 function App() {
-
-
   return (
-    <h1>ola</h1>
+    <Evento/>
   );
 }
 
