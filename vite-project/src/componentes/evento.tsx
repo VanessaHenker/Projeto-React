@@ -3,7 +3,7 @@
 function Evento() {
 
   function meuEvento(){
-    
+    console.log("opa, fui ativado!")
   }
 
   return (
