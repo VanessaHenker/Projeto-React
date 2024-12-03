@@ -9,9 +9,11 @@ function From() {
       <h1 className="teste">Meu Cadastro:</h1>
       <form onSubmit={cadastrarUsuario} className="teste">
         <div>
-          <input type="text" placeholder="Digite o seu nome:" />
+          <label htmlFor="name"></label>
+          <input type="text"  placeholder="Digite o seu nome:" id="name" />
         </div>
         <div>
+          <label htmlFor="password"></label>
           <input type="password" placeholder="Digite sua senha" />
         </div>
         <input type="submit" value="Cadastrar" />
