@@ -1,4 +1,5 @@
-import Evento from './Evento';
+import './app.css';
+import Evento from "./componentes/evento";
 
 function App() {
   return (
