@@ -1,11 +1,12 @@
-import './app.css';
-import Evento from "./componentes/evento";
+import Evento from './Evento';
 
 function App() {
   return (
-    <Evento/>
-    <Evento numero = "1"/>
-    <Evento numero = "2"/>
+    <div>
+      <Evento numero={0} />
+      <Evento numero={1} />
+      <Evento numero={2} />
+    </div>
   );
 }
 
