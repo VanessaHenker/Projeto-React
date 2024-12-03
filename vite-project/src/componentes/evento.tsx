@@ -1,7 +1,7 @@
 function Evento({ numero }: { numero: number }) {
 
   function meuEvento(_e: React.MouseEvent<HTMLButtonElement>) {
-    prompt(`Opa, fui ativado! Número recebido: ${numero}`);
+    alert(`Opa, fui ativado! Número recebido: ${numero}`);
   }
 
   return (
