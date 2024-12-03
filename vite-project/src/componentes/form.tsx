@@ -1,19 +1,19 @@
-function Form() {
+function From() {
 
-  function cadastrarUsurario(){
+  function cadastrarUsurario() {
     alert('Cadastrou usuario')
   }
   return (
     <div>
       <h1>Meu cadastro: </h1>
       <form onSubmit={cadastrarUsurario}>
-        <input type="text"  placeholder="Digite o seu nome:"/>
+        <input type="text" placeholder="Digite o seu nome:" />
       </form>
       <div>
-        <input type="submit" value={cadastrar}/>
+        <input type="submit" value="Cadastrar" />
       </div>
     </div>
   )
 }
 
-export default Form
+export default From;
