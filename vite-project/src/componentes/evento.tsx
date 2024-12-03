@@ -1,9 +1,10 @@
 import React from 'react';
 
-function Evento() {
+function Evento(numero) {
 
   function meuEvento(_e: React.MouseEvent<HTMLButtonElement>){
     prompt("opa, fui ativado!")
+    prompt("opa,, fui ativado," ${fui ativado})
   }
 
   return (
