@@ -1,20 +1,18 @@
 function From() {
-
-  function cadastrarUsurario(e) {
-    e.preventDefault()
-    alert('Cadastrou usuario')
+  function cadastrarUsuario(e: React.FormEvent) {
+    e.preventDefault(); 
+    alert('Usuário cadastrado com sucesso!');
   }
+
   return (
     <div>
-      <h1>Meu cadastro: </h1>
-      <form onSubmit={cadastrarUsurario}>
+      <h1>Meu Cadastro:</h1>
+      <form onSubmit={cadastrarUsuario}>
         <input type="text" placeholder="Digite o seu nome:" />
-      </form>
-      <div>
         <input type="submit" value="Cadastrar" />
-      </div>
+      </form>
     </div>
-  )
+  );
 }
 
 export default From;
