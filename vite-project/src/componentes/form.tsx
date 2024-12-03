@@ -1,8 +1,12 @@
+import { useState } from "react";
+
 function From() {
   function cadastrarUsuario(e: React.FormEvent) {
     e.preventDefault();
     alert('Usuário cadastrado com sucesso!');
   }
+
+  const [name, setName] = useState()
 
   return (
     <div>
@@ -10,7 +14,8 @@ function From() {
       <form onSubmit={cadastrarUsuario} className="teste">
         <div>
           <label htmlFor="name">Nome: </label>
-          <input type="text"  placeholder="Digite o seu nome:" id="name" />
+          <input type="text"  placeholder="Digite o seu nome:" id="name" 
+          onChange={(e) => setName(e.target.value) }/>
         </div>
         <div>
           <label htmlFor="password">Senha: </label>
