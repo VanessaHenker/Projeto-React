@@ -1,6 +1,7 @@
 function From() {
 
-  function cadastrarUsurario() {
+  function cadastrarUsurario(e) {
+    e.preventDefault()
     alert('Cadastrou usuario')
   }
   return (
