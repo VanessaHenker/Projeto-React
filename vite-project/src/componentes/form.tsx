@@ -1,6 +1,6 @@
 function From() {
   function cadastrarUsuario(e: React.FormEvent) {
-    e.preventDefault(); 
+    e.preventDefault();
     alert('Usuário cadastrado com sucesso!');
   }
 
@@ -8,7 +8,12 @@ function From() {
     <div>
       <h1 className="teste">Meu Cadastro:</h1>
       <form onSubmit={cadastrarUsuario} className="teste">
-        <input type="text" placeholder="Digite o seu nome:" />
+        <div>
+          <input type="text" placeholder="Digite o seu nome:" />
+        </div>
+        <div>
+          <input type="password" placeholder="Digite sua senha" />
+        </div>
         <input type="submit" value="Cadastrar" />
       </form>
     </div>
