@@ -1,10 +1,12 @@
 
 
-function Button() {
+function Button(props) {
   return (
-    <div>
-      
-    </div>
+    <button>
+      {
+        props.text
+      }
+    </button>
   )
 }
 
