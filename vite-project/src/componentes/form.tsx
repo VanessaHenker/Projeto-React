@@ -6,7 +6,7 @@ function From() {
     alert('Usuário cadastrado com sucesso!');
   }
 
-  const [name, setName] = useState()
+  const [name, setName] = useState('Vanessa')
 
   return (
     <div>
