@@ -7,6 +7,7 @@ function Evento({ numero }: { numero: number }) {
   return (
     <div className='teste'>
       <p>Clique para disparar um evento</p>
+      <button text = "Primeiro evento JS" ></button>
       <button onClick={meuEvento}>Clique aqui</button>
     </div>
   );
