@@ -8,7 +8,7 @@ function Evento({ numero }: { numero: number }) {
   return (
     <div className="teste">
       <p>Clique para disparar um evento</p>
-      <Button text = 'Primeiro evento'/>
+      <Button event = {Evento} text = 'Primeiro evento'/>
     </div>
   );
 }
