@@ -1,13 +1,13 @@
+interface ButtonProps {
+  text: string;
+}
 
-
-function Button(props) {
+function Button(props: ButtonProps) {
   return (
     <button>
-      {
-        props.text
-      }
+      {props.text}
     </button>
-  )
+  );
 }
 
 export default Button;
