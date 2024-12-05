@@ -14,7 +14,7 @@ function Evento({ numero }: { numero: number }) {
     <div className="teste">
       <p>Clique para disparar um evento</p>
       <Button evento={meuEvento} text="Primeiro evento" />
-      <Button evento={meuEvento} text="Primeiro evento" />
+      <Button evento={segundoEvento} text="Segundo evento" />
     </div>
   );
 }
