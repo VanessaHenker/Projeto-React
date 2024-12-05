@@ -4,7 +4,7 @@ interface ButtonProps {
 
 function Button(props: ButtonProps) {
   return (
-    <button>
+    <button onClick={props.event}>
       {props.text}
     </button>
   );
