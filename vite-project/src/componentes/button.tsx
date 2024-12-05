@@ -1,11 +1,13 @@
+// Arquivo: Button.tsx
 interface ButtonProps {
   text: string;
+  evento: (e: React.MouseEvent<HTMLButtonElement>) => void; // Adicionei o evento
 }
 
-function Button(props: ButtonProps) {
+function Button({ text, evento }: ButtonProps) {
   return (
-    <button onClick={props.event}>
-      {props.text}
+    <button onClick={evento}>
+      {text}
     </button>
   );
 }
