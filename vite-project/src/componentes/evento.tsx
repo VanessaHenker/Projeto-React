@@ -1,3 +1,4 @@
+// Arquivo: Evento.tsx
 import Button from "./button";
 
 function Evento({ numero }: { numero: number }) {
@@ -8,7 +9,7 @@ function Evento({ numero }: { numero: number }) {
   return (
     <div className="teste">
       <p>Clique para disparar um evento</p>
-      <Button event = {meuEvento} text = 'Primeiro evento'/>
+      <Button evento={meuEvento} text="Primeiro evento" />
     </div>
   );
 }
