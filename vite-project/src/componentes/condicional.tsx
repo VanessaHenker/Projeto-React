@@ -8,7 +8,8 @@ function Condicional() {
     <div>
       <h2>Cadastre seu email:</h2>
       <form onSubmit={enviarEmail}>
-        <input type="email" placeholder="Digite seu email" />
+        <input type="email" placeholder="Digite seu email" 
+        onChange={e => setEmail(e.target.value)}/>
         <button type="submit">Enviar email</button>
       </form>
     </div>
