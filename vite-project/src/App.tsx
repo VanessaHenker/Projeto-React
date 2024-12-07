@@ -1,6 +1,4 @@
 import './app.css';
-import Evento from "./componentes/evento";
-import From from './componentes/form';
 
 function App() {
   return (
