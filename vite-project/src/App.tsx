@@ -5,10 +5,7 @@ import From from './componentes/form';
 function App() {
   return (
     <div>
-      <Evento numero={0} />
-      <Evento numero={1} />
-      <Evento numero={2} />
-      <From/>
+      <h1>Renderização condicional</h1>
     </div>
   );
 }
