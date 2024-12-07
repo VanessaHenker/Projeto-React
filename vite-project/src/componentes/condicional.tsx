@@ -1,4 +1,10 @@
+import { useState } from "react";
+
 function Condicional() {
+  
+  const [email, setEmail] = useState();
+  const [userEmail, setUserEmail] = useState();
+
   function enviarEmail(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); 
     alert("Tudo ok");
