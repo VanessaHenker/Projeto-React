@@ -1,7 +1,5 @@
-
-
 function Condicional() {
-  function enviarEmail(e) {
+  function enviarEmail(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); 
     alert("Tudo ok");
   }
