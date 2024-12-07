@@ -3,7 +3,7 @@ import Condicional from './componentes/condicional';
 
 function App() {
   return (
-    <div>
+    <div className='teste'>
       <h1>Renderização condicional</h1>
       <Condicional/>
     </div>
