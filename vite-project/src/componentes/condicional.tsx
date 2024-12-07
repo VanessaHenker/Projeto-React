@@ -5,6 +5,7 @@ function Condicional() {
 
   function enviarEmail(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault(); 
+    setUserEmail(email)
     alert(`Email enviado: ${email}`);
   }
 
