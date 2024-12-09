@@ -25,15 +25,15 @@ function Condicional() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
         />
         <button type="submit">Enviar email</button>
-        {userEmail &&(
+        {userEmail && (
           <div>
             {userEmail && <p>O email cadastrado é: {userEmail}</p>}
             <button onClick={limparEmail}>Limpar email</button>
           </div>
         )}
-        
+
       </form>
-      </div>
+    </div>
   );
 }
 
