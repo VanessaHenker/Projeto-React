@@ -1,10 +1,11 @@
 
 
-function Lista() {
+function Lista({lista}) {
   return (
-    <div>
+    <>
+      <h3>Lista de coisas boas:</h3>
       
-    </div>
+    </>
   )
 }
 
