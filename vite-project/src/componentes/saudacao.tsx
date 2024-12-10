@@ -5,7 +5,8 @@ function Saudacao({ nome }: { nome: string }) {
 
   return (
     <>
-      <p>{gerarSaudacao(nome)}</p>
+      {nome && 
+      <p>{gerarSaudacao(nome)}</p>}
     </>
   );
 }
