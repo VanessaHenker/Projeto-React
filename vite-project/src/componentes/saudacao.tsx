@@ -1,8 +1,8 @@
-function Saudacao() {
+function Saudacao(nome) {
   return (
-    <div>
-      
-    </div>
+   <>
+    <p>{nome}</p>
+   </>
   )
 }
 
