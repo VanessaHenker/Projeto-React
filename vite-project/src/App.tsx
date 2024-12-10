@@ -7,9 +7,7 @@ function App() {
 
   return (
     <div className="teste">
-      <h1>Renderização de lista</h1>
-      <OutraLista itens={meusItens} />
-      <OutraLista itens={[]} />
+      <h1>State lift</h1>
     </div>
   );
 }
