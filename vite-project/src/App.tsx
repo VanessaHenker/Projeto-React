@@ -4,12 +4,12 @@ import { useState } from 'react';
 import SeuNome from './componentes/seuNome';
 
 function App() {
-  const [nome, seTnome] = useState()
+  const [nome, setNome] = useState()
 
   return (
     <div className="teste">
       <h1>State lift</h1>
-      <SeuNome/>
+      <SeuNome setNome = {setNome}/>
     </div>
   );
 }
