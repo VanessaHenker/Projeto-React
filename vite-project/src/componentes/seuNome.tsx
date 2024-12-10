@@ -1,6 +1,8 @@
-import React from 'react'
+
 
 function SeuNome() {
+
+
   return (
     <div>
       <p>Digite seu nome:</p>
