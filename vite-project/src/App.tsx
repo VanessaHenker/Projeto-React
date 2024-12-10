@@ -10,6 +10,7 @@ function App() {
     <div className="teste">
       <h1>State lift</h1>
       <SeuNome setNome = {setNome}/>
+      
     </div>
   );
 }
