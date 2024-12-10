@@ -1,9 +1,9 @@
-function Saudacao(nome) {
+function Saudacao({ nome }: { nome: string }) {
   return (
-   <>
-    <p>{nome}</p>
-   </>
-  )
+    <>
+      <p>{nome}</p>
+    </>
+  );
 }
 
-export default Saudacao
+export default Saudacao;
