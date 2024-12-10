@@ -1,4 +1,4 @@
-function Lista({ lista }) {
+function OutraLista({ lista }) {
   return (
     <>
       <h3>Lista de coisas boas:</h3>
@@ -9,4 +9,4 @@ function Lista({ lista }) {
   );
 }
 
-export default Lista;
+export default OutraLista;

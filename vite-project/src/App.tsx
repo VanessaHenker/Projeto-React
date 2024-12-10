@@ -1,5 +1,7 @@
 import './app.css';
-import Condicional from './componentes/condicional';
+import OutraLista from './componentes/outraLista';
+
+
 
 function App() {
 
@@ -9,7 +11,7 @@ function App() {
   return (
     <div className='teste'>
       <h1>Renderização de lista</h1>
-      <Condicional/>
+      <OutraLista itens = {meusItens}/>
     </div>
   );
 }
