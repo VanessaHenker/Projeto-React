@@ -1,4 +1,9 @@
-function OutraLista({ itens }) {
+// OutraLista.tsx
+interface OutraListaProps {
+  itens: string[];
+}
+
+function OutraLista({ itens }: OutraListaProps) {
   return (
     <>
       <h3>Lista de coisas boas:</h3>
