@@ -1,4 +1,4 @@
-
+import {FaFacebook} from 'react-icons/fa'
 
 import React from 'react'
 
@@ -7,6 +7,7 @@ function Footer() {
     <div>
       <footer>
         rodape
+        <FaFacebook/>
       </footer>
     </div>
   )
