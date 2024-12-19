@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/homee';
 import Empresas from './pages/empresas';
 import Contato from './pages/contato';
-import { Footer } from './componentes/footer';
+import Footer from './componentes/footer';
+
 
 
 function App() {
