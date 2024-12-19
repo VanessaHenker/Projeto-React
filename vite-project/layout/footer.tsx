@@ -1,16 +1,14 @@
-import {FaFacebook} from 'react-icons/fa'
-
-import React from 'react'
+import { FaFacebook } from 'react-icons/fa';
 
 function Footer() {
   return (
     <div>
       <footer>
-        rodape
-        <FaFacebook/>
+        rodapé
+        <FaFacebook />
       </footer>
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;
