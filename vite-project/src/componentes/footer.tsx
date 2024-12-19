@@ -5,7 +5,7 @@ function Footer() {
     <div>
       <footer>
         rodapé
-        <FaFacebook />
+        <FaFacebook style={{ fontSize: '24px', color: '#4267B2' }} />
       </footer>
     </div>
   );
