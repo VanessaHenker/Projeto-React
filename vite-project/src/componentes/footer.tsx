@@ -9,6 +9,7 @@ function Footer() {
           <li><FaInstagram/></li>
           <li><FaLinkedin/></li>
         </ul>
+        <p>Nosso rodape</p>
       </footer>
     </div>
   );
