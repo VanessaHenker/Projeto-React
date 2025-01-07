@@ -5,3 +5,7 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+html, body, #root {
+  background-color: #EFEFEF;
+  height: 100%;
+}
