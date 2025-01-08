@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './style.css'
 import Home from './componets/home'
 import Company from './componets/company'
+import Contact from './componets/contact'
+import Newproject from './componets/newproject'
 
 function App() {
   return (
@@ -22,7 +24,11 @@ function App() {
     </Route>
 
     <Route exact path = "/contact">
-      <Home />
+      <Contact/>
+    </Route>
+
+    <Route exact path = 'newproject'>
+      <Newproject/>
     </Route>
     </Switch>
    </Router>

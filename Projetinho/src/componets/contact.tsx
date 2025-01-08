@@ -1,6 +1,6 @@
 
 
-function Company() {
+function Contact() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function Company() {
   )
 }
 
-export default Company
+export default Contact
