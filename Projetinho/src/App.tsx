@@ -1,6 +1,8 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 import './style.css'
+import Home from './componets/home'
+import Company from './componets/company'
 
 function App() {
   return (
@@ -11,9 +13,16 @@ function App() {
     </ul>
 
     <Switch>
-    <Route path = "/">
-      <Home
+    <Route exact path = "/">
+      <Home />
+    </Route>
 
+    <Route exact path = "/company">
+      <Company />
+    </Route>
+
+    <Route exact path = "/contact">
+      <Home />
     </Route>
     </Switch>
    </Router>
