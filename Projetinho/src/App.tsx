@@ -1,10 +1,23 @@
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+
 import './style.css'
 
 function App() {
   return (
-    <>
-      <h1>ola</h1>
-    </>
+   <Router>
+    <ul>
+      <li>Home</li>
+      <li>Contato</li>
+    </ul>
+
+    <Switch>
+    <Route path = "/">
+      <Home
+
+    </Route>
+    </Switch>
+   </Router>
+
   )
 }
 
