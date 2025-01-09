@@ -1,11 +1,15 @@
-import styles from './containerModules.css'
+import styles from './containerModules.module.css';
 
-function Container (props){
-  return(
-    <div>
-      
-    </div>
-  )
+interface ContainerProps {
+  children: React.ReactNode;
 }
 
-export default Container
+function Container({ children }: ContainerProps) {
+  return (
+    <div className={styles.container}>
+      {children}
+    </div>
+  );
+}
+
+export default Container;

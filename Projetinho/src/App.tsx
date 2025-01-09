@@ -6,6 +6,7 @@ import Company from './componets/company';
 import Contact from './componets/contact';
 import Home from './componets/home';
 import Newproject from './componets/newproject';
+import Container from './componets/layout/container';
 
 
 function App() {
@@ -21,10 +22,12 @@ function App() {
       </div>
 
       <Routes>
+        <Container>
         <Route path="/" element={<Home/>} />
         <Route path="/company" element={<Contact/>} />
         <Route path="/contact" element={<Company/>} />
         <Route path="/newproject" element={<Newproject/>} />
+        </Container>
       </Routes>
     </Router>
   );
