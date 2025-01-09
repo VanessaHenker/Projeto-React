@@ -8,27 +8,24 @@ import Home from './componets/home';
 import Newproject from './componets/newproject';
 import Container from './componets/layout/container';
 
-
 function App() {
   return (
     <Router>
-      <div>
+      <Container>
         <nav>
           <Link to="/">Home</Link>
           <Link to="/contact">Contato</Link>
           <Link to="/company">Empresa</Link>
           <Link to="/newproject">Novo projeto</Link>
         </nav>
-      </div>
 
-      <Routes>
-        <Container>
-        <Route path="/" element={<Home/>} />
-        <Route path="/company" element={<Contact/>} />
-        <Route path="/contact" element={<Company/>} />
-        <Route path="/newproject" element={<Newproject/>} />
-        </Container>
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/company" element={<Company />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/newproject" element={<Newproject />} />
+        </Routes>
+      </Container>
     </Router>
   );
 }
