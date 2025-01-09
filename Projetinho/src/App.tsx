@@ -7,6 +7,7 @@ import Contact from './components/contact';
 import Home from './components/home';
 import NewProject from './components/newproject';
 import Container from './components/layout/container';
+import Footer from './components/footer';
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         </Routes>
       </Container>
 
-      
+      <Footer/>
     </Router>
   );
 }
