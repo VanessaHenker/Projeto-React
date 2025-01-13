@@ -1,3 +1,7 @@
+.nav{
+  display: flex;
+}
+
 .container{
   width: 1200px;
   display: flex;

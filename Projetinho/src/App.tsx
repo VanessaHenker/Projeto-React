@@ -8,18 +8,14 @@ import Home from './components/home';
 import NewProject from './components/newproject';
 import Container from './components/layout/container';
 import Footer from './components/footer';
+import NavBar from './components/layout/navBar';
+
 
 function App() {
   return (
     <Router>
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/contact">Contato</Link></li>
-          <li><Link to="/company">Empresa</Link></li>
-          <li><Link to="/newproject">Novo projeto</Link></li>
-        </ul>
-      </nav>
+      <NavBar/>
+      
 
       <Container customClass='min-height'>
         <Routes>
