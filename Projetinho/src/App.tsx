@@ -21,7 +21,7 @@ function App() {
         </ul>
       </nav>
 
-      <Container  >
+      <Container customClass='min-height'>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
