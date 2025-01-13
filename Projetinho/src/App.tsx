@@ -15,10 +15,26 @@ function App() {
       <Container>
         <nav>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/contact">Contato</Link></li>
-            <li><Link to="/company">Empresa</Link></li>
-            <li><Link to="/newproject">Novo projeto</Link></li>
+            <li>
+              <Link to="/" aria-label="Ir para a página inicial">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" aria-label="Ir para a página de contato">
+                Contato
+              </Link>
+            </li>
+            <li>
+              <Link to="/company" aria-label="Ir para a página da empresa">
+                Empresa
+              </Link>
+            </li>
+            <li>
+              <Link to="/newproject" aria-label="Criar um novo projeto">
+                Novo Projeto
+              </Link>
+            </li>
           </ul>
         </nav>
 
@@ -27,10 +43,12 @@ function App() {
           <Route path="/company" element={<Company />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/newproject" element={<NewProject />} />
+          {/* Rota para páginas não encontradas */}
+          <Route path="*" element={<h2>Página não encontrada</h2>} />
         </Routes>
       </Container>
 
-      <Footer/>
+      <Footer />
     </Router>
   );
 }
