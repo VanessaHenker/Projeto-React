@@ -1,12 +1,17 @@
-import styles from './containerModules.module.css'
-import React from 'react'
+import React from 'react';
+import styles from './containerModules.module.css';
 
 interface ContainerProps {
-  children: React.ReactNode
+  children: React.ReactNode;
+  customClass?: string;
 }
 
-function Container({ children }: ContainerProps) {
-  return <div className={styles.container}>{children}</div>
-}
+const Container: React.FC<ContainerProps> = ({ children, customClass }) => {
+  return (
+    <div className={`${styles.container} ${customClass || ''}`}>
+      {children}
+    </div>
+  );
+};
 
-export default Container
+export default Container;

@@ -12,7 +12,6 @@ import Footer from './components/footer';
 function App() {
   return (
     <Router>
-
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
@@ -22,7 +21,7 @@ function App() {
         </ul>
       </nav>
 
-      <Container>
+      <Container  >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
