@@ -1,10 +1,9 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-import styles from './layout/navBar.module.css';
+/* import styles from './layout/navBar.module.css';
 import logo from '../../img/costs_logo.png';
-import Container from './container';
+import Container from './container'; */
 
 function NavBar() {
   return (
