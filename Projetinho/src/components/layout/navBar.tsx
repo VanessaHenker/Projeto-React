@@ -1,4 +1,8 @@
 import {Link} from 'react-router-dom'
+import Container from './components/layout/container';
+
+import styles from './layout/navBar.modules.css'
+import logo from '../../img/costs_logo.png'
 
 function NavBar() {
   return (
