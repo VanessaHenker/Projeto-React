@@ -1,6 +1,6 @@
 import './style.css';
 
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Company from './components/company';
 import Contact from './components/contact';
@@ -14,9 +14,7 @@ import NavBar from './components/layout/navBar';
 function App() {
   return (
     <Router>
-      <NavBar/>
-      
-
+      <NavBar />
       <Container customClass='min-height'>
         <Routes>
           <Route path="/" element={<Home />} />
