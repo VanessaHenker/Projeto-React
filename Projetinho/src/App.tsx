@@ -7,9 +7,10 @@ import Contact from './components/contact';
 import Home from './components/home';
 import NewProject from './components/newproject';
 import Container from './components/layout/container';
-import Footer from './components/footer';
+
 import NavBar from './components/layout/navBar';
 import Projects from './pages/projects';
+import Footer from './components/footer';
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
         </Routes>
       </Container>
 
-      <Footer />
+      <Footer/>
     </Router>
   );
 }
