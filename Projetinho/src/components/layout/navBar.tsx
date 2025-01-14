@@ -8,10 +8,13 @@ function NavBar() {
   return (
     <nav>
       <Container>
-      <li><Link to="/">Home</Link></li>
-       <li><Link to="/contact">Contato</Link></li>
-       <li><Link to="/company">Empresa</Link></li>
-       <li><Link to="/newproject">Novo projeto</Link></li>
+        <Link to= "/">
+            <img src = {logo} alt = "costs" />
+        </Link>
+     <Link to="/">Home</Link>
+      <Link to="/contact">Contato</Link>
+      <Link to="/company">Empresa</Link>
+      <Link to="/newproject">Novo projeto</Link>
       </Container>
 
     </nav>
