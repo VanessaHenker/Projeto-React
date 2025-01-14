@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import Container from './container';
 
 
+import logo from "../../img/costs_logo.png"
+import styles from "./navBar.module.css"
 
 
 function NavBar() {
