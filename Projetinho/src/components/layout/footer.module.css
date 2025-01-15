@@ -26,10 +26,11 @@
 .socialList svg{
   font-size: 1em;
   cursor: pointer;
+  padding-top: 0.5em;
 }
 
 .copyRight{
-  margin-top: 2em;
+  margin-top: 1em;
 }
 
 .copyRight span{
