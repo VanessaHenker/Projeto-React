@@ -16,6 +16,7 @@ function Footer() {
           <FaLinkedin />
         </li>
       </ul>
+      <span>Costs</span> &copy; 2025
     </footer>
   );
 }
