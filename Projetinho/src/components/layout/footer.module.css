@@ -22,3 +22,8 @@
 .socialList li:hover {
   color: #ffcc00;
 }
+
+.socialList svg{
+  font-size: 1em;
+  cursor: pointer;
+}
