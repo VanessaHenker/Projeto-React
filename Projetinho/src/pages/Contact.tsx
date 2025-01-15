@@ -1,6 +1,6 @@
 function Contact (){
   
-  return <h1>Contatac</h1>
+  return <h1>Contc</h1>
 }
 
 export default Contact
