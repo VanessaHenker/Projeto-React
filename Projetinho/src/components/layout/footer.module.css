@@ -27,3 +27,12 @@
   font-size: 1em;
   cursor: pointer;
 }
+
+.copyRight{
+  margin-top: 2em;
+}
+
+.copyRight span{
+  font-weight: bold;
+  color: #ffcc00;
+}
