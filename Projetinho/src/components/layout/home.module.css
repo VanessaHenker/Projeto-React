@@ -4,4 +4,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 4em;
 }
+
+.homeContainer h1{
+  font-size: 2.5em;
+  margin-bottom: .5em;
+
+}
+
+.homeContainer span{
+  color: #Ffbb33;
+  padding: 0 .2em;
+  background-color: #222;
+}
+
