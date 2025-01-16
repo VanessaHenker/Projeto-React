@@ -19,3 +19,12 @@
   background-color: #222;
 }
 
+.homeContainer p{
+  margin-bottom: 1.5em;
+  color: #7b7b7b;
+}
+
+.homeContainer img{
+  width: 350px;
+  margin: 2em 0;
+}
