@@ -10,7 +10,7 @@ const LinkButton = ({ to, text }: LinkButtonProps) => {
     return (
         <Link to={to} className={styles.btn}>
             {text}
-            <span>Olá</span>
+           <h1>ola</h1>
         </Link>
     );
 };
