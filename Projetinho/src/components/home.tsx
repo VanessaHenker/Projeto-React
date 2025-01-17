@@ -1,4 +1,4 @@
-import styles from './home.module.css' 
+import styles from './layout/home.module.css' 
 import savings from '../img/savings.svg'
 
 function Home() {
