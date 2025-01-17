@@ -1,15 +1,15 @@
 import { Link } from 'react-router-dom';
-import styles from './layout/LinkButton.module.css';
+import styles from './LinkButton.module.css';
 
 interface LinkButtonProps {
-  to: string;
-  text: string;
+  to: string; 
+  text: string; 
 }
 
 const LinkButton = ({ to, text }: LinkButtonProps) => {
   return (
     <Link to={to} className={styles.btn}>
-      {text}
+      <span>{text}</span>
     </Link>
   );
 };
