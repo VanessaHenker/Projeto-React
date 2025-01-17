@@ -8,9 +8,8 @@ function Home() {
       <h1> Bem-vindo ao <span>Costs</span></h1>
       <p>Comece a gerenciar os seus projetos agora mesmo!</p>
     
-      <LinkButton to="/about" text="About Us" />
-       <LinkButton to="/contact" text="Contact Us" />
-      <img src={savings} alt="Imagem de economia representando savings" />
+      <LinkButton to="/newproject" text="Criar Projeto" />
+      <img src={savings} alt="Costs"/>
     </section>
   );
 }
