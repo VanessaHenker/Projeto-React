@@ -3,7 +3,7 @@ import styles from './layout/LinkButton.module.css';
 
 const LinkButton = ({ to, text }) => {
     return (
-        <Link className={styles.btn} to={to}>
+        <Link to={to} className={styles.btn}>
             {text}
         </Link>
     );
