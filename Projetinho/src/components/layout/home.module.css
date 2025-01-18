@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   padding: 4em;
-}
+  }
 
 .homeContainer h1{
   font-size: 2.5em;
@@ -17,6 +17,7 @@
   color: #Ffbb33;
   padding: 0 .2em;
   background-color: #222;
+  border-radius: 3px;
 }
 
 .homeContainer p{
