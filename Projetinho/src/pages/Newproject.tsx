@@ -1,4 +1,4 @@
-import styles from './newProject.css';
+import styles from './newProject.module.css';
 
 function Newproject (){
   
