@@ -1,6 +1,8 @@
+import styles from './projectForm.module.css'
+
 function ProjectForm() {
   return (
-    <form>
+    <form className= {styles.form}>
       <div>
         <label htmlFor="projectName">Nome do Projeto:</label>
         <input type="text" id="projectName" placeholder="Insira o nome do projeto" />
@@ -14,10 +16,8 @@ function ProjectForm() {
       <div>
         <label htmlFor="category">Categoria:</label>
         <select name="category" id="category" defaultValue="">
-          <option value="" disabled>Selecione a categoria</option>
-          <option value="design">Design</option>
-          <option value="development">Desenvolvimento</option>
-          <option value="marketing">Marketing</option>
+          <option disabled selected >Selecione a categoria</option>
+          
         </select>
       </div>
 
