@@ -1,9 +1,10 @@
 import styles from './input.module.css'
 
-function Input() {
+function Input({type, text, name, placeholder, handleOnChange, value}) {
   return (
-    <div className= {styles.input}>
-      
+    <div className= {styles.formControl}>
+      <label htmlFor=""></label>
+      <input type="text" name="" id="" />
     </div>
   )
 }
