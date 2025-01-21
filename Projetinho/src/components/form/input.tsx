@@ -1,12 +1,28 @@
-import styles from './input.module.css'
+import styles from './input.module.css';
 
-function Input({type, text, name, placeholder, handleOnChange, value}) {
-  return (
-    <div className= {styles.formControl}>
-      <label htmlFor=""></label>
-      <input type="text" name="" id="" />
-    </div>
-  )
+interface InputProps {
+  type: string;
+  text: string;
+  name: string;
+  placeholder: string;
+  handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string | number;
 }
 
-export default Input
+function Input({ type, text, name, placeholder, handleOnChange, value }: InputProps) {
+  return (
+    <div className={styles.formControl}>
+      <label htmlFor={name}>{text}</label>
+      <input
+        type={type}
+        name={name}
+        id={name}
+        placeholder={placeholder}
+        onChange={handleOnChange}
+        value={value}
+      />
+    </div>
+  );
+}
+
+export default Input;
