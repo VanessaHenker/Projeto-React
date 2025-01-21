@@ -1,4 +1,4 @@
-import ProjectFrom from '../components/projects/projectFrom';
+import ProjectFrom from '../components/projects/projectForm';
 import styles from './newProject.module.css';
 
 function Newproject (){
