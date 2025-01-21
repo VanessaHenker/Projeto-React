@@ -10,9 +10,11 @@ function ProjectFrom() {
         <input type="number" placeholder="Insira o orçamento total" />
       </div>
 
-      <select name="category">
-        <option disabled>Selecione a categoria</option>
-      </select>
+      <div>
+        <select name="category">
+          <option disabled>Selecione a categoria</option>
+        </select>
+      </div>
     </form>
   )
 }
