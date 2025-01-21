@@ -15,6 +15,10 @@ function ProjectFrom() {
           <option disabled>Selecione a categoria</option>
         </select>
       </div>
+
+      <div>
+        <input type = "submit" value={"Criar projeto"} />
+      </div>
     </form>
   )
 }
