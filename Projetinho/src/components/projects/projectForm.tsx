@@ -21,7 +21,7 @@ function ProjectForm() {
     <form className={styles.form} onSubmit={handleSubmit}>
       <Input
         type="text"
-        text="Nome do projeto"
+        text="Nome do projeto:"
         name="name"
         placeholder="Insira o nome do projeto"
         handleOnChange={handleInputChange}
@@ -29,12 +29,20 @@ function ProjectForm() {
 
       <Input
         type="number"
-        text="Orçamento Total"
+        text="Orçamento do projeto"
         name="budget"
-        placeholder="Insira o orçamento total"
+        placeholder="Insira o orçamento total:"
         handleOnChange={handleInputChange}
       />
 
+      <Input
+        type="number"
+        text="Orçamento do projeto"
+        name="budget"
+        placeholder="Insira o orçamento total:"
+        handleOnChange={handleInputChange}
+      />
+      
       <div className={styles.formControl}>
         <button type="submit" className={styles.btn}>
           Criar Projeto
