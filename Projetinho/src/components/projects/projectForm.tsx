@@ -25,9 +25,22 @@ function ProjectForm() {
         name="name"
         placeholder="Insira o nome do projeto"
         handleOnChange={handleInputChange}
+        value={formData.name}
       />
 
-   
+      <Input
+        type="select"
+        text="Orçamento do projeto:"
+        name="budget"
+        options={[
+          { value: '', label: 'Selecione o orçamento:' },
+          { value: '1000', label: 'R$ 1.000' },
+          { value: '5000', label: 'R$ 5.000' },
+          { value: '10000', label: 'R$ 10.000' },
+        ]}
+        handleOnChange={handleInputChange}
+        value={formData.budget}
+      />
 
       <div className={styles.formControl}>
         <button type="submit" className={styles.btn}>
