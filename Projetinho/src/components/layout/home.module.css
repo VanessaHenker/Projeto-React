@@ -1,3 +1,4 @@
+/* Estilo padrão */
 .homeContainer {
   margin: auto;
   display: flex;
@@ -6,11 +7,13 @@
   justify-content: center;
   padding: 4em;
   background-color: #eee9e9;
+  box-sizing: border-box; /* Garante que padding/margin sejam calculados corretamente */
 }
 
 .homeContainer h1 {
   font-size: 2.5em;
   margin-bottom: 0.5em;
+  text-align: center; /* Garante centralização em telas menores */
 }
 
 .homeContainer span {
@@ -23,40 +26,65 @@
 .homeContainer p {
   margin-bottom: 1.5em;
   color: #7b7b7b;
-  text-align: center;
+  text-align: center; /* Centraliza o texto em qualquer tela */
 }
 
 .homeContainer img {
-  width: 350px;
+  width: 100%; /* Ocupa 100% do espaço pai */
+  max-width: 350px; /* Não ultrapassa 350px */
+  height: auto; /* Mantém proporção da imagem */
   margin: 2em 0;
 }
 
-
-@media (max-width: 768px) {
+/* Telas menores que 1024px (tablets) */
+@media (max-width: 1024px) {
   .homeContainer {
-    padding: 2em; 
+    padding: 3em; /* Reduz o padding para tablets */
   }
 
   .homeContainer h1 {
-    font-size: 2em;
+    font-size: 2.2em; /* Ajusta o tamanho do título */
   }
 
   .homeContainer img {
-    width: 250px;
+    max-width: 300px; /* Ajusta o tamanho da imagem */
   }
 }
 
+/* Telas menores que 768px (tablets pequenos e celulares maiores) */
+@media (max-width: 768px) {
+  .homeContainer {
+    padding: 2em; /* Padding ainda menor */
+  }
 
-@media (max-width: 480px) {
   .homeContainer h1 {
-    font-size: 1.8em; 
+    font-size: 1.8em; /* Reduz o tamanho do texto */
   }
 
   .homeContainer img {
-    width: 200px; 
+    max-width: 250px; /* Imagem menor */
   }
 
   .homeContainer p {
-    font-size: 0.9em; 
+    font-size: 1em; /* Reduz o tamanho do texto */
+  }
+}
+
+/* Telas menores que 480px (celulares pequenos) */
+@media (max-width: 480px) {
+  .homeContainer {
+    padding: 1em; /* Reduz bastante o padding */
+  }
+
+  .homeContainer h1 {
+    font-size: 1.5em; /* Tamanho do título ainda menor */
+  }
+
+  .homeContainer img {
+    max-width: 200px; /* Imagem bem menor */
+  }
+
+  .homeContainer p {
+    font-size: 0.9em; /* Texto compacto */
   }
 }
