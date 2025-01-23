@@ -1,26 +1,42 @@
 import styles from './input.module.css';
 
-interface InputProps {
-  type: string;
-  text: string;
-  name: string;
-  placeholder: string;
-  handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: string | number;
+interface Option {
+  value: string;
+  label: string;
 }
 
-function Input({ type, text, name, placeholder, handleOnChange, value }: InputProps) {
+interface InputProps {
+  type: string; // "text", "number", "select", etc.
+  text: string;
+  name: string;
+  placeholder?: string; // Opcional, porque "select" não precisa de placeholder
+  handleOnChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  value?: string | number;
+  options?: Option[]; // Somente para "select"
+}
+
+function Input({ type, text, name, placeholder, handleOnChange, value, options }: InputProps) {
   return (
     <div className={styles.formControl}>
       <label htmlFor={name}>{text}</label>
-      <input
-        type={type}
-        name={name}
-        id={name}
-        placeholder={placeholder}
-        onChange={handleOnChange}
-        value={value}
-      />
+      {type === 'select' && options ? (
+        <select id={name} name={name} onChange={handleOnChange} value={value || ''}>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          type={type}
+          name={name}
+          id={name}
+          placeholder={placeholder}
+          onChange={handleOnChange}
+          value={value}
+        />
+      )}
     </div>
   );
 }
