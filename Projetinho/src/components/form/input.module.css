@@ -15,7 +15,7 @@
 .formControl select {
   padding: 0.7em;
   border-radius: 4px; 
-  border: 1px solid #ccc; /* Adiciona uma borda */
+  border: 1px solid #ccc;
   font-size: 1rem;
   outline: none; 
   transition: border-color 0.3s ease; 
@@ -23,7 +23,7 @@
 
 .formControl input:focus,
 .formControl select:focus {
-  border-color: #aeb1b2; /* Altera a borda ao focar */
+  border-color: #aeb1b2; 
 }
 
 .formControl input::placeholder {
@@ -31,14 +31,14 @@
   font-style: italic; 
 }
 
-/* Estilo específico para o select */
+
 .formControl select {
-  appearance: none; /* Remove estilos padrões (como seta em alguns navegadores) */
+  appearance: none; 
   background-color: #fff; 
   cursor: pointer;
 }
 
-/* Para navegadores que permitem estilizar a seta */
+
 .formControl select::-ms-expand {
   display: none;
 }
