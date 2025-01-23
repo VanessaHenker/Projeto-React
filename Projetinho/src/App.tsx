@@ -13,7 +13,8 @@ import Projects from './pages/projects';
 import Footer from './components/footer';
 import Home from './components/home';
 import Contact from './components/contact';
-import Newproject from './pages/Newproject';
+import Newproject from './pages/newProject';
+
 
 
 
