@@ -6,13 +6,13 @@ interface Option {
 }
 
 interface SelectProps {
-  type: string; 
+  type: string;
   text: string;
   name: string;
-  placeholder?: string; 
-  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement | HTMLSelectElement>) => void;
+  placeholder?: string;
+  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void; // Corrigido aqui
   value?: string | number;
-  options?: Option[]; 
+  options?: Option[];
 }
 
 function Select({ type, text, name, placeholder, handleOnChange, value, options }: SelectProps) {
