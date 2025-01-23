@@ -24,7 +24,7 @@ function ProjectForm() {
         text="Nome do projeto"
         name="name"
         placeholder="Insira o nome do projeto"
-        handleOnChange={handleInputChange} 
+        handleOnChange={handleInputChange}
       />
 
       <Input
@@ -32,7 +32,7 @@ function ProjectForm() {
         text="Orçamento Total"
         name="budget"
         placeholder="Insira o orçamento total"
-        handleOnChange={handleInputChange} 
+        handleOnChange={handleInputChange}
       />
 
       <div className={styles.formControl}>
@@ -45,4 +45,3 @@ function ProjectForm() {
 }
 
 export default ProjectForm;
- 

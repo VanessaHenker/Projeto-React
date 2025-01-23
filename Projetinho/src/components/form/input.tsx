@@ -1,4 +1,4 @@
-import styles from './input.module.css';
+import styles from './form/input.module.css';
 
 interface InputProps {
   type: string;
