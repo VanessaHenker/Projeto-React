@@ -8,7 +8,7 @@ function ProjectForm() {
     budget: '',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -28,21 +28,18 @@ function ProjectForm() {
       />
 
       <Input
-        type="number"
+        type="select"
         text="Orçamento do projeto"
         name="budget"
-        placeholder="Insira o orçamento total:"
+        options={[
+          { value: '', label: 'Selecione o orçamento:' },
+          { value: '1000', label: 'R$ 1.000' },
+          { value: '5000', label: 'R$ 5.000' },
+          { value: '10000', label: 'R$ 10.000' },
+        ]}
         handleOnChange={handleInputChange}
       />
 
-      <Input
-        type="number"
-        text="Orçamento do projeto"
-        name="budget"
-        placeholder="Insira o orçamento total:"
-        handleOnChange={handleInputChange}
-      />
-      
       <div className={styles.formControl}>
         <button type="submit" className={styles.btn}>
           Criar Projeto
