@@ -27,18 +27,7 @@ function ProjectForm() {
         handleOnChange={handleInputChange}
       />
 
-      <Input
-        type="select"
-        text="Orçamento do projeto"
-        name="budget"
-        options={[
-          { value: '', label: 'Selecione o orçamento:' },
-          { value: '1000', label: 'R$ 1.000' },
-          { value: '5000', label: 'R$ 5.000' },
-          { value: '10000', label: 'R$ 10.000' },
-        ]}
-        handleOnChange={handleInputChange}
-      />
+   
 
       <div className={styles.formControl}>
         <button type="submit" className={styles.btn}>
