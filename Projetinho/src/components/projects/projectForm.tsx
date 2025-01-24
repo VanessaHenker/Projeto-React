@@ -7,6 +7,7 @@ function ProjectForm() {
   const [formData, setFormData] = useState({
     name: '',
     budget: '',
+    categorId: '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -43,19 +44,19 @@ function ProjectForm() {
         value={formData.budget}
       />
 
-
       <Select 
         type='select'
         text='Selecione a categoria:'
-        name='category_id'
+        name='categoryId'
         placeholder='Selecione a opção'
         options={[
           { value: '', label: 'Selecione a opção' },
-          { value: '', label: 'Marketing' },
-          { value: '', label: '' },
-          { value: '', label: '' },
+          { value: '1', label: 'Marketing' },
+          { value: '2', label: 'Marketing' },
+          { value: '3', label: 'Marketing' },
         ]}
-
+        handleOnChange={handleInputChange}
+        value={formData.categorId}
       />
 
 
