@@ -1,4 +1,5 @@
 import Input from '../form/input';
+import Select from '../form/select';
 import styles from './projectForm.module.css';
 import { useState } from 'react';
 
@@ -41,6 +42,22 @@ function ProjectForm() {
         handleOnChange={handleInputChange}
         value={formData.budget}
       />
+
+
+      <Select 
+        type='select'
+        text='Selecione a categoria:'
+        name='category_id'
+        placeholder='Selecione a opção'
+        options={[
+          { value: '', label: 'Selecione a opção' },
+          { value: '', label: 'Marketing' },
+          { value: '', label: '' },
+          { value: '', label: '' },
+        ]}
+
+      />
+
 
       <div className={styles.formControl}>
         <button type="submit" className={styles.btn}>

@@ -10,7 +10,7 @@ interface SelectProps {
   text: string;
   name: string;
   placeholder?: string;
-  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void; // Corrigido aqui
+  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void;
   value?: string | number;
   options?: Option[];
 }
