@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Company from './components/company';
 
-
-
 import Container from './components/layout/container';
 
 import NavBar from './components/layout/navBar';
@@ -14,9 +12,6 @@ import Footer from './components/footer';
 import Home from './components/home';
 import Contact from './components/contact';
 import Newproject from './pages/newProject';
-
-
-
 
 function App() {
   return (
