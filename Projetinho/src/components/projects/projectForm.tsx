@@ -51,9 +51,8 @@ function ProjectForm() {
         placeholder='Selecione a opção'
         options={[
           { value: '', label: 'Selecione a opção' },
-          { value: '1', label: 'Marketing' },
-          { value: '2', label: 'Marketing' },
-          { value: '3', label: 'Marketing' },
+          { value: 'Marketinhg', label: 'Marketing' },
+
         ]}
         handleOnChange={handleInputChange}
         value={formData.categorId}
