@@ -1,5 +1,7 @@
 import Input from '../form/input';
 import Select from '../form/select';
+import SubmitButton from '../form/submitButton';
+
 import styles from './projectForm.module.css';
 import { useState } from 'react';
 
@@ -58,12 +60,7 @@ function ProjectForm() {
         value={formData.categorId}
       />
 
-
-      <div className={styles.formControl}>
-        <button type="submit" className={styles.btn}>
-          Criar Projeto
-        </button>
-      </div>
+      <SubmitButton text='Criar projeto'/>
     </form>
   );
 }
