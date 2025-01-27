@@ -5,6 +5,9 @@
   justify-content: center;
   flex-direction: column;
   padding: 3em;
+
+  margin: auto;
+
 }
 
 .newProjectContainer h1{
