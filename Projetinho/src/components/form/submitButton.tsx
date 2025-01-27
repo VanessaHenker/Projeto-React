@@ -1,13 +1,13 @@
-import styles from './submitButton.module.css'
+import styles from './submitButton.module.css';
 
-function SubmitButton({text}) {
-  return (
-    <div>
-      <button className= {styles.btn}>{text}</button>
-
-      
-    </div>
-  )
+interface SubmitButtonProps {
+  text: string;
 }
 
-export default SubmitButton
+export default function SubmitButton({ text }: SubmitButtonProps) {
+  return (
+    <button className={styles.btn}>
+      {text}
+    </button>
+  );
+}
