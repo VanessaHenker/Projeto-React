@@ -10,7 +10,7 @@ const NavBar: React.FC = () => {
     <nav className={styles.navBar}>
       <Container>
         <Link to="/">
-          <img src={logo} alt="Costs Logo" />
+          <img src={logo} alt="Costs Logo" className= {styles.logo}/>
         </Link>
         <ul className={styles.list}>
           <li className={styles.item}><Link to="/">Home</Link></li>

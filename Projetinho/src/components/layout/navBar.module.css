@@ -1,41 +1,42 @@
-.navBar {
+.navBar{
   display: flex;
-  flex-direction: column; 
-  align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   background-color: #222;
-  padding: 1em;
 }
 
 .list {
   display: flex;
-  flex-direction: column; 
   list-style-type: none;
-  align-items: center; 
-  padding: 0;
-  margin: 0;
+  align-items: center;
 }
 
-.item {
-  margin: 0.5em 0; 
+.item{
+  margin-right: 1em;
 }
 
-.item a {
+.item a{
   color: #FFF;
   text-decoration: none;
 }
 
-.item a:hover {
+.item a:hover{
   color: #FFBB33;
   text-decoration: none;
   transition: color 0.3s;
 }
 
-/* Estilos para dispositivos maiores */
+.logo{
+  width: 50px;
+  padding: 20px
+}
+
 @media (min-width: 768px) {
+  .logo{
+    display: none;
+  }
   .navBar {
-    flex-direction: row; 
-    justify-content: space-around;
+    flex-direction: column;
+ 
     padding: 0.5em;
   }
 
@@ -45,6 +46,6 @@
   }
 
   .item {
-    margin: 0 1em;
+    margin: 0 1em; 
   }
 }
