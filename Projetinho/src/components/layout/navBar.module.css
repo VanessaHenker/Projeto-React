@@ -1,6 +1,6 @@
 .navBar{
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   background-color: #222;
   padding: 0.5em;
 }
