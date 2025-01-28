@@ -29,6 +29,7 @@ function NewProject() {
     <div className={styles.newProjectContainer}>
       <h1>Criar Projeto</h1>
       <p>Crie seu projeto para depois adicionar os serviços</p>
+      {/* Passa a função `createPost` para o formulário */}
       <ProjectForm onSubmit={createPost} />
     </div>
   );
