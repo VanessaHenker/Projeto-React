@@ -1,7 +1,21 @@
+import {useHistory} from 'react-router-dom'
+
 import ProjectFrom from '../components/projects/projectForm';
 import styles from './newProject.module.css';
 
 function Newproject (){
+
+  const history = useHistory()  
+
+  function crearePost(project){
+    project.cost = 0;
+    project.service = []
+
+    
+
+
+  }
+
   
   return (
     <div className={styles.newProjectContainer}>
