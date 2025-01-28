@@ -1,4 +1,3 @@
-/* Estilo padrão */
 .homeContainer {
   margin: auto;
   display: flex;
@@ -7,13 +6,13 @@
   justify-content: center;
   padding: 4em;
   background-color: #eee9e9;
-  box-sizing: border-box; /* Garante que padding/margin sejam calculados corretamente */
+  box-sizing: border-box; 
 }
 
 .homeContainer h1 {
   font-size: 2.5em;
   margin-bottom: 0.5em;
-  text-align: center; /* Garante centralização em telas menores */
+  text-align: center; 
 }
 
 .homeContainer span {
@@ -26,65 +25,66 @@
 .homeContainer p {
   margin-bottom: 1.5em;
   color: #7b7b7b;
-  text-align: center; /* Centraliza o texto em qualquer tela */
+  text-align: center; 
+  font-size: 1.2em;
 }
 
 .homeContainer img {
-  width: 100%; /* Ocupa 100% do espaço pai */
-  max-width: 350px; /* Não ultrapassa 350px */
-  height: auto; /* Mantém proporção da imagem */
+  width: 100%; 
+  max-width: 350px; 
+  height: auto; 
   margin: 2em 0;
 }
 
-/* Telas menores que 1024px (tablets) */
+
 @media (max-width: 1024px) {
   .homeContainer {
-    padding: 3em; /* Reduz o padding para tablets */
+    padding: 3em; 
   }
 
   .homeContainer h1 {
-    font-size: 2.2em; /* Ajusta o tamanho do título */
+    font-size: 2.2em; 
   }
 
   .homeContainer img {
-    max-width: 300px; /* Ajusta o tamanho da imagem */
+    max-width: 300px; 
   }
 }
 
-/* Telas menores que 768px (tablets pequenos e celulares maiores) */
+
 @media (max-width: 768px) {
   .homeContainer {
-    padding: 2em; /* Padding ainda menor */
+    padding: 2em; 
   }
 
   .homeContainer h1 {
-    font-size: 1.8em; /* Reduz o tamanho do texto */
+    font-size: 1.8em; 
   }
 
   .homeContainer img {
-    max-width: 250px; /* Imagem menor */
+    max-width: 250px; 
   }
 
   .homeContainer p {
-    font-size: 1em; /* Reduz o tamanho do texto */
+    font-size: 1em; 
   }
 }
 
-/* Telas menores que 480px (celulares pequenos) */
+
 @media (max-width: 480px) {
   .homeContainer {
-    padding: 1em; /* Reduz bastante o padding */
+    padding: 1em; 
   }
 
   .homeContainer h1 {
-    font-size: 1.5em; /* Tamanho do título ainda menor */
+    font-size: 1.5em; 
   }
 
   .homeContainer img {
-    max-width: 200px; /* Imagem bem menor */
+    max-width: 200px; 
   }
 
   .homeContainer p {
-    font-size: 0.9em; /* Texto compacto */
+    font-size: 0.9em;
   }
 }
