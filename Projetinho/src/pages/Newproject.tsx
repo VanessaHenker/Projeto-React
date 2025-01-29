@@ -1,28 +1,38 @@
-interface Project {
-  name: string;
-  budget: number;
-  cost?: number;
-  services?: any[];
-}
+import { useNavigate } from 'react-router-dom';
 
-interface ProjectFormProps {
-  onSubmit: (project: Project) => void;
-  loading: boolean;
-}
+import ProjectForm from '../components/projects/projectForm';
+import styles from './newProject.module.css';
 
-const ProjectForm: React.FC<ProjectFormProps> = ({ onSubmit, loading }) => {
-  // Lógica do formulário...
+function NewProject() {
+  const navigate = useNavigate();
+
+  function createPost(project) {
+    project.cost = 0;
+    project.service = [];
+
+    fetch("http://localhost:5000/projects", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(project)
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log("Projeto criado:", data);
+        navigate("/projetos"); // Redireciona após criação
+      })
+      .catch((err) => console.error("Erro ao criar projeto:", err));
+  }
+
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      const project: Project = { name: "Novo Projeto", budget: 1000 };
-      onSubmit(project);
-    }}>
-      <button type="submit" disabled={loading}>
-        {loading ? "Criando..." : "Criar Projeto"}
-      </button>
-    </form>
+    <div className={styles.newProjectContainer}>
+      <h1>Criar Projeto</h1>
+      <p>Crie seu projeto para depois adicionar os serviços</p>
+      {/* Passa a função `createPost` para o formulário */}
+      <ProjectForm onSubmit={createPost} />
+    </div>
   );
-};
+}
 
-export default ProjectForm;
+export default NewProject;
