@@ -4,13 +4,20 @@ import { useState } from 'react';
 import ProjectForm from '../components/projects/projectForm';
 import styles from './newProject.module.css';
 
+interface Project {
+  name: string;
+  budget: number;
+  cost?: number;
+  services?: any[];
+}
+
 function NewProject() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  function createPost(project) {
+  function createPost(project: Project) {
     setLoading(true);
-    const newProject = {
+    const newProject: Project = {
       ...project,
       cost: 0,
       services: [],
