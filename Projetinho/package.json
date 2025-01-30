@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "backend": "json-server start db.json",
+    "backend": "json-server start db.json --port 5000",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
