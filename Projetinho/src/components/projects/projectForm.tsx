@@ -53,7 +53,6 @@ function ProjectForm() {
         placeholder='Selecione a opção'
         options={[
           { value: '', label: 'Selecione a opção' },
-          { value: 'Marketinhg', label: 'Marketing' },
 
         ]}
         handleOnChange={handleInputChange}
