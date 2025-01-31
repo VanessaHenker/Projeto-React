@@ -15,7 +15,11 @@ function ProjectForm() {
     headers: {
       "Content-Type": 'application/json'
     }
-  }).then()
+  })
+  .then((resp) => resp.json())
+  .then((data) => {
+    setCategories(data)
+  })
   .catch(err => console.log(err))
 
   const [formData, setFormData] = useState({
@@ -63,11 +67,13 @@ function ProjectForm() {
         text='Selecione a categoria:'
         name='categoryId'
         placeholder='Selecione a opção'
-        options={[
-          { value: '', label: 'Selecione a opção' },
-
-        ]}
+        options={[catagories]}
         handleOnChange={handleInputChange}
+        {Options.map(((option) => {
+          <option value= {options.id}
+        }
+
+        ))}
         value={formData.categorId}
       />
 
