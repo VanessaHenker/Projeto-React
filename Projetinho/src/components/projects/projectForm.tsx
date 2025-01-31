@@ -7,7 +7,7 @@ import SubmitButton from '../form/submitButton';
 import styles from './projectForm.module.css';
 
 function ProjectForm() {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     budget: '',
