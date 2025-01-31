@@ -60,6 +60,8 @@ function ProjectForm() {
           { value: '5000', label: 'R$ 5.000' },
           { value: '10000', label: 'R$ 10.000' },
         ]}
+
+   
       />
 
       <Select 
