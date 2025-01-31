@@ -70,7 +70,7 @@ function ProjectForm() {
         options={[catagories]}
         handleOnChange={handleInputChange}
         {Options.map(((option) => {
-          <option value= {options.id}
+          <option value= {options.id} key = {option.id}> {option.name}</option>
         }
 
         ))}
