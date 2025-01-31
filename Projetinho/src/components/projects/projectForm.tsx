@@ -28,11 +28,11 @@ function ProjectForm() {
       .catch(err => console.log(err));
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Formulário enviado:', formData);
   };
@@ -49,6 +49,7 @@ function ProjectForm() {
       />
 
       <Select
+        type="select"
         text="Orçamento do projeto:"
         name="budget"
         handleOnChange={handleInputChange}
@@ -62,6 +63,7 @@ function ProjectForm() {
       />
 
       <Select 
+        type="select"
         text='Selecione a categoria:'
         name='categoryId'
         handleOnChange={handleInputChange}
