@@ -7,32 +7,32 @@ import SubmitButton from '../form/submitButton';
 import styles from './projectForm.module.css';
 
 function ProjectForm() {
-
-  const [categories, setCategories] = useState([])
-
-  fetch ("http:localhost:500/categories", {
-    method: "GET",
-    headers: {
-      "Content-Type": 'application/json'
-    }
-  })
-  .then((resp) => resp.json())
-  .then((data) => {
-    setCategories(data)
-  })
-  .catch(err => console.log(err))
-
+  const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     budget: '',
-    categorId: '',
+    categoryId: '',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  useEffect(() => {
+    fetch("http://localhost:5000/categories", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        setCategories(data);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
+  const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Formulário enviado:', formData);
   };
@@ -48,33 +48,28 @@ function ProjectForm() {
         value={formData.name}
       />
 
-      <Input
-        type="select"
+      <Select
         text="Orçamento do projeto:"
         name="budget"
-        options={[
+        handleOnChange={handleInputChange}
+        value={formData.budget}
+        options={[ 
           { value: '', label: 'Selecione o orçamento:' },
           { value: '1000', label: 'R$ 1.000' },
           { value: '5000', label: 'R$ 5.000' },
           { value: '10000', label: 'R$ 10.000' },
         ]}
-        handleOnChange={handleInputChange}
-        value={formData.budget}
       />
 
       <Select 
-        type='select'
         text='Selecione a categoria:'
         name='categoryId'
-        placeholder='Selecione a opção'
-        options={[catagories]}
         handleOnChange={handleInputChange}
-        {Options.map(((option) => {
-          <option value= {options.id} key = {option.id}> {option.name}</option>
-        }
-
-        ))}
-        value={formData.categorId}
+        value={formData.categoryId}
+        options={categories.map((category) => ({
+          value: category.id,
+          label: category.name,
+        }))}
       />
 
       <SubmitButton text='Criar projeto'/>
