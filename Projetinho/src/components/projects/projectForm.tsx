@@ -1,11 +1,23 @@
+import { useState } from 'react';
+
 import Input from '../form/input';
 import Select from '../form/select';
 import SubmitButton from '../form/submitButton';
 
 import styles from './projectForm.module.css';
-import { useState } from 'react';
 
 function ProjectForm() {
+
+  const [categories, setCategories] = useState([])
+
+  fetch ("http:localhost:500/categories", {
+    method: "GET",
+    headers: {
+      "Content-Type": 'application/json'
+    }
+  }).then()
+  .catch(err => console.log(err))
+
   const [formData, setFormData] = useState({
     name: '',
     budget: '',
