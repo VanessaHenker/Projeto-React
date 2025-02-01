@@ -9,6 +9,7 @@ import Orcamento from '../form/orcamento';
 
 function ProjectForm() {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [orcamentos, setOrcamentos] = useState<{ id: string; name: string }[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     budget: '',
@@ -24,7 +25,8 @@ function ProjectForm() {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        setCategories(data);
+        setCategories(data.categories);
+        setOrcamentos(data.orcamentos);
       })
       .catch(err => console.log(err));
   }, []);
@@ -50,11 +52,15 @@ function ProjectForm() {
       />
 
       <Orcamento
-        type="number"
-        text="Defina o orçamento"
+        type="select"
+        text="Selecione o orçamento"
         name="budget"
         handleOnChange={handleInputChange}
         value={formData.budget}
+        options={orcamentos.map((orcamento) => ({
+          value: orcamento.id,
+          label: orcamento.name,
+        }))}
       />
 
       <Select
@@ -68,6 +74,7 @@ function ProjectForm() {
           label: category.name,
         }))}
       />
+
       <SubmitButton text='Criar projeto' />
     </form>
   );
