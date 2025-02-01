@@ -67,8 +67,6 @@ function ProjectForm() {
       /> */}
 
 
-        
-
       <Select
         type="select"
         text='Selecione a categoria:'
