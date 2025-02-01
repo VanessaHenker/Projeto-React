@@ -48,8 +48,8 @@ function ProjectForm() {
         handleOnChange={handleInputChange}
         value={formData.name}
       />
-    
-    {/* 
+
+      {/* 
       <Select
         type="select"
         text="Orçamento do projeto:"
@@ -66,8 +66,10 @@ function ProjectForm() {
    
       /> */}
 
-    
-      <Select 
+
+        
+
+      <Select
         type="select"
         text='Selecione a categoria:'
         name='categoryId'
@@ -79,7 +81,7 @@ function ProjectForm() {
         }))}
       />
 
-      <SubmitButton text='Criar projeto'/>
+      <SubmitButton text='Criar projeto' />
     </form>
   );
 }
