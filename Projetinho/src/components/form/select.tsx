@@ -41,4 +41,9 @@ function Select({ type, text, name, placeholder, handleOnChange, value, options 
   );
 }
 
-export default Select;
+// Orcamento reaproveitando Select
+function Orcamento(props: SelectProps) {
+  return <Select {...props} />;
+}
+
+export { Select, Orcamento };
