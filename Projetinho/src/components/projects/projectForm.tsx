@@ -5,6 +5,7 @@ import Select from '../form/select';
 import SubmitButton from '../form/submitButton';
 
 import styles from './projectForm.module.css';
+import Orcamento from '../form/orcamento';
 
 
 function ProjectForm() {
@@ -66,6 +67,17 @@ function ProjectForm() {
    
       /> */}
 
+      <Orcamento
+      type="select"
+      text='Selecione o orçamento'
+      name='categoryId'
+      handleOnChange={handleInputChange}
+      value={formData.categoryId}
+      options={categories.map((orcamentos) => ({
+        value: orcamentos.id,
+        label: orcamentos.name,
+      }))}
+      />
 
       <Select
         type="select"
