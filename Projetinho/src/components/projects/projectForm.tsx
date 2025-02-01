@@ -7,7 +7,6 @@ import SubmitButton from '../form/submitButton';
 import styles from './projectForm.module.css';
 import Orcamento from '../form/orcamento';
 
-
 function ProjectForm() {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
   const [formData, setFormData] = useState({
@@ -50,39 +49,18 @@ function ProjectForm() {
         value={formData.name}
       />
 
-      {/* 
-      <Select
-        type="select"
-        text="Orçamento do projeto:"
+      <Orcamento
+        type="number"
+        text="Defina o orçamento"
         name="budget"
         handleOnChange={handleInputChange}
         value={formData.budget}
-        options={[ 
-          { value: '', label: 'Selecione o orçamento:' },
-          { value: '1000', label: 'R$ 1.000' },
-          { value: '5000', label: 'R$ 5.000' },
-          { value: '10000', label: 'R$ 10.000' },
-        ]}
-
-   
-      /> */}
-
-      <Orcamento
-      type="select"
-      text='Selecione o orçamento'
-      name='categoryId'
-      handleOnChange={handleInputChange}
-      value={formData.categoryId}
-      options={categories.map((orcamentos) => ({
-        value: orcamentos.id,
-        label: orcamentos.name,
-      }))}
       />
 
       <Select
         type="select"
-        text='Selecione a categoria:'
-        name='categoryId'
+        text="Selecione a categoria:"
+        name="categoryId"
         handleOnChange={handleInputChange}
         value={formData.categoryId}
         options={categories.map((category) => ({
@@ -90,7 +68,6 @@ function ProjectForm() {
           label: category.name,
         }))}
       />
-
       <SubmitButton text='Criar projeto' />
     </form>
   );
