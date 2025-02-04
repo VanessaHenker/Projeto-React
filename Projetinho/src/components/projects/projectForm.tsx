@@ -32,7 +32,7 @@ function ProjectForm() {
   
         if (Array.isArray(data.categories)) {
           console.log("Categorias recebidas:", data.categories);
-          setCategories(data.categories.map(category => ({
+          setCategories(data.categories.map((category: Category) => ({
             id: String(category.id), // Converte ID para string
             name: category.name
           })));
@@ -42,7 +42,7 @@ function ProjectForm() {
   
         if (Array.isArray(data.orcamentos)) {
           console.log("Orçamentos recebidos:", data.orcamentos);
-          setOrcamentos(data.orcamentos.map(orcamento => ({
+          setOrcamentos(data.orcamentos.map((orcamento: OrcamentoType) => ({
             id: String(orcamento.id), // Converte ID para string
             name: orcamento.name
           })));
