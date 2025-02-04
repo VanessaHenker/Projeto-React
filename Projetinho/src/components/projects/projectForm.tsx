@@ -1,65 +1,40 @@
-import { useState, useEffect } from "react";
-import Input from "../form/input";
-import Select from "../form/select";
-import SubmitButton from "../form/submitButton";
-import styles from "./projectForm.module.css";
-import Orcamento from "../form/orcamento"; 
+import { useState, useEffect } from 'react';
 
-interface Category {
-  id: string;
-  name: string;
-}
+import Input from '../form/input';
+import Select from '../form/select';
+import SubmitButton from '../form/submitButton';
 
-interface OrcamentoType {
-  id: string;
-  name: string;
-}
+import styles from './projectForm.module.css';
 
 function ProjectForm() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
   const [formData, setFormData] = useState({
-    name: "",
-    budget: "",
-    categoryId: "",
+    name: '',
+    budget: '',
+    categoryId: '',
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/")
+    fetch("http://localhost:5000/categories", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
       .then((resp) => resp.json())
       .then((data) => {
-        console.log("Resposta da API:", data); 
-  
-        if (Array.isArray(data.categories)) {
-          console.log("Categorias recebidas:", data.categories);
-          setCategories(data.categories.map((category: Category) => ({
-            id: String(category.id), // Converte ID para string
-            name: category.name
-          })));
-        } else {
-          console.error("Erro: 'categories' não é um array válido.");
-        }
-  
-        if (Array.isArray(data.orcamentos)) {
-          console.log("Orçamentos recebidos:", data.orcamentos);
-          setOrcamentos(data.orcamentos.map((orcamento: OrcamentoType) => ({
-            id: String(orcamento.id), // Converte ID para string
-            name: orcamento.name
-          })));
-        } else {
-          console.error("Erro: 'orcamentos' não é um array válido.");
-        }
+        setCategories(data);
       })
-      .catch((err) => console.error("Erro ao buscar dados:", err));
+      .catch(err => console.log(err));
   }, []);
-  
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Formulário enviado:", formData);
+    console.log('Formulário enviado:', formData);
   };
 
   return (
@@ -73,31 +48,33 @@ function ProjectForm() {
         value={formData.name}
       />
 
-      <Orcamento
+      <Select
         type="select"
-        text="Selecione o orçamento"
+        text="Orçamento do projeto:"
         name="budget"
         handleOnChange={handleInputChange}
         value={formData.budget}
-        options={orcamentos.length > 0 ? orcamentos.map((orcamento) => ({
-          value: orcamento.id,
-          label: orcamento.name,
-        })) : [{ value: "", label: "Nenhum orçamento disponível" }]}
+        options={[ 
+          { value: '', label: 'Selecione o orçamento:' },
+          { value: '1000', label: 'R$ 1.000' },
+          { value: '5000', label: 'R$ 5.000' },
+          { value: '10000', label: 'R$ 10.000' },
+        ]}
       />
 
-      <Select
+      <Select 
         type="select"
-        text="Selecione a categoria:"
-        name="categoryId"
+        text='Selecione a categoria:'
+        name='categoryId'
         handleOnChange={handleInputChange}
         value={formData.categoryId}
-        options={categories.length > 0 ? categories.map((category) => ({
+        options={categories.map((category) => ({
           value: category.id,
           label: category.name,
-        })) : [{ value: "", label: "Nenhuma categoria disponível" }]}
+        }))}
       />
 
-      <SubmitButton text="Criar projeto" />
+      <SubmitButton text='Criar projeto'/>
     </form>
   );
 }
