@@ -27,26 +27,28 @@ function ProjectForm() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/") // Buscando todos os dados do JSON
+    fetch("http://localhost:5000/")
       .then((resp) => resp.json())
       .then((data) => {
-        console.log("Dados recebidos da API:", data); // 🔍 Debug
+        console.log("Resposta da API:", data); // 🔍 Debug
   
-        if (data.categories && Array.isArray(data.categories)) {
+        if (data.categories) {
+          console.log("Categorias recebidas:", data.categories); // Verificar se chega
           setCategories(data.categories);
         } else {
-          console.error("Erro: 'categories' não está no formato esperado.");
+          console.error("Erro: 'categories' não foi encontrado.");
         }
   
-        if (data.orcamentos && Array.isArray(data.orcamentos)) {
+        if (data.orcamentos) {
+          console.log("Orçamentos recebidos:", data.orcamentos);
           setOrcamentos(data.orcamentos);
         } else {
-          console.error("Erro: 'orcamentos' não está no formato esperado.");
+          console.error("Erro: 'orcamentos' não foi encontrado.");
         }
       })
       .catch((err) => console.error("Erro ao buscar dados:", err));
   }, []);
-
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
