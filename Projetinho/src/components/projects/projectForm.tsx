@@ -25,7 +25,7 @@ function ProjectForm() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/")
+    fetch("http://localhost:5173/newproject")
       .then((resp) => resp.json())
       .then((data) => {
         console.log("Resposta da API:", data);
