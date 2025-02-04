@@ -12,14 +12,14 @@ interface Category {
   name: string;
 }
 
-interface Orcamento {
+interface OrcamentoType {
   id: string;
   name: string;
 }
 
 function ProjectForm() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
+  const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     budget: "",
@@ -62,6 +62,7 @@ function ProjectForm() {
       />
 
       <Orcamento
+        type="select" // Adicionado para evitar erro de TypeScript
         text="Selecione o orçamento"
         name="budget"
         handleOnChange={handleInputChange}
