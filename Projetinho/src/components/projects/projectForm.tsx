@@ -27,26 +27,21 @@ function ProjectForm() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/categories", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    fetch("http://localhost:5000/") // Buscando todos os dados do JSON
       .then((resp) => resp.json())
       .then((data) => {
-        console.log("Dados recebidos da API:", data); // 🔍 Verifique no console
-
-        if (Array.isArray(data.categories)) {
+        console.log("Dados recebidos da API:", data); // 🔍 Debug
+  
+        if (data.categories && Array.isArray(data.categories)) {
           setCategories(data.categories);
         } else {
-          console.error("Erro: 'categories' não é um array.");
+          console.error("Erro: 'categories' não está no formato esperado.");
         }
-
-        if (Array.isArray(data.orcamentos)) {
+  
+        if (data.orcamentos && Array.isArray(data.orcamentos)) {
           setOrcamentos(data.orcamentos);
         } else {
-          console.error("Erro: 'orcamentos' não é um array.");
+          console.error("Erro: 'orcamentos' não está no formato esperado.");
         }
       })
       .catch((err) => console.error("Erro ao buscar dados:", err));
@@ -81,7 +76,7 @@ function ProjectForm() {
         options={orcamentos.length > 0 ? orcamentos.map((orcamento) => ({
           value: orcamento.id,
           label: orcamento.name,
-        })) : [{ value: "", label: "Nenhum orçamento disponível" }]} // Mensagem caso esteja vazio
+        })) : [{ value: "", label: "Nenhum orçamento disponível" }]} 
       />
 
       <Select
@@ -90,10 +85,10 @@ function ProjectForm() {
         name="categoryId"
         handleOnChange={handleInputChange}
         value={formData.categoryId}
-        options={categories.map((category) => ({
+        options={categories.length > 0 ? categories.map((category) => ({
           value: category.id,
           label: category.name,
-        }))}
+        })) : [{ value: "", label: "Nenhuma categoria disponível" }]} 
       />
 
       <SubmitButton text="Criar projeto" />
