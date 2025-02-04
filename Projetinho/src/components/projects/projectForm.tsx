@@ -35,8 +35,19 @@ function ProjectForm() {
     })
       .then((resp) => resp.json())
       .then((data) => {
-        setCategories(Array.isArray(data.categories) ? data.categories : []);
-        setOrcamentos(Array.isArray(data.orcamentos) ? data.orcamentos : []);
+        console.log("Dados recebidos da API:", data); // 🔍 Verifique no console
+
+        if (Array.isArray(data.categories)) {
+          setCategories(data.categories);
+        } else {
+          console.error("Erro: 'categories' não é um array.");
+        }
+
+        if (Array.isArray(data.orcamentos)) {
+          setOrcamentos(data.orcamentos);
+        } else {
+          console.error("Erro: 'orcamentos' não é um array.");
+        }
       })
       .catch((err) => console.error("Erro ao buscar dados:", err));
   }, []);
@@ -62,18 +73,19 @@ function ProjectForm() {
       />
 
       <Orcamento
-        type="select" // Adicionado para evitar erro de TypeScript
+        type="select"
         text="Selecione o orçamento"
         name="budget"
         handleOnChange={handleInputChange}
         value={formData.budget}
-        options={orcamentos.map((orcamento) => ({
+        options={orcamentos.length > 0 ? orcamentos.map((orcamento) => ({
           value: orcamento.id,
           label: orcamento.name,
-        }))}
+        })) : [{ value: "", label: "Nenhum orçamento disponível" }]} // Mensagem caso esteja vazio
       />
 
       <Select
+        type="select"
         text="Selecione a categoria:"
         name="categoryId"
         handleOnChange={handleInputChange}
@@ -90,3 +102,6 @@ function ProjectForm() {
 }
 
 export default ProjectForm;
+
+
+
