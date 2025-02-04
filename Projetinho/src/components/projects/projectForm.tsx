@@ -25,28 +25,34 @@ function ProjectForm() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5173/newproject")
+    fetch("http://localhost:5000/")
       .then((resp) => resp.json())
       .then((data) => {
-        console.log("Resposta da API:", data);
-
+        console.log("Resposta da API:", data); 
+  
         if (Array.isArray(data.categories)) {
           console.log("Categorias recebidas:", data.categories);
-          setCategories(data.categories);
+          setCategories(data.categories.map(category => ({
+            id: String(category.id), // Converte ID para string
+            name: category.name
+          })));
         } else {
           console.error("Erro: 'categories' não é um array válido.");
         }
-
+  
         if (Array.isArray(data.orcamentos)) {
           console.log("Orçamentos recebidos:", data.orcamentos);
-          setOrcamentos(data.orcamentos);
+          setOrcamentos(data.orcamentos.map(orcamento => ({
+            id: String(orcamento.id), // Converte ID para string
+            name: orcamento.name
+          })));
         } else {
           console.error("Erro: 'orcamentos' não é um array válido.");
         }
       })
       .catch((err) => console.error("Erro ao buscar dados:", err));
   }, []);
-
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
