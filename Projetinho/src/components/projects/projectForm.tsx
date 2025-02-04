@@ -7,7 +7,7 @@ import SubmitButton from '../form/submitButton';
 import styles from './projectForm.module.css';
 
 function ProjectForm() {
-  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [categories, setCategories] = useState<{ id: number; name: string }[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     budget: '',
@@ -21,11 +21,17 @@ function ProjectForm() {
         "Content-Type": "application/json"
       }
     })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (!resp.ok) {
+          throw new Error(`Erro na requisição: ${resp.status}`);
+        }
+        return resp.json();
+      })
       .then((data) => {
+        console.log("Categorias recebidas:", data); // Log para depuração
         setCategories(data);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.error("Erro ao buscar categorias:", err));
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -63,13 +69,14 @@ function ProjectForm() {
       />
 
       <Select 
+        key={categories.length} // Força re-renderização quando a lista muda
         type="select"
         text='Selecione a categoria:'
         name='categoryId'
         handleOnChange={handleInputChange}
         value={formData.categoryId}
         options={categories.map((category) => ({
-          value: category.id,
+          value: String(category.id), // Converte o ID para string
           label: category.name,
         }))}
       />

@@ -40,4 +40,5 @@ function Select({ type, text, name, placeholder, handleOnChange, value, options 
     </div>
   );
 }
+
 export default Select;

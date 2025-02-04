@@ -1,9 +1,22 @@
 {
-  "projects": [],
+  "projects": [
+    {
+      "id": 1,
+      "name": "Projeto 1",
+      "category_id": 1,
+      "orcamento_id": 2
+    },
+    {
+      "id": 2,
+      "name": "Projeto 2",
+      "category_id": 2,
+      "orcamento_id": 3
+    }
+  ],
   "categories": [
     {
       "id": 1,
-      "name": "Infra"
+      "name": "Infraestrutura"
     },
     {
       "id": 2,
@@ -11,11 +24,29 @@
     },
     {
       "id": 3,
-      "name": "Desing"
+      "name": "Design"
     },
     {
       "id": 4,
       "name": "Planejamento"
+    }
+  ],
+  "orcamentos": [
+    {
+      "id": 1,
+      "name": "Orçamento 1"
+    },
+    {
+      "id": 2,
+      "name": "Orçamento 2"
+    },
+    {
+      "id": 3,
+      "name": "Orçamento 3"
+    },
+    {
+      "id": 4,
+      "name": "Orçamento 4"
     }
   ]
 }
