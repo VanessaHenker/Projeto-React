@@ -15,7 +15,7 @@ function ProjectForm() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/categories", {
+    fetch("http://localhost:5173/categories", {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
