@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-
 import Input from "../form/input";
 import Select from "../form/select";
 import SubmitButton from "../form/submitButton";
-
 import styles from "./projectForm.module.css";
-import Orcamento from "../form/orcamento";
+import Orcamento from "../form/orcamento"; 
 
 interface Category {
   id: string;
@@ -30,25 +28,25 @@ function ProjectForm() {
     fetch("http://localhost:5000/")
       .then((resp) => resp.json())
       .then((data) => {
-        console.log("Resposta da API:", data); // 🔍 Debug
-  
-        if (data.categories) {
-          console.log("Categorias recebidas:", data.categories); // Verificar se chega
+        console.log("Resposta da API:", data);
+
+        if (Array.isArray(data.categories)) {
+          console.log("Categorias recebidas:", data.categories);
           setCategories(data.categories);
         } else {
-          console.error("Erro: 'categories' não foi encontrado.");
+          console.error("Erro: 'categories' não é um array válido.");
         }
-  
-        if (data.orcamentos) {
+
+        if (Array.isArray(data.orcamentos)) {
           console.log("Orçamentos recebidos:", data.orcamentos);
           setOrcamentos(data.orcamentos);
         } else {
-          console.error("Erro: 'orcamentos' não foi encontrado.");
+          console.error("Erro: 'orcamentos' não é um array válido.");
         }
       })
       .catch((err) => console.error("Erro ao buscar dados:", err));
   }, []);
-  
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -78,7 +76,7 @@ function ProjectForm() {
         options={orcamentos.length > 0 ? orcamentos.map((orcamento) => ({
           value: orcamento.id,
           label: orcamento.name,
-        })) : [{ value: "", label: "Nenhum orçamento disponível" }]} 
+        })) : [{ value: "", label: "Nenhum orçamento disponível" }]}
       />
 
       <Select
@@ -90,7 +88,7 @@ function ProjectForm() {
         options={categories.length > 0 ? categories.map((category) => ({
           value: category.id,
           label: category.name,
-        })) : [{ value: "", label: "Nenhuma categoria disponível" }]} 
+        })) : [{ value: "", label: "Nenhuma categoria disponível" }]}
       />
 
       <SubmitButton text="Criar projeto" />
@@ -99,6 +97,3 @@ function ProjectForm() {
 }
 
 export default ProjectForm;
-
-
-
