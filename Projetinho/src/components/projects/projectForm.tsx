@@ -68,17 +68,18 @@ function ProjectForm() {
       alert('Campos obrigatórios!')
       valid = false;
     }
+    else{
+      setErrors(newErrors);
+      return valid;
+    }
     
-
-    setErrors(newErrors);
-    return valid;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) {
-      return; // Impede o envio se houver erros
+      return; 
     }
 
     try {
