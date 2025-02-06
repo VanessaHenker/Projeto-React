@@ -11,7 +11,19 @@ function NewProject() {
       // initialize cost and service
       project.cost = 0
       project.cost = []
-      
+
+      fetch('http:/localhost:5000/projects' , {
+        method: "POST"
+        headrs: {
+          'Content-type': 'application/json',
+
+        },
+      })
+      .then((resp) => Response.json())
+      .then((data) => {
+
+      })
+      .catch((err) => console.log(err))
   }
 
   return (
