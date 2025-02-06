@@ -22,7 +22,7 @@ function NewProject() {
   const navigate = useNavigate();
 
   function createPost(project: Project) {
-    // Inicializa cost e services corretamente
+    // Inicializa cost e services 
     project.cost = 0;
     project.services = [];
 
@@ -45,7 +45,7 @@ function NewProject() {
     <div className={styles.newProjectContainer}>
       <h1>Criar Projeto</h1>
       <p>Crie seu projeto para depois adicionar os serviços</p>
-      <ProjectForm />
+      <ProjectForm handleSubmit = {createPost} />
     </div>
   );
 }
