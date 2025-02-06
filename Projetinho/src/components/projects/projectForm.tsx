@@ -83,6 +83,7 @@ function ProjectForm() {
       />
 
       <Orcamento
+        type="select"
         text="Selecione o orçamento"
         name="budget"
         handleOnChange={handleInputChange}
@@ -90,14 +91,16 @@ function ProjectForm() {
         options={
           orcamentos.length > 0
             ? orcamentos.map((orcamento) => ({
-                value: String(orcamento.id),
-                label: orcamento.name,
-              }))
+              value: String(orcamento.id),
+              label: orcamento.name,
+            }))
             : [{ value: "", label: "Nenhum orçamento disponível" }]
         }
       />
 
+
       <Select
+        type="select"
         text="Selecione a categoria:"
         name="categoryId"
         handleOnChange={handleInputChange}
@@ -105,9 +108,9 @@ function ProjectForm() {
         options={
           categories.length > 0
             ? categories.map((category) => ({
-                value: String(category.id),
-                label: category.name,
-              }))
+              value: String(category.id),
+              label: category.name,
+            }))
             : [{ value: "", label: "Nenhuma categoria disponível" }]
         }
       />
