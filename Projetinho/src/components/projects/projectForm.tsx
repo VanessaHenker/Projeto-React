@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../form/input";
 import Select from "../form/select";
 import SubmitButton from "../form/submitButton";
+import Orcamento from "../form/orcamento";
 
 import styles from "./projectForm.module.css";
-import Orcamento from "../form/orcamento";
 
 interface Category {
   id: string;
@@ -18,6 +19,8 @@ interface OrcamentoType {
 }
 
 function ProjectForm() {
+  const navigate = useNavigate(); // Definição correta do navigate
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
   const [formData, setFormData] = useState({
@@ -42,21 +45,31 @@ function ProjectForm() {
     };
 
     fetchData();
-  }, []); // Garante que os dados sejam buscados apenas uma vez
+  }, []); // Executa apenas uma vez ao montar o componente
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Formulário enviado:", formData);
-  };
 
-  // Verifique os dados antes de renderizar
-  console.log("Categorias:", categories);
-  console.log("Orçamentos:", orcamentos);
-  console.log("FormData:", formData);
+    try {
+      const response = await fetch("http://localhost:5000/projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        navigate("/projects", { state: { message: "Projeto criado com sucesso!" } });
+      } else {
+        console.error("Erro ao criar projeto");
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
+  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -70,7 +83,6 @@ function ProjectForm() {
       />
 
       <Orcamento
-        type="select"
         text="Selecione o orçamento"
         name="budget"
         handleOnChange={handleInputChange}
@@ -78,15 +90,14 @@ function ProjectForm() {
         options={
           orcamentos.length > 0
             ? orcamentos.map((orcamento) => ({
-              value: String(orcamento.id),
-              label: orcamento.name,
-            }))
+                value: String(orcamento.id),
+                label: orcamento.name,
+              }))
             : [{ value: "", label: "Nenhum orçamento disponível" }]
         }
       />
 
       <Select
-        type="select"
         text="Selecione a categoria:"
         name="categoryId"
         handleOnChange={handleInputChange}
@@ -94,9 +105,9 @@ function ProjectForm() {
         options={
           categories.length > 0
             ? categories.map((category) => ({
-              value: String(category.id),
-              label: category.name,
-            }))
+                value: String(category.id),
+                label: category.name,
+              }))
             : [{ value: "", label: "Nenhuma categoria disponível" }]
         }
       />
