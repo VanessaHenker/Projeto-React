@@ -89,7 +89,7 @@ function ProjectForm() {
         handleOnChange={handleInputChange}
         value={formData.budget}
         options={[
-          { value: "", label: "Selecione um orçamento", disabled: true },
+          { value: "", label: "Selecione um orçamento" },
           ...orcamentos.map((orcamento) => ({
             value: String(orcamento.id),
             label: orcamento.name,
@@ -104,13 +104,14 @@ function ProjectForm() {
         handleOnChange={handleInputChange}
         value={formData.categoryId}
         options={[
-          { value: "", label: "Selecione uma categoria", disabled: true }, 
+          { value: "", label: "Selecione uma categoria" },
           ...categories.map((category) => ({
             value: String(category.id),
             label: category.name,
           }))
         ]}
       />
+
 
 
       <SubmitButton text="Criar projeto" />
