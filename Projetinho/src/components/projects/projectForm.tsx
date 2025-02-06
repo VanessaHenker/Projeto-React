@@ -19,11 +19,17 @@ interface OrcamentoType {
 }
 
 function ProjectForm() {
-  const navigate = useNavigate(); // Definição correta do navigate
+  const navigate = useNavigate();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
   const [formData, setFormData] = useState({
+    name: "",
+    budget: "",
+    categoryId: "",
+  });
+
+  const [errors, setErrors] = useState({
     name: "",
     budget: "",
     categoryId: "",
@@ -45,14 +51,35 @@ function ProjectForm() {
     };
 
     fetchData();
-  }, []); // Executa apenas uma vez ao montar o componente
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    // Limpa o erro quando o usuário começa a digitar
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { name: "", budget: "", categoryId: "" };
+
+    if (!formData.name.trim() || !formData.budget || !formData.categoryId) {
+      alert('Campos obrigatórios!')
+      valid = false;
+    }
+    
+
+    setErrors(newErrors);
+    return valid;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return; // Impede o envio se houver erros
+    }
 
     try {
       const response = await fetch("http://localhost:5000/projects", {
@@ -81,6 +108,7 @@ function ProjectForm() {
         handleOnChange={handleInputChange}
         value={formData.name}
       />
+      {errors.name && <span className={styles.error}>{errors.name}</span>}
 
       <Orcamento
         type="select"
@@ -96,6 +124,7 @@ function ProjectForm() {
           }))
         ]}
       />
+      {errors.budget && <span className={styles.error}>{errors.budget}</span>}
 
       <Select
         type="select"
@@ -111,8 +140,7 @@ function ProjectForm() {
           }))
         ]}
       />
-
-
+      {errors.categoryId && <span className={styles.error}>{errors.categoryId}</span>}
 
       <SubmitButton text="Criar projeto" />
     </form>
