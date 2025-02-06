@@ -18,6 +18,7 @@ function NewProject() {
           'Content-type': 'application/json',
 
         },
+        body: JSON.stringify(project),
       })
       .then((resp) => Response.json())
       .then((data) => {
