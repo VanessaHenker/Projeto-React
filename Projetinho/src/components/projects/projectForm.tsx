@@ -78,9 +78,9 @@ function ProjectForm() {
         options={
           orcamentos.length > 0
             ? orcamentos.map((orcamento) => ({
-                value: String(orcamento.id),
-                label: orcamento.name,
-              }))
+              value: String(orcamento.id),
+              label: orcamento.name,
+            }))
             : [{ value: "", label: "Nenhum orçamento disponível" }]
         }
       />
@@ -94,9 +94,9 @@ function ProjectForm() {
         options={
           categories.length > 0
             ? categories.map((category) => ({
-                value: String(category.id),
-                label: category.name,
-              }))
+              value: String(category.id),
+              label: category.name,
+            }))
             : [{ value: "", label: "Nenhuma categoria disponível" }]
         }
       />
