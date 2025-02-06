@@ -10,6 +10,7 @@ interface OrcamentoProps {
   type: string;
   text: string;
   name: string;
+  placeholder?: string;
   handleOnChange: (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void;
   value?: string | number;
   options?: Option[];

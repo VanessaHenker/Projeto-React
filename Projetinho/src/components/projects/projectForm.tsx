@@ -88,16 +88,14 @@ function ProjectForm() {
         name="budget"
         handleOnChange={handleInputChange}
         value={formData.budget}
-        options={
-          orcamentos.length > 0
-            ? orcamentos.map((orcamento) => ({
-              value: String(orcamento.id),
-              label: orcamento.name,
-            }))
-            : [{ value: "", label: "Nenhum orçamento disponível" }]
-        }
+        options={[
+          { value: "", label: "Selecione um orçamento", disabled: true },
+          ...orcamentos.map((orcamento) => ({
+            value: String(orcamento.id),
+            label: orcamento.name,
+          }))
+        ]}
       />
-
 
       <Select
         type="select"
@@ -105,15 +103,15 @@ function ProjectForm() {
         name="categoryId"
         handleOnChange={handleInputChange}
         value={formData.categoryId}
-        options={
-          categories.length > 0
-            ? categories.map((category) => ({
-              value: String(category.id),
-              label: category.name,
-            }))
-            : [{ value: "", label: "Nenhuma categoria disponível" }]
-        }
+        options={[
+          { value: "", label: "Selecione uma categoria", disabled: true }, 
+          ...categories.map((category) => ({
+            value: String(category.id),
+            label: category.name,
+          }))
+        ]}
       />
+
 
       <SubmitButton text="Criar projeto" />
     </form>

@@ -1,4 +1,3 @@
-
 import ProjectForm from '../components/projects/projectForm';
 import styles from './NewProject.module.css';
 
