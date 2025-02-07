@@ -11,54 +11,6 @@
       "name": "Projeto 2",
       "category_id": 2,
       "orcamento_id": 3
-    },
-    {
-      "id": "5c62",
-      "name": "Teste",
-      "budget": "",
-      "categoryId": ""
-    },
-    {
-      "id": "a105",
-      "name": "",
-      "budget": "",
-      "categoryId": ""
-    },
-    {
-      "id": "a24c",
-      "name": "",
-      "budget": "",
-      "categoryId": ""
-    },
-    {
-      "id": "c067",
-      "name": "",
-      "budget": "",
-      "categoryId": ""
-    },
-    {
-      "id": "8010",
-      "name": "",
-      "budget": "",
-      "categoryId": ""
-    },
-    {
-      "id": "9633",
-      "name": "",
-      "budget": "1",
-      "categoryId": ""
-    },
-    {
-      "id": "8c91",
-      "name": "Vanessa Silva Andrade",
-      "budget": "1",
-      "categoryId": "1"
-    },
-    {
-      "id": "f102",
-      "name": "Vanessa Silva Andrade",
-      "budget": "1",
-      "categoryId": "1"
     }
   ],
   "categories": [
