@@ -7,7 +7,7 @@ interface MessageProps {
 
 function Message({ type, msg }: MessageProps) {
   return (
-    <div className={`${styles.menssage} ${styles[type] || ''}`}>
+    <div className={`${styles.message} ${styles[type] || ''}`}>
       <p>{msg}</p>
     </div>
   );
