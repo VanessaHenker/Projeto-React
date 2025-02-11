@@ -1,7 +1,9 @@
-.teste{
-  margin: auto;
- }
- 
- .tittle{
-   font-size: 50px;
- }
+.projectContainer{
+  padding: 2em;
+}
+
+.titleContainer{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+}
