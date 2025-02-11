@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import Message from '../components/layout/message';
 
+
 function Projects() {
   const location = useLocation();
   let message = '';
@@ -10,8 +11,8 @@ function Projects() {
   }
 
   return (
-    <div>
-      <h1>Meus Projetos</h1>
+    <div className='teste'>
+      <h1 className='tittle'>Meus Projetos</h1>
       {message && <Message type="success" msg={message} />}
     </div>
   );
