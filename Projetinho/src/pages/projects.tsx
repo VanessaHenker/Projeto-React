@@ -6,10 +6,13 @@ import LinkButton from '../components/layout/linkButton';
 
 function Projects() {
   const location = useLocation();
-  const message = location.state?.message || '';
+  let message = location.state?.message || '';
 
+  if (location.state){
+    message = location.state.message
+  }
   return (
-    <div className={styles.projectContainer}>
+    <div className={styles.projectsContainer}>
       <div className={styles.titleContainer}>
         <h1>Meus Projetos</h1>
 

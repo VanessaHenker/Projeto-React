@@ -1,9 +1,17 @@
-.projectContainer{
+.projectsContainer {
   padding: 2em;
+
 }
 
-.titleContainer{
+.titleContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center; 
   margin-bottom: 2em;
+  font-size: 20px;
+}
+
+.start {
+  display: flex;
+  flex-direction: column;
 }
