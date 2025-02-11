@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Message from '../components/layout/message';
+
 import styles from '../pages/projects.module.css';
+
+import Message from '../components/layout/message';
 import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
 
 function Projects() {
+  const [projects, setProjects] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || '';
@@ -14,6 +17,25 @@ function Projects() {
     if (message) {
       navigate('.', { replace: true });
     }
+
+    fetch('http://localhost:5000/projects', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erro ao buscar projetos');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProjects(data);
+      })
+      .catch((error) => {
+        console.error('Erro na requisição:', error);
+      });
   }, [message, navigate]);
 
   return (
@@ -25,8 +47,8 @@ function Projects() {
 
       {message && <Message type="success" msg={message} />}
 
-      <Container customClass="start">
-        <p>Projetos..</p>
+      <Container>
+        <p>Carregando projetos...</p>
       </Container>
     </div>
   );
