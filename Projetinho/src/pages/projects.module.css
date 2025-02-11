@@ -1,13 +1,20 @@
 .projectsContainer {
   padding: 2em;
-
+  max-width: 1200px; 
+  width: 100%; 
 }
 
 .titleContainer {
   display: flex;
-  justify-content: space-around;
-  align-items: center; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Garante que os elementos possam se afastar */
   margin-bottom: 2em;
   font-size: 20px;
+  gap: 1em;
 }
 
+.titleContainer h1 {
+  flex-grow: 1; /* Faz o título ocupar todo o espaço disponível */
+}
