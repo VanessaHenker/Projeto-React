@@ -8,8 +8,16 @@ import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
 import ProjectCard from '../components/projects/projectCard';
 
+// Defina a interface do projeto
+interface Project {
+  id: number;
+  name: string;
+  budget: number;
+  category: string;
+}
+
 function Projects() {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || '';
@@ -31,7 +39,7 @@ function Projects() {
         }
         return response.json();
       })
-      .then((data) => {
+      .then((data: Project[]) => {
         setProjects(data);
       })
       .catch((err) => {
@@ -51,7 +59,17 @@ function Projects() {
       <Container>
         {projects.length > 0 ? (
           projects.map((project) => (
-            <ProjectCard key={project.id} name={project.name} />
+            <ProjectCard
+              key={project.id}
+              id={project.id}
+              name={project.name}
+              budget={project.budget}
+              category={project.category}
+              handleRemove={(id) => {
+                const updatedProjects = projects.filter((p) => p.id !== id);
+                setProjects(updatedProjects);
+              }}
+            />
           ))
         ) : (
           <p>Não há projetos cadastrados.</p>
