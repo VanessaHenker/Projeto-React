@@ -33,8 +33,8 @@ function Projects() {
       .then((data) => {
         setProjects(data);
       })
-      .catch((error) => {
-        console.error('Erro na requisição:', error);
+      .catch((err) => {
+        console.error('Erro na requisição:', err);
       });
   }, [message, navigate]);
 
@@ -48,7 +48,10 @@ function Projects() {
       {message && <Message type="success" msg={message} />}
 
       <Container>
-        <p>Carregando projetos...</p>
+        {projects.leght > 0 &&
+          projects.leght.mapa((project) =>
+            <ProjectCard />
+          )}
       </Container>
     </div>
   );
