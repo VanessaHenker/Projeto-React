@@ -23,7 +23,7 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
           />
         </div>
       </div>
-      <p>
+      <p className={styles.budget}>
         <span>Orçamento:</span> R$ {budget}
       </p>
       <p className={styles.categoryText}>
@@ -32,5 +32,6 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
     </div>
   );
 }
+
 
 export default ProjectCard;
