@@ -1,0 +1,30 @@
+.projectCard {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.projectCard h4 {
+  margin-bottom: 8px;
+}
+
+.categoryText {
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.icon:hover {
+  color: #007bff;
+}
