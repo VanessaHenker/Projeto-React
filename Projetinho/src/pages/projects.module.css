@@ -5,7 +5,6 @@
 
 .titleContainer {
   display: flex;
-  display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%; 
@@ -16,4 +15,8 @@
 
 .titleContainer h1 {
   flex-grow: 1; 
+}
+
+.projectsCreate{
+  background-color: aquamarine;
 }

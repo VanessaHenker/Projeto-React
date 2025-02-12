@@ -56,25 +56,31 @@ function Projects() {
 
       {message && <Message type="success" msg={message} />}
 
-      <Container>
-        {projects.length > 0 ? (
-          projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              id={project.id}
-              name={project.name}
-              budget={project.budget}
-              category={project.category}
-              handleRemove={(id) => {
-                const updatedProjects = projects.filter((p) => p.id !== id);
-                setProjects(updatedProjects);
-              }}
-            />
-          ))
-        ) : (
-          <p>Não há projetos cadastrados.</p>
-        )}
-      </Container>
+
+      <div className={styles.projectsCreate}>
+        <Container>
+          {projects.length > 0 ? (
+            projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                id={project.id}
+                name={project.name}
+                budget={project.budget}
+                category={project.category}
+                handleRemove={(id) => {
+                  const updatedProjects = projects.filter((p) => p.id !== id);
+                  setProjects(updatedProjects);
+                }}
+              />
+            ))
+          ) : (
+            <p>Não há projetos cadastrados.</p>
+          )}
+        </Container>
+
+      </div>
+
+
     </div>
   );
 }
