@@ -1,8 +1,16 @@
-// src/components/projects/projectCard.jsx
 import styles from './projectCard.module.css';
 import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
 
-function ProjectCard({ id, name, budget, category, handleRemove }) {
+
+interface ProjectCardProps {
+  id: number;
+  name: string;
+  budget: number;
+  category: string;
+  handleRemove: (id: number) => void;
+}
+
+function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardProps) {
   return (
     <div className={styles.projectCard}>
       <h4>{name}</h4>
