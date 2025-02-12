@@ -6,6 +6,7 @@ import styles from '../pages/projects.module.css';
 import Message from '../components/layout/message';
 import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
+import ProjectCard from '../components/projects/projectCard';
 
 function Projects() {
   const [projects, setProjects] = useState([]);
@@ -48,10 +49,13 @@ function Projects() {
       {message && <Message type="success" msg={message} />}
 
       <Container>
-        {projects.leght > 0 &&
-          projects.leght.mapa((project) =>
-            <ProjectCard />
-          )}
+        {projects.length > 0 ? (
+          projects.map((project) => (
+            <ProjectCard key={project.id} name={project.name} />
+          ))
+        ) : (
+          <p>Não há projetos cadastrados.</p>
+        )}
       </Container>
     </div>
   );
