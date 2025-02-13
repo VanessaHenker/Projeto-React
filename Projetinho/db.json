@@ -34,19 +34,19 @@
   "orcamentos": [
     {
       "id": "1",
-      "name": "Orçamento 1"
+      "name": "R$ 900,00"
     },
     {
       "id": "2",
-      "name": "Orçamento 2"
+      "name": "R$ 1.500,00"
     },
     {
       "id": "3",
-      "name": "Orçamento 3"
+      "name": "3.000,00"
     },
     {
       "id": "4",
-      "name": "Orçamento 4"
+      "name": "5.250,00"
     }
   ]
 }
