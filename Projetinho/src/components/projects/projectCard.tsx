@@ -1,13 +1,12 @@
 import styles from './projectCard.module.css';
 import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
 
-
 interface ProjectCardProps {
-  id: number;
+  id: number | string;
   name: string;
   budget: number;
   category: string;
-  handleRemove: (id: number) => void;
+  handleRemove: (id: number | string) => void;
 }
 
 function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardProps) {
@@ -32,6 +31,5 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
     </div>
   );
 }
-
 
 export default ProjectCard;

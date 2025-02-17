@@ -6,18 +6,22 @@ import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
 import ProjectCard from '../components/projects/projectCard';
 
-// Atualizando as interfaces para permitir que o ID seja string ou número
 interface Project {
-  id: string | number;
+  id: number | string;
   name: string;
   budget: number;
-  category: string;
-  orcamento_id: string | number;
+  category_id: number | string;  // Alterado para category_id
+  orcamento_id: number | string;
 }
 
 interface Budget {
-  id: string | number;
-  name: number; // O valor do orçamento
+  id: number | string;
+  name: number; // Nome aqui é o valor do orçamento
+}
+
+interface Category {
+  id: number | string;
+  name: string;
 }
 
 function Projects() {
@@ -43,22 +47,23 @@ function Projects() {
         }
         return response.json();
       })
-      .then((data: { projects: Project[]; orcamentos: Budget[]; categories: any[] }) => {
+      .then((data: { projects: Project[]; orcamentos: Budget[]; categories: Category[] }) => {
         const updatedProjects = data.projects.map((project) => {
           // Buscar o orçamento correspondente usando o orcamento_id
           const budget = data.orcamentos.find(
             (orcamento) => orcamento.id === project.orcamento_id
           );
 
-          // Mapear o category_id para o nome da categoria
+          // Buscar a categoria correspondente usando o category_id
           const category = data.categories.find(
             (category) => category.id === project.category_id
           );
 
+          // Atualizar os projetos com o orçamento e categoria reais
           return {
             ...project,
-            budget: budget ? budget.name : 0,
-            category: category ? category.name : 'Não definida',
+            budget: budget ? budget.name : 0, // Se encontrado, associa o orçamento; caso contrário, usa 0
+            category: category ? category.name : 'Não definida', // Se encontrada, associa a categoria; caso contrário, usa "Não definida"
           };
         });
 

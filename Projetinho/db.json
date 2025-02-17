@@ -11,12 +11,6 @@
       "name": "Projeto 2",
       "category_id": 2,
       "orcamento_id": 3
-    },
-    {
-      "id": "25a3",
-      "name": "Vanessa Silva Andrade",
-      "budget": "1",
-      "categoryId": "1"
     }
   ],
   "categories": [
@@ -27,14 +21,6 @@
     {
       "id": "2",
       "name": "Desenvolvimento"
-    },
-    {
-      "id": "3",
-      "name": "Design"
-    },
-    {
-      "id": "4",
-      "name": "Planejamento"
     }
   ],
   "orcamentos": [
@@ -45,14 +31,6 @@
     {
       "id": "2",
       "name": 1500
-    },
-    {
-      "id": "3",
-      "name": 2700
-    },
-    {
-      "id": "4",
-      "name": 4000
     }
   ]
 }
