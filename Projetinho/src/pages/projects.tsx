@@ -9,8 +9,9 @@ import ProjectCard from '../components/projects/projectCard';
 interface Project {
   id: number;
   name: string;
-  budget: number; // Aqui agora será o valor do orçamento, não mais o ID
+  budget: number;
   category: string;
+  orcamento_id: number;
 }
 
 interface Budget {
