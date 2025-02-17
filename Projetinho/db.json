@@ -1,13 +1,13 @@
 {
   "projects": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Projeto 1",
       "category_id": 1,
       "orcamento_id": 2
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Projeto 2",
       "category_id": 2,
       "orcamento_id": 3
@@ -21,37 +21,37 @@
   ],
   "categories": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Infraestrutura"
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Desenvolvimento"
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "Design"
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "Planejamento"
     }
   ],
   "orcamentos": [
     {
-      "id": "1",
+      "id": 1,
       "name": "R$ 900,00"
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "R$ 1.500,00"
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "3.000,00"
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "5.250,00"
     }
   ]
