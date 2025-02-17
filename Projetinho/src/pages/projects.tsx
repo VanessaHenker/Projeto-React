@@ -6,17 +6,18 @@ import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
 import ProjectCard from '../components/projects/projectCard';
 
+// Atualizando as interfaces para permitir que o ID seja string ou número
 interface Project {
-  id: number;
+  id: string | number;
   name: string;
   budget: number;
   category: string;
-  orcamento_id: number;
+  orcamento_id: string | number;
 }
 
 interface Budget {
-  id: number;
-  name: number; // Nome aqui será o valor do orçamento
+  id: string | number;
+  name: number; // O valor do orçamento
 }
 
 function Projects() {
@@ -42,17 +43,22 @@ function Projects() {
         }
         return response.json();
       })
-      .then((data: { projects: Project[]; orcamentos: Budget[] }) => {
+      .then((data: { projects: Project[]; orcamentos: Budget[]; categories: any[] }) => {
         const updatedProjects = data.projects.map((project) => {
           // Buscar o orçamento correspondente usando o orcamento_id
           const budget = data.orcamentos.find(
             (orcamento) => orcamento.id === project.orcamento_id
           );
-          
-          // Se encontrado, associar o orçamento real ao projeto
+
+          // Mapear o category_id para o nome da categoria
+          const category = data.categories.find(
+            (category) => category.id === project.category_id
+          );
+
           return {
             ...project,
-            budget: budget ? budget.name : 0, // Definir 0 caso não encontre o orçamento
+            budget: budget ? budget.name : 0,
+            category: category ? category.name : 'Não definida',
           };
         });
 
