@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import styles from '../pages/projects.module.css';
-
 import Message from '../components/layout/message';
 import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
 import ProjectCard from '../components/projects/projectCard';
 
-// Defina a interface do projeto
 interface Project {
   id: number;
   name: string;
-  budget: number;
+  budget: number; // Aqui agora será o valor do orçamento, não mais o ID
   category: string;
+}
+
+interface Budget {
+  id: number;
+  name: number; // Nome aqui será o valor do orçamento
 }
 
 function Projects() {
@@ -39,8 +41,21 @@ function Projects() {
         }
         return response.json();
       })
-      .then((data: Project[]) => {
-        setProjects(data);
+      .then((data: { projects: Project[]; orcamentos: Budget[] }) => {
+        const updatedProjects = data.projects.map((project) => {
+          // Buscar o orçamento correspondente usando o orcamento_id
+          const budget = data.orcamentos.find(
+            (orcamento) => orcamento.id === project.orcamento_id
+          );
+          
+          // Se encontrado, associar o orçamento real ao projeto
+          return {
+            ...project,
+            budget: budget ? budget.name : 0, // Definir 0 caso não encontre o orçamento
+          };
+        });
+
+        setProjects(updatedProjects);
       })
       .catch((err) => {
         console.error('Erro na requisição:', err);
@@ -55,7 +70,6 @@ function Projects() {
       </div>
 
       {message && <Message type="success" msg={message} />}
-
 
       <div className={styles.projectsCreate}>
         <Container>
@@ -77,10 +91,7 @@ function Projects() {
             <p>Não há projetos cadastrados.</p>
           )}
         </Container>
-
       </div>
-
-
     </div>
   );
 }
