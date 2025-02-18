@@ -23,7 +23,7 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
         </div>
       </div>
       <p className={styles.budget}>
-        <span>Orçamento:</span> R$ {budget}
+        <span>Orçamento:</span> R$ {budget.toFixed(2)}
       </p>
       <p className={styles.categoryText}>
         <span className={`${styles[category?.toLowerCase()]}`}></span> {category}
