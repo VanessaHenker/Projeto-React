@@ -3,14 +3,20 @@
     {
       "id": "1",
       "name": "Projeto 1",
-      "category_id": 1,
-      "orcamento_id": 2
+      "category_id": "1",
+      "orcamento_id": "2"
     },
     {
       "id": "2",
       "name": "Projeto 2",
-      "category_id": 2,
-      "orcamento_id": 3
+      "category_id": "2",
+      "orcamento_id": "3"
+    },
+    {
+      "id": "b294",
+      "name": "Vanessa Silva Andrade",
+      "budget": "1",
+      "categoryId": "1"
     }
   ],
   "orcamentos": [
@@ -21,6 +27,20 @@
     {
       "id": "2",
       "name": 1500
+    },
+    {
+      "id": "3",
+      "name": 2000
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Categoria 1"
+    },
+    {
+      "id": "2",
+      "name": "Categoria 2"
     }
   ]
 }
