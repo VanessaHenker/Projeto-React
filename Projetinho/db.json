@@ -13,16 +13,6 @@
       "orcamento_id": 3
     }
   ],
-  "categories": [
-    {
-      "id": "1",
-      "name": "Infraestrutura"
-    },
-    {
-      "id": "2",
-      "name": "Desenvolvimento"
-    }
-  ],
   "orcamentos": [
     {
       "id": "1",

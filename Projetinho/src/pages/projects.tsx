@@ -10,13 +10,14 @@ interface Project {
   id: number | string;
   name: string;
   budget: number;
-  category_id: number | string;  // Alterado para category_id
+  category_id: number | string;
   orcamento_id: number | string;
+  category?: string; // Adicionando a categoria ao projeto
 }
 
 interface Budget {
   id: number | string;
-  name: number; // Nome aqui é o valor do orçamento
+  name: number; // Orçamento (valor)
 }
 
 interface Category {
@@ -35,6 +36,7 @@ function Projects() {
       navigate('.', { replace: true });
     }
 
+    // Buscando projetos, orçamentos e categorias
     fetch('http://localhost:5000/projects', {
       method: 'GET',
       headers: {
@@ -48,6 +50,10 @@ function Projects() {
         return response.json();
       })
       .then((data: { projects: Project[]; orcamentos: Budget[]; categories: Category[] }) => {
+        // Debug: Verifique os dados recebidos
+        console.log('Dados recebidos:', data);
+
+        // Associar orçamento e categoria ao projeto
         const updatedProjects = data.projects.map((project) => {
           // Buscar o orçamento correspondente usando o orcamento_id
           const budget = data.orcamentos.find(
@@ -67,6 +73,7 @@ function Projects() {
           };
         });
 
+        // Atualiza o estado com os projetos
         setProjects(updatedProjects);
       })
       .catch((err) => {
@@ -92,7 +99,7 @@ function Projects() {
                 id={project.id}
                 name={project.name}
                 budget={project.budget}
-                category={project.category}
+                category={project.category || ''} // Garantir que a categoria seja passada
                 handleRemove={(id) => {
                   const updatedProjects = projects.filter((p) => p.id !== id);
                   setProjects(updatedProjects);
