@@ -50,19 +50,23 @@ function Projects() {
         return response.json();
       })
       .then((data: { projects: Project[]; orcamentos: Budget[]; categories: Category[] }) => {
-        // Debug: Verifique os dados recebidos
-        console.log('Dados recebidos:', data);
+        console.log('Dados recebidos da API:', data); // Verificando os dados recebidos
+
+        if (!data.projects || !data.orcamentos || !data.categories) {
+          console.error("Dados incompletos na resposta da API");
+          return;
+        }
 
         // Associar orçamento e categoria ao projeto
         const updatedProjects = data.projects.map((project) => {
           // Buscar o orçamento correspondente usando o orcamento_id
           const budget = data.orcamentos.find(
-            (orcamento) => orcamento.id === project.orcamento_id
+            (orcamento) => String(orcamento.id) === String(project.orcamento_id)
           );
 
           // Buscar a categoria correspondente usando o category_id
           const category = data.categories.find(
-            (category) => category.id === project.category_id
+            (category) => String(category.id) === String(project.category_id)
           );
 
           // Atualizar os projetos com o orçamento e categoria reais
@@ -72,6 +76,8 @@ function Projects() {
             category: category ? category.name : 'Não definida', // Se encontrada, associa a categoria; caso contrário, usa "Não definida"
           };
         });
+
+        console.log('Projetos atualizados:', updatedProjects); // Verificando os projetos após a atualização
 
         // Atualiza o estado com os projetos
         setProjects(updatedProjects);
@@ -92,7 +98,7 @@ function Projects() {
 
       <div className={styles.projectsCreate}>
         <Container>
-          {projects.length > 0 ? (
+          {projects && projects.length > 0 ? (
             projects.map((project) => (
               <ProjectCard
                 key={project.id}
