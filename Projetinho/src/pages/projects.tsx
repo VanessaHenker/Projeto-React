@@ -53,21 +53,16 @@ function Projects() {
         // Debug: Verifique os dados recebidos
         console.log('Dados recebidos:', data);
 
-        if (!data.projects || !data.orcamentos || !data.categories) {
-          console.error("Dados incompletos na resposta da API");
-          return;
-        }
-
         // Associar orçamento e categoria ao projeto
         const updatedProjects = data.projects.map((project) => {
           // Buscar o orçamento correspondente usando o orcamento_id
           const budget = data.orcamentos.find(
-            (orcamento) => String(orcamento.id) === String(project.orcamento_id)
+            (orcamento) => orcamento.id === project.orcamento_id
           );
 
           // Buscar a categoria correspondente usando o category_id
           const category = data.categories.find(
-            (category) => String(category.id) === String(project.category_id)
+            (category) => category.id === project.category_id
           );
 
           // Atualizar os projetos com o orçamento e categoria reais
