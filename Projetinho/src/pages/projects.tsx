@@ -57,12 +57,12 @@ function Projects() {
         const updatedProjects = data.projects.map((project) => {
           // Buscar o orçamento correspondente usando o orcamento_id
           const budget = data.orcamentos.find(
-            (orcamento) => orcamento.id === project.orcamento_id
+            (orcamento) => String(orcamento.id) === String(project.orcamento_id)
           );
 
           // Buscar a categoria correspondente usando o category_id
           const category = data.categories.find(
-            (category) => category.id === project.category_id
+            (category) => String(category.id) === String(project.category_id)
           );
 
           // Atualizar os projetos com o orçamento e categoria reais
