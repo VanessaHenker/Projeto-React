@@ -3,28 +3,24 @@
     {
       "id": "1",
       "name": "Projeto 1",
-      "category_id": "1",
-      "orcamento_id": "2"
+      "category_id": 1,
+      "orcamento_id": 2
     },
     {
       "id": "2",
       "name": "Projeto 2",
-      "category_id": "2",
-      "orcamento_id": "3"
+      "category_id": 2,
+      "orcamento_id": 3
     }
   ],
   "orcamentos": [
     {
       "id": "1",
-      "name": 900
+      "name": 1000
     },
     {
       "id": "2",
       "name": 1500
-    },
-    {
-      "id": "3",
-      "name": 2000
     }
   ],
   "categories": [
