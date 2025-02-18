@@ -53,6 +53,11 @@ function Projects() {
         // Debug: Verifique os dados recebidos
         console.log('Dados recebidos:', data);
 
+        if (!data.projects || !data.orcamentos || !data.categories) {
+          console.error("Dados incompletos na resposta da API");
+          return;
+        }
+
         // Associar orçamento e categoria ao projeto
         const updatedProjects = data.projects.map((project) => {
           // Buscar o orçamento correspondente usando o orcamento_id
