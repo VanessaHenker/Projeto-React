@@ -36,58 +36,49 @@ function Projects() {
       navigate('.', { replace: true });
     }
 
-    // Função para carregar os projetos
-    const fetchProjects = () => {
-      fetch('http://localhost:5000/projects', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    // Buscando projetos, orçamentos e categorias
+    fetch('http://localhost:5000/projects', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erro ao buscar projetos');
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Erro ao buscar projetos');
-          }
-          return response.json();
-        })
-        .then((data: { projects: Project[]; orcamentos: Budget[]; categories: Category[] }) => {
-          console.log('Dados recebidos da API:', data);
+      .then((data: { projects: Project[]; orcamentos: Budget[]; categories: Category[] }) => {
+        console.log('Dados recebidos da API:', data); // Verificando os dados recebidos
 
-          if (!data.projects || !data.orcamentos || !data.categories) {
-            console.error("Dados incompletos na resposta da API");
-            return;
-          }
+        if (!data.projects || !data.orcamentos || !data.categories) {
+          console.error("Dados incompletos na resposta da API");
+          return;
+        }
 
-          // Associar orçamento e categoria ao projeto
-          const updatedProjects = data.projects.map((project) => {
-            const budget = data.orcamentos.find(
-              (orcamento) => String(orcamento.id) === String(project.orcamento_id)
-            );
-            const category = data.categories.find(
-              (category) => String(category.id) === String(project.category_id)
-            );
+        // Associar orçamento e categoria ao projeto
+        const updatedProjects = data.projects.map((project) => {
+          const budget = data.orcamentos.find(
+            (orcamento) => String(orcamento.id) === String(project.orcamento_id)
+          );
+          const category = data.categories.find(
+            (category) => String(category.id) === String(project.category_id)
+          );
 
-            return {
-              ...project,
-              budget: budget ? budget.name : 0,
-              category: category ? category.name : 'Não definida',
-            };
-          });
-
-          setProjects(updatedProjects);
-        })
-        .catch((err) => {
-          console.error('Erro na requisição:', err);
+          return {
+            ...project,
+            budget: budget ? budget.name : 0,
+            category: category ? category.name : 'Não definida',
+          };
         });
-    };
 
-    fetchProjects();
+        setProjects(updatedProjects);
+      })
+      .catch((err) => {
+        console.error('Erro na requisição:', err);
+      });
   }, [message, navigate]);
-
-  const handleRemove = (id: number | string) => {
-    const updatedProjects = projects.filter((p) => p.id !== id);
-    setProjects(updatedProjects);
-  };
 
   return (
     <div className={styles.projectsContainer}>
@@ -100,15 +91,18 @@ function Projects() {
 
       <div className={styles.projectsCreate}>
         <Container>
-          {projects.length > 0 ? (
+          {projects && projects.length > 0 ? (
             projects.map((project) => (
               <ProjectCard
                 key={project.id}
                 id={project.id}
                 name={project.name}
                 budget={project.budget}
-                category={project.category || ''}
-                handleRemove={handleRemove}
+                category={project.category || ''} // Garantir que a categoria seja passada
+                handleRemove={(id) => {
+                  const updatedProjects = projects.filter((p) => p.id !== id);
+                  setProjects(updatedProjects);
+                }}
               />
             ))
           ) : (
