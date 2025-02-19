@@ -6,6 +6,12 @@
       "budget": 1000,
       "category_id": 1,
       "orcamento_id": 1
+    },
+    {
+      "id": "65e7",
+      "name": "Vanessa Silva Andrade",
+      "budget": "1",
+      "categoryId": "1"
     }
   ],
   "orcamentos": [

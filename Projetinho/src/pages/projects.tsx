@@ -73,6 +73,7 @@ function Projects() {
           };
         });
 
+        console.log('Projetos atualizados:', updatedProjects); // Verificando os projetos após a atualização
         setProjects(updatedProjects);
       })
       .catch((err) => {
