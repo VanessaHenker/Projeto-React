@@ -10,6 +10,8 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardProps) {
+  console.log('Rendering project:', { id, name, budget, category }); // Log para depuração
+  
   return (
     <div className={styles.projectCard}>
       <div className={styles.header}>
