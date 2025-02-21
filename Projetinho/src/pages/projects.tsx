@@ -8,7 +8,7 @@ import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
 import ProjectCard from '../components/projects/projectCard';
 
-// Defina a interface do projeto
+// Definindo a interface do projeto
 interface Project {
   id: number;
   name: string;
@@ -27,6 +27,7 @@ function Projects() {
       navigate('.', { replace: true });
     }
 
+    // Requisição para buscar os projetos
     fetch('http://localhost:5000/projects', {
       method: 'GET',
       headers: {
@@ -40,11 +41,12 @@ function Projects() {
         return response.json();
       })
       .then((data: any[]) => {
-        // Converte o orçamento de string para número
+        // Convertendo o orçamento de string para número
         const updatedProjects = data.map((project) => ({
           ...project,
-          budget: parseFloat(project.budget.replace(/[^\d,-]/g, '').replace(',', '.')), // Ajusta o orçamento
+          budget: parseFloat(project.budget.replace(/[^\d,-]/g, '').replace(',', '.')), // Corrige orçamento
         }));
+        console.log('Projetos carregados:', updatedProjects); // Log para depuração
         setProjects(updatedProjects);
       })
       .catch((err) => {
