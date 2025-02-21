@@ -72,10 +72,20 @@ function Projects() {
           // Encontrar o orçamento
           const orcamento = orcamentos.find((orc) => orc.id.toString() === project.orcamento_id);
 
+          // Remover "R$ " e substituir vírgula por ponto para converter para número
+          const budget = orcamento?.name
+            ? parseFloat(
+                orcamento.name
+                  .replace('R$ ', '') // Remover "R$ "
+                  .replace('.', '')   // Remover o ponto da milhar (se existir)
+                  .replace(',', '.')  // Substituir vírgula por ponto
+              )
+            : 0;
+
           return {
             id: project.id,
             name: project.name,
-            budget: parseFloat(orcamento?.name.replace('R$ ', '').replace(',', '.') || '0'),
+            budget: budget,
             category: category?.name || 'Categoria Desconhecida',
           };
         });
@@ -97,6 +107,7 @@ function Projects() {
 
       <div className={styles.projectsCreate}>
         <Container>
+          {/* Exibe os projetos com todas as informações corretas de categoria e orçamento */}
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
