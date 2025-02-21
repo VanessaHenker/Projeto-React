@@ -1,7 +1,5 @@
-
 import styles from './projectCard.module.css';
 import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
-
 
 interface ProjectCardProps {
   id: number;
@@ -25,7 +23,7 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
         </div>
       </div>
       <p className={styles.budget}>
-        <span>Orçamento:</span> R$ {budget}
+        <span>Orçamento:</span> R$ {budget.toFixed(2).replace('.', ',')}
       </p>
       <p className={styles.categoryText}>
         <span className={`${styles[category?.toLowerCase()]}`}></span> {category}
@@ -33,6 +31,5 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
     </div>
   );
 }
-
 
 export default ProjectCard;
