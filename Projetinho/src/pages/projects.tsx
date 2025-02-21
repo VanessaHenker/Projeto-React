@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -76,23 +75,20 @@ function Projects() {
 
       <div className={styles.projectsCreate}>
         <Container>
-          {projects.length > 0 ? (
-            projects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                id={project.id}
-                name={project.name}
-                budget={project.budget}
-                category={project.category}
-                handleRemove={(id) => {
-                  const updatedProjects = projects.filter((p) => p.id !== id);
-                  setProjects(updatedProjects);
-                }}
-              />
-            ))
-          ) : (
-            <p>Não há projetos cadastrados.</p>
-          )}
+          
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              id={project.id}
+              name={project.name}
+              budget={project.budget}
+              category={project.category}
+              handleRemove={(id) => {
+                const updatedProjects = projects.filter((p) => p.id !== id);
+                setProjects(updatedProjects);
+              }}
+            />
+          ))}
         </Container>
       </div>
     </div>
