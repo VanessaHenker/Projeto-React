@@ -11,6 +11,12 @@
       "name": "Projeto 2",
       "category_id": 2,
       "orcamento_id": 3
+    },
+    {
+      "id": "8575",
+      "name": "Vanessa Silva Andrade",
+      "budget": "2",
+      "categoryId": "1"
     }
   ],
   "categories": [

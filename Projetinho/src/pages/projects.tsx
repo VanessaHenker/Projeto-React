@@ -39,8 +39,13 @@ function Projects() {
         }
         return response.json();
       })
-      .then((data: Project[]) => {
-        setProjects(data);
+      .then((data: any[]) => {
+        // Converte o orçamento de string para número
+        const updatedProjects = data.map((project) => ({
+          ...project,
+          budget: parseFloat(project.budget.replace(/[^\d,-]/g, '').replace(',', '.')), // Ajusta o orçamento
+        }));
+        setProjects(updatedProjects);
       })
       .catch((err) => {
         console.error('Erro na requisição:', err);
@@ -55,7 +60,6 @@ function Projects() {
       </div>
 
       {message && <Message type="success" msg={message} />}
-
 
       <div className={styles.projectsCreate}>
         <Container>
@@ -77,10 +81,7 @@ function Projects() {
             <p>Não há projetos cadastrados.</p>
           )}
         </Container>
-
       </div>
-
-
     </div>
   );
 }
