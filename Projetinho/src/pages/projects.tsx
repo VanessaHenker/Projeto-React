@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -41,13 +42,23 @@ function Projects() {
         return response.json();
       })
       .then((data: any[]) => {
-        // Convertendo o orçamento de string para número
-        const updatedProjects = data.map((project) => ({
-          ...project,
-          budget: parseFloat(project.budget.replace(/[^\d,-]/g, '').replace(',', '.')), // Corrige orçamento
-        }));
-        console.log('Projetos carregados:', updatedProjects); // Log para depuração
-        setProjects(updatedProjects);
+        // Verifica se não há projetos e insere um projeto modelo
+        if (data.length === 0) {
+          const defaultProject = {
+            id: 1,
+            name: 'Projeto Modelo',
+            budget: 1000.0,
+            category: 'Desenvolvimento',
+          };
+          setProjects([defaultProject]); // Adiciona o projeto modelo
+        } else {
+          // Caso haja projetos, os adiciona normalmente
+          const updatedProjects = data.map((project) => ({
+            ...project,
+            budget: parseFloat(project.budget.replace(/[^\d,-]/g, '').replace(',', '.')),
+          }));
+          setProjects(updatedProjects);
+        }
       })
       .catch((err) => {
         console.error('Erro na requisição:', err);
