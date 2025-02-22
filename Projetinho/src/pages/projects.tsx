@@ -9,19 +9,21 @@ import LinkButton from '../components/layout/linkButton';
 import ProjectCard from '../components/projects/projectCard';
 
 interface Project {
-  id: number;
+  id: string; // Mudando para string para consistência com a API
   name: string;
   budget: number;
   category: string;
+  categoryId: string;
+  orcamento_id: string;
 }
 
 interface Category {
-  id: number;
+  id: string; // Mudando para string para consistência com a API
   name: string;
 }
 
 interface Orcamento {
-  id: number;
+  id: string; // Mudando para string para consistência com a API
   name: string;
 }
 
@@ -50,14 +52,13 @@ function Projects() {
       .catch((err) => {
         console.error('Erro ao buscar categorias ou orçamentos', err);
       });
+  }, [message, navigate]);
 
-    // Fetch projects
-    fetch('http://localhost:5000/projects', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+  useEffect(() => {
+    if (categories.length === 0 || orcamentos.length === 0) return;
+
+    // Fetch projects after categories and orcamentos are ready
+    fetch('http://localhost:5000/projects')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Erro ao buscar projetos');
@@ -65,20 +66,17 @@ function Projects() {
         return response.json();
       })
       .then((data: any[]) => {
-        // Mapeamento de projetos para incluir nome da categoria e orçamento
         const updatedProjects = data.map((project) => {
-          // Encontrar a categoria
-          const category = categories.find((cat) => cat.id.toString() === project.categoryId);
-          // Encontrar o orçamento
-          const orcamento = orcamentos.find((orc) => orc.id.toString() === project.orcamento_id);
+          const category = categories.find((cat) => cat.id === project.category_id);
+          const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
 
-          // Remover "R$ " e substituir vírgula por ponto para converter para número
+          // Converter orçamento para número
           const budget = orcamento?.name
             ? parseFloat(
                 orcamento.name
-                  .replace('R$ ', '') // Remover "R$ "
-                  .replace('.', '')   // Remover o ponto da milhar (se existir)
-                  .replace(',', '.')  // Substituir vírgula por ponto
+                  .replace('R$ ', '')
+                  .replace('.', '') // Remover pontos de milhar
+                  .replace(',', '.') // Substituir vírgula por ponto
               )
             : 0;
 
@@ -94,7 +92,7 @@ function Projects() {
       .catch((err) => {
         console.error('Erro na requisição:', err);
       });
-  }, [message, navigate, categories, orcamentos]);
+  }, [categories, orcamentos]); // Re-fetch projects once categories and orcamentos are loaded
 
   return (
     <div className={styles.projectsContainer}>
