@@ -11,7 +11,7 @@ import ProjectCard from '../components/projects/projectCard';
 interface Project {
   id: number;
   name: string;
-  budget: string;  // O orçamento é uma string (ex: "R$ 1.500,00")
+  budget: number;
   category: string;
 }
 
@@ -22,7 +22,7 @@ interface Category {
 
 interface Orcamento {
   id: number;
-  name: string;  // O nome do orçamento é o valor formatado (ex: "R$ 1.500,00")
+  name: string;
 }
 
 function Projects() {
@@ -68,14 +68,24 @@ function Projects() {
         // Mapeamento de projetos para incluir nome da categoria e orçamento
         const updatedProjects = data.map((project) => {
           // Encontrar a categoria
-          const category = categories.find((cat) => cat.id === project.categoryId);
+          const category = categories.find((cat) => cat.id.toString() === project.categoryId.toString());
           // Encontrar o orçamento
-          const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
+          const orcamento = orcamentos.find((orc) => orc.id.toString() === project.orcamento_id.toString());
+
+          // Remover "R$ " e substituir vírgula por ponto para converter para número
+          const budget = orcamento?.name
+            ? parseFloat(
+                orcamento.name
+                  .replace('R$ ', '') // Remover "R$ "
+                  .replace('.', '')   // Remover o ponto da milhar (se existir)
+                  .replace(',', '.')  // Substituir vírgula por ponto
+              )
+            : 0;
 
           return {
             id: project.id,
             name: project.name,
-            budget: orcamento?.name || 'R$ 0,00',  // Usar o nome do orçamento, caso contrário, "R$ 0,00"
+            budget: budget,
             category: category?.name || 'Categoria Desconhecida',
           };
         });
