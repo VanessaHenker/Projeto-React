@@ -3,26 +3,26 @@
     {
       "id": "1",
       "name": "Projeto 11",
-      "category_id": 1,
-      "orcamento_id": 2
+      "category_id": "1",
+      "orcamento_id": "2"
     },
     {
       "id": "2",
       "name": "Projeto 2",
-      "category_id": 2,
-      "orcamento_id": 3
+      "category_id": "2",
+      "orcamento_id": "3"
     },
     {
       "id": "cd2f",
       "name": "Teste",
-      "budget": "1",
-      "categoryId": "1"
+      "category_id": "1",
+      "orcamento_id": "2"
     },
     {
       "id": "eb84",
       "name": "Vanessa Silva Andrade",
-      "budget": "1",
-      "categoryId": "1"
+      "category_id": "1",
+      "orcamento_id": "1"
     }
   ],
   "categories": [
@@ -54,11 +54,11 @@
     },
     {
       "id": "3",
-      "name": "3.000,00"
+      "name": "R$ 3.000,00"
     },
     {
       "id": "4",
-      "name": "5.250,00"
+      "name": "R$ 5.250,00"
     }
   ]
 }
