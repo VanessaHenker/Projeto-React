@@ -9,21 +9,21 @@ import LinkButton from '../components/layout/linkButton';
 import ProjectCard from '../components/projects/projectCard';
 
 interface Project {
-  id: string; // Mudando para string para consistência com a API
+  id: string; 
   name: string;
   budget: number;
   category: string;
-  categoryId: string;
-  orcamento_id: string;
+  categoryId: string; // Adicionando categoriaId
+  orcamento_id: string; // Adicionando orcamento_id
 }
 
 interface Category {
-  id: string; // Mudando para string para consistência com a API
+  id: string; 
   name: string;
 }
 
 interface Orcamento {
-  id: string; // Mudando para string para consistência com a API
+  id: string; 
   name: string;
 }
 
@@ -85,6 +85,8 @@ function Projects() {
             name: project.name,
             budget: budget,
             category: category?.name || 'Categoria Desconhecida',
+            categoryId: project.category_id, // Adicionando categoryId
+            orcamento_id: project.orcamento_id, // Adicionando orcamento_id
           };
         });
         setProjects(updatedProjects);
@@ -92,8 +94,7 @@ function Projects() {
       .catch((err) => {
         console.error('Erro na requisição:', err);
       });
-  }, [categories, orcamentos]); // Re-fetch projects once categories and orcamentos are loaded
-
+  }, [categories, orcamentos]); 
   return (
     <div className={styles.projectsContainer}>
       <div className={styles.titleContainer}>
