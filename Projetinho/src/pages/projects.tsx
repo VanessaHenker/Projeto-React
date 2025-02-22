@@ -11,7 +11,7 @@ import ProjectCard from '../components/projects/projectCard';
 interface Project {
   id: number;
   name: string;
-  budget: string;  // Alterado para string, já que o orçamento é um formato de string (ex: "R$ 1.500,00")
+  budget: string;  // O orçamento é uma string (ex: "R$ 1.500,00")
   category: string;
 }
 
@@ -22,7 +22,7 @@ interface Category {
 
 interface Orcamento {
   id: number;
-  name: string;  // O nome do orçamento será a string, ex: "R$ 1.500,00"
+  name: string;  // O nome do orçamento é o valor formatado (ex: "R$ 1.500,00")
 }
 
 function Projects() {
@@ -75,7 +75,7 @@ function Projects() {
           return {
             id: project.id,
             name: project.name,
-            budget: orcamento?.name || 'R$ 0,00',  // Usar o nome do orçamento
+            budget: orcamento?.name || 'R$ 0,00',  // Usar o nome do orçamento, caso contrário, "R$ 0,00"
             category: category?.name || 'Categoria Desconhecida',
           };
         });

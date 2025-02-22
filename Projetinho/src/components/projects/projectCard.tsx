@@ -2,11 +2,11 @@ import styles from './projectCard.module.css';
 import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
 
 interface ProjectCardProps {
-  id: string; // Mudando para string para consistência com a API
+  id: number;
   name: string;
-  budget: number;
+  budget: string;  // O orçamento vem como string (ex: "R$ 1.500,00")
   category: string;
-  handleRemove: (id: string) => void;
+  handleRemove: (id: number) => void;
 }
 
 function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardProps) {
@@ -25,7 +25,7 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
         </div>
       </div>
       <p className={styles.budget}>
-        <span>Orçamento:</span> R$ {budget.toFixed(2).replace('.', ',')}
+        <span>Orçamento:</span> {budget || 'R$ 0,00'}  {/* Exibe diretamente o valor do orçamento */}
       </p>
       <p className={styles.categoryText}>
         <span className={`${styles[category?.toLowerCase()]}`}></span> {category}
