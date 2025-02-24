@@ -76,16 +76,16 @@ function Projects() {
           const budget = orcamento?.name
             ? parseFloat(
                 orcamento.name
-                  .replace('R$ ', '') // Remover "R$ "
-                  .replace('.', '')   // Remover o ponto da milhar (se existir)
-                  .replace(',', '.')  // Substituir vírgula por ponto
+                  .replace('R$ ', '')  // Remove "R$ "
+                  .replace('.', '')    // Remove os pontos da milhar
+                  .replace(',', '.')   // Troca a vírgula por ponto
               )
             : 0;
 
           return {
             id: project.id,
             name: project.name,
-            budget: budget,
+            budget: budget, // Agora o orçamento é um número
             category: category?.name || 'Categoria Desconhecida',
           };
         });

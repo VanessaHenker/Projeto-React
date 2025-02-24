@@ -5,10 +5,16 @@
       "name": "Novo Projeto",
       "categoryId": 1,
       "orcamento_id": 2,
-      "budget": "R$ 1.500,00"
+      "budget": 1500
     },
     {
       "id": "b46e",
+      "name": "Teste",
+      "budget": 1,
+      "categoryId": 1
+    },
+    {
+      "id": "3a50",
       "name": "Teste",
       "budget": "1",
       "categoryId": "1"
@@ -35,19 +41,19 @@
   "orcamentos": [
     {
       "id": "1",
-      "name": "R$ 1.500,00"
+      "name": 1500
     },
     {
       "id": "2",
-      "name": "R$ 2.000,00"
+      "name": 2000
     },
     {
       "id": "3",
-      "name": "R$ 3.000,00"
+      "name": 3000
     },
     {
       "id": "4",
-      "name": "R$ 5.250,00"
+      "name": 5250
     }
   ]
 }
