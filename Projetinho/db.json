@@ -5,7 +5,19 @@
       "name": "Novo Projeto",
       "categoryId": 1,
       "orcamento_id": 200,
-      "budget": 1500
+      "budget": "1500"
+    },
+    {
+      "id": "2f16",
+      "name": "Teste",
+      "budget": "2",
+      "categoryId": "1"
+    },
+    {
+      "id": "97d8",
+      "name": "Vanessa Silva Andrade",
+      "budget": "1",
+      "categoryId": "1"
     }
   ],
   "categories": [
@@ -29,19 +41,19 @@
   "orcamentos": [
     {
       "id": "1",
-      "name": 1500
+      "name": "R$ 1.500,00"
     },
     {
       "id": "2",
-      "name": 2000
+      "name": "R$ 2.000,00"
     },
     {
       "id": "3",
-      "name": 3000
+      "name": "R$ 3.000,00"
     },
     {
       "id": "4",
-      "name": 5250
+      "name": "R$ 5.250,00"
     }
   ]
 }

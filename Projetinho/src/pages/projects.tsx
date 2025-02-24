@@ -11,7 +11,7 @@ import ProjectCard from '../components/projects/projectCard';
 interface Project {
   id: string;
   name: string;
-  budget: number;
+  budget: number; // O orçamento deve ser número
   category: string;
 }
 
@@ -22,7 +22,7 @@ interface Category {
 
 interface Orcamento {
   id: string;
-  name: number;
+  name: number; // O orçamento no banco de dados será um número
 }
 
 function Projects() {
@@ -38,7 +38,6 @@ function Projects() {
       navigate('.', { replace: true });
     }
 
-    // Fetch categories and budgets (orcamentos)
     const fetchCategoriesAndOrcamentos = async () => {
       try {
         const [categoriesData, orcamentosData] = await Promise.all([
@@ -52,11 +51,9 @@ function Projects() {
       }
     };
 
-    // Fetch categories and orcamentos first
     fetchCategoriesAndOrcamentos();
   }, [message, navigate]);
 
-  // Fetch projects after categories and orcamentos are loaded
   useEffect(() => {
     if (categories.length > 0 && orcamentos.length > 0) {
       fetch('http://localhost:5000/projects', {
@@ -72,17 +69,16 @@ function Projects() {
           return response.json();
         })
         .then((data: any[]) => {
-          // Mapeamento de projetos para incluir nome da categoria e orçamento
           const updatedProjects = data.map((project) => {
             const category = categories.find((cat) => cat.id === project.categoryId);
             const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
 
-            const budget = orcamento?.name || 0; // Aqui, orcamento é número, então não precisa de conversão
+            const budget = orcamento?.name || 0; // Garantindo que o orçamento seja sempre um número
 
             return {
               id: project.id,
               name: project.name,
-              budget: budget,
+              budget: budget, // Aqui o valor de budget é um número
               category: category?.name || 'Categoria Desconhecida',
             };
           });
@@ -92,7 +88,7 @@ function Projects() {
           console.error('Erro na requisição dos projetos:', err);
         });
     }
-  }, [categories, orcamentos]); 
+  }, [categories, orcamentos]);
 
   return (
     <div className={styles.projectsContainer}>
@@ -110,7 +106,7 @@ function Projects() {
               key={project.id}
               id={project.id}
               name={project.name}
-              budget={project.budget}
+              budget={project.budget} // O orçamento já é um número aqui
               category={project.category}
               handleRemove={(id) => {
                 const updatedProjects = projects.filter((p) => p.id !== id);
