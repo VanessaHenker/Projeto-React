@@ -4,20 +4,8 @@
       "id": "1",
       "name": "Novo Projeto",
       "categoryId": 1,
-      "orcamento_id": 2,
+      "orcamento_id": 200,
       "budget": 1500
-    },
-    {
-      "id": "b46e",
-      "name": "Teste",
-      "budget": 1,
-      "categoryId": 1
-    },
-    {
-      "id": "3a50",
-      "name": "Teste",
-      "budget": "1",
-      "categoryId": "1"
     }
   ],
   "categories": [

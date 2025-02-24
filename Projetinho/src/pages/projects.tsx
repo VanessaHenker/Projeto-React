@@ -9,20 +9,20 @@ import LinkButton from '../components/layout/linkButton';
 import ProjectCard from '../components/projects/projectCard';
 
 interface Project {
-  id: number;
+  id: string;
   name: string;
   budget: number;
   category: string;
 }
 
 interface Category {
-  id: number;
+  id: string;
   name: string;
 }
 
 interface Orcamento {
-  id: number;
-  name: string;
+  id: string;
+  name: number;
 }
 
 function Projects() {
@@ -39,62 +39,60 @@ function Projects() {
     }
 
     // Fetch categories and budgets (orcamentos)
-    Promise.all([
-      fetch('http://localhost:5000/categories').then((res) => res.json()),
-      fetch('http://localhost:5000/orcamentos').then((res) => res.json()),
-    ])
-      .then(([categoriesData, orcamentosData]) => {
+    const fetchCategoriesAndOrcamentos = async () => {
+      try {
+        const [categoriesData, orcamentosData] = await Promise.all([
+          fetch('http://localhost:5000/categories').then((res) => res.json()),
+          fetch('http://localhost:5000/orcamentos').then((res) => res.json()),
+        ]);
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error('Erro ao buscar categorias ou orçamentos', err);
-      });
+      }
+    };
 
-    // Fetch projects
-    fetch('http://localhost:5000/projects', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro ao buscar projetos');
-        }
-        return response.json();
+    // Fetch categories and orcamentos first
+    fetchCategoriesAndOrcamentos();
+  }, [message, navigate]);
+
+  // Fetch projects after categories and orcamentos are loaded
+  useEffect(() => {
+    if (categories.length > 0 && orcamentos.length > 0) {
+      fetch('http://localhost:5000/projects', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-      .then((data: any[]) => {
-        // Mapeamento de projetos para incluir nome da categoria e orçamento
-        const updatedProjects = data.map((project) => {
-          // Encontrar a categoria
-          const category = categories.find((cat) => cat.id.toString() === project.categoryId.toString());
-          // Encontrar o orçamento
-          const orcamento = orcamentos.find((orc) => orc.id.toString() === project.orcamento_id.toString());
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro ao buscar projetos');
+          }
+          return response.json();
+        })
+        .then((data: any[]) => {
+          // Mapeamento de projetos para incluir nome da categoria e orçamento
+          const updatedProjects = data.map((project) => {
+            const category = categories.find((cat) => cat.id === project.categoryId);
+            const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
 
-          // Remover "R$ " e substituir vírgula por ponto para converter para número
-          const budget = orcamento?.name
-            ? parseFloat(
-                orcamento.name
-                  .replace('R$ ', '')  // Remove "R$ "
-                  .replace('.', '')    // Remove os pontos da milhar
-                  .replace(',', '.')   // Troca a vírgula por ponto
-              )
-            : 0;
+            const budget = orcamento?.name || 0; // Aqui, orcamento é número, então não precisa de conversão
 
-          return {
-            id: project.id,
-            name: project.name,
-            budget: budget, // Agora o orçamento é um número
-            category: category?.name || 'Categoria Desconhecida',
-          };
+            return {
+              id: project.id,
+              name: project.name,
+              budget: budget,
+              category: category?.name || 'Categoria Desconhecida',
+            };
+          });
+          setProjects(updatedProjects);
+        })
+        .catch((err) => {
+          console.error('Erro na requisição dos projetos:', err);
         });
-        setProjects(updatedProjects);
-      })
-      .catch((err) => {
-        console.error('Erro na requisição:', err);
-      });
-  }, [message, navigate, categories, orcamentos]);
+    }
+  }, [categories, orcamentos]); 
 
   return (
     <div className={styles.projectsContainer}>
@@ -107,7 +105,6 @@ function Projects() {
 
       <div className={styles.projectsCreate}>
         <Container>
-          {/* Exibe os projetos com todas as informações corretas de categoria e orçamento */}
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
