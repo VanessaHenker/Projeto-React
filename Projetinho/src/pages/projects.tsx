@@ -11,7 +11,7 @@ import ProjectCard from '../components/projects/projectCard';
 interface Project {
   id: string;
   name: string;
-  budget: number; // O orçamento deve ser número
+  budget: number; // Certificando que o orçamento seja um número
   category: string;
 }
 
@@ -22,7 +22,7 @@ interface Category {
 
 interface Orcamento {
   id: string;
-  name: number; // O orçamento no banco de dados será um número
+  name: string; // O orçamento no banco de dados será uma string, por exemplo: "R$ 1.500,00"
 }
 
 function Projects() {
@@ -73,12 +73,15 @@ function Projects() {
             const category = categories.find((cat) => cat.id === project.categoryId);
             const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
 
-            const budget = orcamento?.name || 0; // Garantindo que o orçamento seja sempre um número
+            // Garantindo que o orçamento seja um número
+            const budget = orcamento?.name
+              ? parseFloat(orcamento.name.replace('R$', '').replace('.', '').replace(',', '.'))
+              : 0;
 
             return {
               id: project.id,
               name: project.name,
-              budget: budget, // Aqui o valor de budget é um número
+              budget: budget,
               category: category?.name || 'Categoria Desconhecida',
             };
           });
@@ -106,7 +109,7 @@ function Projects() {
               key={project.id}
               id={project.id}
               name={project.name}
-              budget={project.budget} // O orçamento já é um número aqui
+              budget={project.budget} // Passando o orçamento numérico
               category={project.category}
               handleRemove={(id) => {
                 const updatedProjects = projects.filter((p) => p.id !== id);
