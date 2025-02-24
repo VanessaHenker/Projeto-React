@@ -68,9 +68,13 @@ function Projects() {
         // Mapeamento de projetos para incluir nome da categoria e orçamento
         const updatedProjects = data.map((project) => {
           // Encontrar a categoria
-          const category = categories.find((cat) => cat.id.toString() === project.categoryId.toString());
+          const category = categories.find(
+            (cat) => cat.id === +project.categoryId // Converte para número
+          );
           // Encontrar o orçamento
-          const orcamento = orcamentos.find((orc) => orc.id.toString() === project.orcamento_id.toString());
+          const orcamento = orcamentos.find(
+            (orc) => orc.id === +project.orcamento_id // Converte para número
+          );
 
           // Remover "R$ " e substituir vírgula por ponto para converter para número
           const budget = orcamento?.name
@@ -83,7 +87,7 @@ function Projects() {
             : 0;
 
           return {
-            id: project.id,
+            id: +project.id, // Converte o ID para número
             name: project.name,
             budget: budget,
             category: category?.name || 'Categoria Desconhecida',
