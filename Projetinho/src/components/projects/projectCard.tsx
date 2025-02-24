@@ -26,7 +26,7 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
         <span>Orçamento:</span> R$ {budget.toFixed(2).replace('.', ',')}
       </p>
       <p className={styles.categoryText}>
-        <span className={`${styles[category.toLowerCase()]}`}></span> {category}
+        <span className={`${styles[category?.toLowerCase()]}`}></span> {category}
       </p>
     </div>
   );
