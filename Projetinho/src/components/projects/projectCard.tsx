@@ -4,7 +4,7 @@ import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
 interface ProjectCardProps {
   id: string;
   name: string;
-  budget: string; // O orçamento é uma string
+  budget: string; // Orçamento como string
   category: string;
   handleRemove: (id: string) => void;
 }
@@ -23,7 +23,7 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
         </div>
       </div>
       <p className={styles.budget}>
-        <span>Orçamento:</span> {budget} {/* Exibindo o orçamento diretamente como string */}
+        <span>Orçamento:</span> {budget} {/* Exibindo o orçamento corretamente */}
       </p>
       <p className={styles.categoryText}>
         <span className={`${styles[category?.toLowerCase() || 'defaultCategory']}`}></span> {category}

@@ -4,21 +4,15 @@
       "id": "1",
       "name": "Novo Projeto",
       "categoryId": "1",
-      "orcamento_id": "1",
-      "budget": "1500"
+      "orcamento_id": "2", 
+      "budget": "R$ 1.500,00"
     },
     {
-      "id": "2",
-      "name": "Outro Projeto",
-      "categoryId": "2",
-      "orcamento_id": "2",
-      "budget": "2000"
-    },
-    {
-      "id": "3860",
+      "id": "7c39",
       "name": "Vanessa Silva Andrade",
-      "budget": "2",
-      "categoryId": "2"
+      "categoryId": "1",
+      "orcamento_id": "1",  
+      "budget": "R$ 1,00"
     }
   ],
   "categories": [
@@ -29,6 +23,14 @@
     {
       "id": "2",
       "name": "Desenvolvimento"
+    },
+    {
+      "id": "3",
+      "name": "Design"
+    },
+    {
+      "id": "4",
+      "name": "Planejamento"
     }
   ],
   "orcamentos": [
@@ -39,6 +41,14 @@
     {
       "id": "2",
       "name": "R$ 2.000,00"
+    },
+    {
+      "id": "3",
+      "name": "R$ 3.000,00"
+    },
+    {
+      "id": "4",
+      "name": "R$ 5.250,00"
     }
   ]
 }

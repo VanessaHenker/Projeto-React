@@ -11,7 +11,7 @@ import ProjectCard from '../components/projects/projectCard';
 interface Project {
   id: string;
   name: string;
-  budget: string; // Mudando para string
+  budget: string; // Agora orçamento é string para garantir a exibição correta
   category: string;
 }
 
@@ -22,7 +22,7 @@ interface Category {
 
 interface Orcamento {
   id: string;
-  name: string; // O orçamento no banco de dados será uma string, por exemplo: "R$ 1.500,00"
+  name: string; // Orçamento é uma string com o formato "R$ 1.500,00"
 }
 
 function Projects() {
@@ -33,6 +33,7 @@ function Projects() {
   const navigate = useNavigate();
   const message = location.state?.message || '';
 
+  // Carrega categorias e orçamentos
   useEffect(() => {
     if (message) {
       navigate('.', { replace: true });
@@ -54,6 +55,7 @@ function Projects() {
     fetchCategoriesAndOrcamentos();
   }, [message, navigate]);
 
+  // Carrega projetos e associa orçamentos corretamente
   useEffect(() => {
     if (categories.length > 0 && orcamentos.length > 0) {
       fetch('http://localhost:5000/projects', {
@@ -73,13 +75,13 @@ function Projects() {
             const category = categories.find((cat) => cat.id === project.categoryId);
             const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
 
-            // Mantemos o orçamento como string
-            const budget = orcamento ? orcamento.name : 'R$ 0,00'; // Mantemos o orçamento como string
+            // Garantindo que o orçamento seja tratado como string (no formato "R$ 0,00")
+            const budget = orcamento ? orcamento.name : 'R$ 0,00';
 
             return {
               id: project.id,
               name: project.name,
-              budget: budget, // Armazenamos como string
+              budget: budget, // Orçamento como string
               category: category?.name || 'Categoria Desconhecida',
             };
           });
@@ -90,6 +92,28 @@ function Projects() {
         });
     }
   }, [categories, orcamentos]);
+
+  // Função para criar novo projeto (com orçamento selecionado)
+  const createProject = async (name: string, categoryId: string, orcamentoId: string) => {
+    try {
+      const response = await fetch('http://localhost:5000/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          categoryId,
+          orcamento_id: orcamentoId, // Passando o orcamento_id corretamente
+        }),
+      });
+      const result = await response.json();
+      console.log('Projeto criado:', result);
+      setProjects((prev) => [...prev, result]); // Adiciona o novo projeto na lista
+    } catch (error) {
+      console.error('Erro ao criar o projeto:', error);
+    }
+  };
 
   return (
     <div className={styles.projectsContainer}>
