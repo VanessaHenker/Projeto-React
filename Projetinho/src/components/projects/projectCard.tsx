@@ -30,10 +30,7 @@ function ProjectCard({ id, name, budget, category, orcamento_id, handleRemove }:
         <span className={`${styles[category?.toLowerCase() || 'defaultCategory']}`}></span> {category}
       </p>
       <p className={styles.orcamentoId}>
-        Orcamento ID: {orcamento_id} - Adiciona o campo 'orcamento_id' ao criar e listar projetos.
-- Atualiza o componente ProjectCard para exibir o 'orcamento_id' corretamente.
-- Corrige o arquivo 'db.json' para incluir 'orcamento_id' em todos os projetos.
-- Garante que o 'orcamento_id' seja passado corretamente da API para o front-end e seja exibido no componente de lista de projetos.
+        Orcamento ID: {orcamento_id} 
       </p>
     </div>
   );
