@@ -4,7 +4,7 @@
       "id": "1",
       "name": "Novo Projeto",
       "categoryId": "1",
-      "orcamento_id": "1", 
+      "orcamento_id": "1",
       "budget": "1500"
     },
     {
@@ -13,6 +13,12 @@
       "categoryId": "2",
       "orcamento_id": "2",
       "budget": "2000"
+    },
+    {
+      "id": "3860",
+      "name": "Vanessa Silva Andrade",
+      "budget": "2",
+      "categoryId": "2"
     }
   ],
   "categories": [
