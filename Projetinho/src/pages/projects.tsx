@@ -73,15 +73,13 @@ function Projects() {
             const category = categories.find((cat) => cat.id === project.categoryId);
             const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
 
-            // Garantindo que o orçamento seja um número, com conversão adequada
-            const budget = orcamento?.name
-              ? parseFloat(orcamento.name.replace('R$', '').replace(/\./g, '').replace(',', '.'))
-              : 0;
+            // Verifica se o orçamento foi encontrado e atribui um valor
+            const budget = orcamento ? parseFloat(orcamento.name.replace('R$', '').replace(/\./g, '').replace(',', '.')) : 0;
 
             return {
               id: project.id,
               name: project.name,
-              budget: budget,
+              budget: budget, // Atribui o orçamento corretamente
               category: category?.name || 'Categoria Desconhecida',
             };
           });
