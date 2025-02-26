@@ -4,12 +4,13 @@ import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
 interface ProjectCardProps {
   id: string;
   name: string;
-  budget: string; // Orçamento como string
+  budget: string;
   category: string;
+  orcamento_id: string; // Passando orcamento_id como propriedade
   handleRemove: (id: string) => void;
 }
 
-function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardProps) {
+function ProjectCard({ id, name, budget, category, orcamento_id, handleRemove }: ProjectCardProps) {
   return (
     <div className={styles.projectCard}>
       <div className={styles.header}>
@@ -23,10 +24,16 @@ function ProjectCard({ id, name, budget, category, handleRemove }: ProjectCardPr
         </div>
       </div>
       <p className={styles.budget}>
-        <span>Orçamento:</span> {budget} {/* Exibindo o orçamento corretamente */}
+        <span>Orçamento:</span> {budget}
       </p>
       <p className={styles.categoryText}>
         <span className={`${styles[category?.toLowerCase() || 'defaultCategory']}`}></span> {category}
+      </p>
+      <p className={styles.orcamentoId}>
+        Orcamento ID: {orcamento_id} - Adiciona o campo 'orcamento_id' ao criar e listar projetos.
+- Atualiza o componente ProjectCard para exibir o 'orcamento_id' corretamente.
+- Corrige o arquivo 'db.json' para incluir 'orcamento_id' em todos os projetos.
+- Garante que o 'orcamento_id' seja passado corretamente da API para o front-end e seja exibido no componente de lista de projetos.
       </p>
     </div>
   );
