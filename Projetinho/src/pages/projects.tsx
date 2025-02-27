@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './projects.module.css';
 import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
-import ProjectCard from '../components/projects/ProjectCard';
+import ProjectCard from '../components/projects/projectCard';
 
 interface Project {
   id: string;

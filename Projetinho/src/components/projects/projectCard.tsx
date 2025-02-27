@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './projectCard.module.css';
 import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
-import Orcamento from '../Orcamento';
+import Orcamento from '../form/orcamento';
 
 interface Option {
   value: string;
