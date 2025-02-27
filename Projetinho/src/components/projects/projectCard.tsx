@@ -1,39 +1,86 @@
-import styles from './projectCard.module.css';
-import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-interface ProjectCardProps {
-  id: string;
-  name: string;
-  budget: string;
-  category: string;
-  orcamento_id: string;
-  handleRemove: (id: string) => void;
-}
+function CreateProject() {
+  const [newProject, setNewProject] = useState({
+    name: '',
+    categoryId: '',
+    orcamentoId: '',
+  });
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
 
-function ProjectCard({ id, name, budget, category, orcamento_id, handleRemove }: ProjectCardProps) {
+  useEffect(() => {
+    // Carregar categorias e orçamentos
+    const fetchData = async () => {
+      const categoriesData = await fetch('http://localhost:5000/categories').then((res) => res.json());
+      const orcamentosData = await fetch('http://localhost:5000/orcamentos').then((res) => res.json());
+      setCategories(categoriesData);
+      setOrcamentos(orcamentosData);
+    };
+    fetchData();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await createProject(newProject);
+    navigate('/projects'); // Redireciona para a lista de projetos
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setNewProject((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
-    <div className={styles.projectCard}>
-      <div className={styles.header}>
-        <h4>{name}</h4>
-        <div className={styles.actions}>
-          <BsPencil className={styles.icon} />
-          <BsFillTrashFill
-            className={styles.icon}
-            onClick={() => handleRemove(id)}
-          />
-        </div>
-      </div>
-      <p className={styles.budget}>
-        <span>Orçamento:</span> {budget}
-      </p>
-      <p className={styles.categoryText}>
-        <span className={`${styles[category?.toLowerCase() || 'defaultCategory']}`}></span> {category}
-      </p>
-      <p className={styles.orcamentoId}>
-        Orcamento ID: {orcamento_id}
-      </p>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Nome do Projeto:
+        <input
+          type="text"
+          name="name"
+          value={newProject.name}
+          onChange={handleChange}
+          required
+        />
+      </label>
+      <label>
+        Categoria:
+        <select
+          name="categoryId"
+          value={newProject.categoryId}
+          onChange={handleChange}
+          required
+        >
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        Orcamento:
+        <select
+          name="orcamentoId"
+          value={newProject.orcamentoId}
+          onChange={handleChange}
+          required
+        >
+          {orcamentos.map((orcamento) => (
+            <option key={orcamento.id} value={orcamento.id}>
+              {orcamento.name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <button type="submit">Criar Projeto</button>
+    </form>
   );
 }
 
-export default ProjectCard;
+export default CreateProject;

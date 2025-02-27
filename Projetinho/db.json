@@ -6,18 +6,6 @@
       "categoryId": "1",
       "orcamento_id": "2",
       "budget": "R$ 1.500,00"
-    },
-    {
-      "id": "29c6",
-      "name": "Teste",
-      "budget": "1",
-      "categoryId": "1"
-    },
-    {
-      "id": "d45c",
-      "name": "ola",
-      "budget": "2",
-      "categoryId": "1"
     }
   ],
   "categories": [
