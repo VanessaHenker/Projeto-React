@@ -31,11 +31,6 @@ function Projects() {
   const navigate = useNavigate();
   const message = location.state?.message || '';
 
-  // Função para verificar se o orcamento_id é válido
-  const isValidOrcamento = (orcamentoId: string) => {
-    return orcamentos.some((orcamento) => orcamento.id === orcamentoId);
-  };
-
   // Carregar categorias e orçamentos
   useEffect(() => {
     if (message) {
@@ -45,8 +40,14 @@ function Projects() {
     const fetchCategoriesAndOrcamentos = async () => {
       try {
         const [categoriesData, orcamentosData] = await Promise.all([
-          fetch('http://localhost:5000/categories').then((res) => res.json()),
-          fetch('http://localhost:5000/orcamentos').then((res) => res.json()),
+          fetch('http://localhost:5000/categories').then((res) => {
+            if (!res.ok) throw new Error('Falha ao carregar categorias');
+            return res.json();
+          }),
+          fetch('http://localhost:5000/orcamentos').then((res) => {
+            if (!res.ok) throw new Error('Falha ao carregar orçamentos');
+            return res.json();
+          }),
         ]);
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
@@ -63,14 +64,30 @@ function Projects() {
     if (categories.length > 0 && orcamentos.length > 0) {
       fetch('http://localhost:5000/projects', {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro ao buscar projetos');
+          }
+          return response.json();
+        })
         .then((data: any[]) => {
           const updatedProjects = data.map((project) => {
             const category = categories.find((cat) => cat.id === project.categoryId);
+            if (!category) {
+              console.warn(`Categoria não encontrada para o projeto: ${project.name}`);
+            }
+
             const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
+            if (!orcamento) {
+              console.warn(`Orçamento não encontrado para o projeto: ${project.name}`);
+            }
+
             const budget = orcamento ? orcamento.name : 'R$ 0,00';
+
             return {
               id: project.id,
               name: project.name,
@@ -79,13 +96,16 @@ function Projects() {
               category: category?.name || 'Categoria Desconhecida',
             };
           });
+
           setProjects(updatedProjects);
         })
-        .catch((err) => console.error('Erro na requisição dos projetos:', err));
+        .catch((err) => {
+          console.error('Erro na requisição dos projetos:', err);
+        });
     }
   }, [categories, orcamentos]);
 
-  // Função para criar projeto
+  // Função para criar um novo projeto
   const createProject = async (projectData: { name: string; categoryId: string; orcamentoId: string }) => {
     if (!isValidOrcamento(projectData.orcamentoId)) {
       alert('Orçamento inválido. Verifique o orçamento selecionado.');
@@ -95,12 +115,14 @@ function Projects() {
     try {
       const response = await fetch('http://localhost:5000/projects', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           name: projectData.name,
           categoryId: projectData.categoryId,
           orcamento_id: projectData.orcamentoId,
-          budget: 'R$ 0,00',
+          budget: 'R$ 0,00', // Este valor pode ser ajustado de acordo com o orçamento
         }),
       });
 
