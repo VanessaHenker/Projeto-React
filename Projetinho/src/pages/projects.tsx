@@ -65,6 +65,7 @@ function Projects() {
             return {
               ...project,
               category: category ? category.name : 'Categoria Desconhecida',
+              // O valor calculado de 'budget' pode ser usado internamente, se necessário.
               budget: orcamento ? orcamento.name : 'R$ 0,00',
             };
           });
@@ -97,7 +98,6 @@ function Projects() {
               key={project.id}
               id={project.id}
               name={project.name}
-              budget={project.budget}
               category={project.category ?? 'Categoria Desconhecida'}
               orcamento_id={project.orcamento_id}
               handleRemove={handleRemove}
