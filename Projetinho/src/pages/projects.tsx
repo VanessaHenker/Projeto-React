@@ -9,7 +9,7 @@ interface Project {
   id: string;
   name: string;
   budget: string;
-  category: string;
+  categoryId: string;
   orcamento_id: string;
 }
 
@@ -31,107 +31,53 @@ function Projects() {
   const navigate = useNavigate();
   const message = location.state?.message || '';
 
-  // Carregar categorias e orçamentos
   useEffect(() => {
     if (message) {
       navigate('.', { replace: true });
     }
 
-    const fetchCategoriesAndOrcamentos = async () => {
+    const fetchData = async () => {
       try {
         const [categoriesData, orcamentosData] = await Promise.all([
-          fetch('http://localhost:5000/categories').then((res) => {
-            if (!res.ok) throw new Error('Falha ao carregar categorias');
-            return res.json();
-          }),
-          fetch('http://localhost:5000/orcamentos').then((res) => {
-            if (!res.ok) throw new Error('Falha ao carregar orçamentos');
-            return res.json();
-          }),
+          fetch('http://localhost:5000/categories').then((res) => res.json()),
+          fetch('http://localhost:5000/orcamentos').then((res) => res.json()),
         ]);
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
-      } catch (err) {
-        console.error('Erro ao buscar categorias ou orçamentos', err);
+      } catch (error) {
+        console.error('Erro ao carregar categorias ou orçamentos:', error);
       }
     };
-
-    fetchCategoriesAndOrcamentos();
+    
+    fetchData();
   }, [message, navigate]);
 
-  // Carregar projetos e associar com categorias e orçamentos
   useEffect(() => {
-    if (categories.length > 0 && orcamentos.length > 0) {
-      fetch('http://localhost:5000/projects', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Erro ao buscar projetos');
-          }
-          return response.json();
-        })
-        .then((data: any[]) => {
-          const updatedProjects = data.map((project) => {
-            const category = categories.find((cat) => cat.id === project.categoryId);
-            if (!category) {
-              console.warn(`Categoria não encontrada para o projeto: ${project.name}`);
-            }
-
-            const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
-            if (!orcamento) {
-              console.warn(`Orçamento não encontrado para o projeto: ${project.name}`);
-            }
-
-            const budget = orcamento ? orcamento.name : 'R$ 0,00';
-
-            return {
-              id: project.id,
-              name: project.name,
-              orcamento_id: project.orcamento_id,
-              budget: budget,
-              category: category?.name || 'Categoria Desconhecida',
-            };
-          });
-
-          setProjects(updatedProjects);
-        })
-        .catch((err) => {
-          console.error('Erro na requisição dos projetos:', err);
+    if (categories.length === 0 || orcamentos.length === 0) return;
+    
+    fetch('http://localhost:5000/projects')
+      .then((res) => res.json())
+      .then((data) => {
+        const updatedProjects = data.map((project: Project) => {
+          const category = categories.find((cat) => cat.id === project.categoryId);
+          const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
+          return {
+            ...project,
+            budget: orcamento ? orcamento.name : 'R$ 0,00',
+            category: category ? category.name : 'Categoria Desconhecida',
+          };
         });
-    }
+        setProjects(updatedProjects);
+      })
+      .catch((error) => console.error('Erro ao carregar projetos:', error));
   }, [categories, orcamentos]);
 
-  // Função para criar um novo projeto
-  const createProject = async (projectData: { name: string; categoryId: string; orcamentoId: string }) => {
-    if (!isValidOrcamento(projectData.orcamentoId)) {
-      alert('Orçamento inválido. Verifique o orçamento selecionado.');
-      return;
-    }
-
+  const handleRemove = async (id: string) => {
     try {
-      const response = await fetch('http://localhost:5000/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: projectData.name,
-          categoryId: projectData.categoryId,
-          orcamento_id: projectData.orcamentoId,
-          budget: 'R$ 0,00', // Este valor pode ser ajustado de acordo com o orçamento
-        }),
-      });
-
-      if (!response.ok) throw new Error('Erro ao criar o projeto');
-      const newProject = await response.json();
-      setProjects((prevProjects) => [...prevProjects, newProject]);
-      alert('Projeto criado com sucesso!');
+      await fetch(`http://localhost:5000/projects/${id}`, { method: 'DELETE' });
+      setProjects((prevProjects) => prevProjects.filter((p) => p.id !== id));
     } catch (error) {
-      console.error('Erro ao criar projeto:', error);
+      console.error('Erro ao remover projeto:', error);
     }
   };
 
@@ -141,7 +87,6 @@ function Projects() {
         <h1>Meus Projetos</h1>
         <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
-
       <div className={styles.projectsCreate}>
         <Container>
           {projects.map((project) => (
@@ -152,10 +97,7 @@ function Projects() {
               budget={project.budget}
               category={project.category}
               orcamento_id={project.orcamento_id}
-              handleRemove={(id) => {
-                const updatedProjects = projects.filter((p) => p.id !== id);
-                setProjects(updatedProjects);
-              }}
+              handleRemove={handleRemove}
             />
           ))}
         </Container>
