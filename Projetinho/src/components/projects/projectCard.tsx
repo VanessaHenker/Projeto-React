@@ -6,7 +6,7 @@ interface ProjectCardProps {
   name: string;
   budget: string;
   category: string;
-  orcamento_id: string; // Passando orcamento_id como propriedade
+  orcamento_id: string;
   handleRemove: (id: string) => void;
 }
 
@@ -30,7 +30,7 @@ function ProjectCard({ id, name, budget, category, orcamento_id, handleRemove }:
         <span className={`${styles[category?.toLowerCase() || 'defaultCategory']}`}></span> {category}
       </p>
       <p className={styles.orcamentoId}>
-        Orcamento ID: {orcamento_id} 
+        Orcamento ID: {orcamento_id}
       </p>
     </div>
   );
