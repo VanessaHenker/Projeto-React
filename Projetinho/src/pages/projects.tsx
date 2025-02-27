@@ -3,13 +3,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './projects.module.css';
 import Container from '../components/layout/container';
 import LinkButton from '../components/layout/linkButton';
-import ProjectCard from '../components/projects/projectCard';
+import ProjectCard from '../components/projects/ProjectCard';
 
 interface Project {
   id: string;
   name: string;
   budget: string;
   categoryId: string;
+  category?: string;
   orcamento_id: string;
 }
 
@@ -36,40 +37,41 @@ function Projects() {
       navigate('.', { replace: true });
     }
 
-    const fetchData = async () => {
+    const fetchCategoriesAndOrcamentos = async () => {
       try {
         const [categoriesData, orcamentosData] = await Promise.all([
           fetch('http://localhost:5000/categories').then((res) => res.json()),
           fetch('http://localhost:5000/orcamentos').then((res) => res.json()),
         ]);
+
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
-      } catch (error) {
-        console.error('Erro ao carregar categorias ou orçamentos:', error);
+      } catch (err) {
+        console.error('Erro ao buscar categorias ou orçamentos', err);
       }
     };
-    
-    fetchData();
+
+    fetchCategoriesAndOrcamentos();
   }, [message, navigate]);
 
   useEffect(() => {
-    if (categories.length === 0 || orcamentos.length === 0) return;
-    
-    fetch('http://localhost:5000/projects')
-      .then((res) => res.json())
-      .then((data) => {
-        const updatedProjects = data.map((project: Project) => {
-          const category = categories.find((cat) => cat.id === project.categoryId);
-          const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
-          return {
-            ...project,
-            budget: orcamento ? orcamento.name : 'R$ 0,00',
-            category: category ? category.name : 'Categoria Desconhecida',
-          };
-        });
-        setProjects(updatedProjects);
-      })
-      .catch((error) => console.error('Erro ao carregar projetos:', error));
+    if (categories.length > 0 && orcamentos.length > 0) {
+      fetch('http://localhost:5000/projects')
+        .then((response) => response.json())
+        .then((data: Project[]) => {
+          const updatedProjects = data.map((project) => {
+            const category = categories.find((cat) => cat.id === project.categoryId);
+            const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
+            return {
+              ...project,
+              category: category ? category.name : 'Categoria Desconhecida',
+              budget: orcamento ? orcamento.name : 'R$ 0,00',
+            };
+          });
+          setProjects(updatedProjects);
+        })
+        .catch((err) => console.error('Erro na requisição dos projetos:', err));
+    }
   }, [categories, orcamentos]);
 
   const handleRemove = async (id: string) => {
@@ -87,6 +89,7 @@ function Projects() {
         <h1>Meus Projetos</h1>
         <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
+
       <div className={styles.projectsCreate}>
         <Container>
           {projects.map((project) => (
@@ -95,7 +98,7 @@ function Projects() {
               id={project.id}
               name={project.name}
               budget={project.budget}
-              category={project.category}
+              category={project.category ?? 'Categoria Desconhecida'}
               orcamento_id={project.orcamento_id}
               handleRemove={handleRemove}
             />
