@@ -1,7 +1,7 @@
-import React from 'react';
-import styles from './projectCard.module.css';
-import { BsPencil, BsFillTrashFill } from 'react-icons/bs';
-import Orcamento from '../form/orcamento';
+import React from "react";
+import styles from "./projectCard.module.css";
+import { BsPencil, BsFillTrashFill } from "react-icons/bs";
+import Orcamento from "../form/orcamento";
 
 interface Option {
   value: string;
@@ -14,6 +14,7 @@ interface ProjectCardProps {
   category: string;
   orcamento_id: string;
   handleRemove: (id: string) => void;
+  updateBudget: (id: string, newBudgetId: string) => void;
 }
 
 function ProjectCard({
@@ -22,8 +23,9 @@ function ProjectCard({
   category,
   orcamento_id,
   handleRemove,
+  updateBudget,
 }: ProjectCardProps) {
-  // Exemplo de opções para o orçamento. Essas opções podem ser substituídas por dados reais ou passadas via props.
+  // Opções de orçamento – podem ser obtidas de um arquivo de configuração ou via props
   const orcamentoOptions: Option[] = [
     { value: "1", label: "R$ 1.500,00" },
     { value: "2", label: "R$ 2.000,00" },
@@ -34,8 +36,8 @@ function ProjectCard({
   const handleBudgetChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
-    console.log(`Projeto ${id} - Novo orçamento selecionado:`, e.target.value);
-    // Implemente aqui a lógica para atualizar o orçamento do projeto, se necessário.
+    const newBudgetId = e.target.value;
+    updateBudget(id, newBudgetId);
   };
 
   return (
@@ -44,11 +46,14 @@ function ProjectCard({
         <h4>{name}</h4>
         <div className={styles.actions}>
           <BsPencil className={styles.icon} />
-          <BsFillTrashFill className={styles.icon} onClick={() => handleRemove(id)} />
+          <BsFillTrashFill
+            className={styles.icon}
+            onClick={() => handleRemove(id)}
+          />
         </div>
       </div>
       <div className={styles.budgetSection}>
-        <Orcamento 
+        <Orcamento
           type="select"
           text="Orçamento:"
           name={`orcamento-${id}`}
@@ -58,11 +63,12 @@ function ProjectCard({
         />
       </div>
       <p className={styles.categoryText}>
-        <span className={`${styles[category?.toLowerCase() || 'defaultCategory']}`}></span> {category}
+        <span
+          className={`${styles[category?.toLowerCase() || "defaultCategory"]}`}
+        ></span>{" "}
+        {category}
       </p>
-      <p className={styles.orcamentoId}>
-        Orcamento ID: {orcamento_id}
-      </p>
+      <p className={styles.orcamentoId}>Orcamento ID: {orcamento_id}</p>
     </div>
   );
 }

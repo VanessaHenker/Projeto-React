@@ -21,19 +21,21 @@ interface OrcamentoType {
 function ProjectForm() {
   const navigate = useNavigate();
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
+  // Note que usamos "orcamento_id" para armazenar o id do orçamento selecionado.
   const [formData, setFormData] = useState({
     name: "",
-    budget: "",
+    orcamento_id: "",
     categoryId: "",
   });
 
   const [errors, setErrors] = useState({
     name: "",
-    budget: "",
+    orcamento_id: "",
     categoryId: "",
   });
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,34 +55,45 @@ function ProjectForm() {
     fetchData();
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    // Limpa o erro quando o usuário começa a digitar
+    // Limpa o erro para o campo alterado
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const validateForm = () => {
     let valid = true;
-    const newErrors = { name: "", budget: "", categoryId: "" };
+    const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-    if (!formData.name.trim() || !formData.budget || !formData.categoryId) {
-      alert('Campos obrigatórios!')
+    if (!formData.name.trim()) {
+      newErrors.name = "Nome é obrigatório";
       valid = false;
     }
-    else{
-      setErrors(newErrors);
-      return valid;
+    if (!formData.orcamento_id) {
+      newErrors.orcamento_id = "Orçamento é obrigatório";
+      valid = false;
     }
-    
+    if (!formData.categoryId) {
+      newErrors.categoryId = "Categoria é obrigatória";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (!valid) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+    }
+    return valid;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!validateForm()) {
-      return; 
-    }
+    if (!validateForm()) return;
+
+    console.log("Dados enviados:", formData);
 
     try {
       const response = await fetch("http://localhost:5000/projects", {
@@ -90,7 +103,9 @@ function ProjectForm() {
       });
 
       if (response.ok) {
-        navigate("/projects", { state: { message: "Projeto criado com sucesso!" } });
+        navigate("/projects", {
+          state: { message: "Projeto criado com sucesso!" },
+        });
       } else {
         console.error("Erro ao criar projeto");
       }
@@ -114,18 +129,20 @@ function ProjectForm() {
       <Orcamento
         type="select"
         text="Selecione o orçamento"
-        name="budget"
+        name="orcamento_id"
         handleOnChange={handleInputChange}
-        value={formData.budget}
+        value={formData.orcamento_id}
         options={[
           { value: "", label: "Selecione um orçamento" },
           ...orcamentos.map((orcamento) => ({
             value: String(orcamento.id),
             label: orcamento.name,
-          }))
+          })),
         ]}
       />
-      {errors.budget && <span className={styles.error}>{errors.budget}</span>}
+      {errors.orcamento_id && (
+        <span className={styles.error}>{errors.orcamento_id}</span>
+      )}
 
       <Select
         type="select"
@@ -138,10 +155,12 @@ function ProjectForm() {
           ...categories.map((category) => ({
             value: String(category.id),
             label: category.name,
-          }))
+          })),
         ]}
       />
-      {errors.categoryId && <span className={styles.error}>{errors.categoryId}</span>}
+      {errors.categoryId && (
+        <span className={styles.error}>{errors.categoryId}</span>
+      )}
 
       <SubmitButton text="Criar projeto" />
     </form>

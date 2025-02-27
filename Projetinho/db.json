@@ -1,23 +1,10 @@
 {
   "projects": [
     {
-      "id": "1",
-      "name": "Novo Projeto",
-      "categoryId": "1",
-      "orcamento_id": "2",
-      "budget": "R$ 1.500,00"
-    },
-    {
-      "id": "3d94",
-      "name": "ola",
-      "budget": "2",
-      "categoryId": "2"
-    },
-    {
-      "id": "c999",
-      "name": "Projeto Vanessa",
-      "budget": "3",
-      "categoryId": "3"
+      "id": "416b",
+      "name": "Teste",
+      "orcamento_id": "4",
+      "categoryId": "4"
     }
   ],
   "categories": [
