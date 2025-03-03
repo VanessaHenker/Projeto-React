@@ -1,12 +1,5 @@
 {
-  "projects": [
-    {
-      "id": "636b",
-      "name": "Projeto Vanessa",
-      "orcamento_id": "2",
-      "categoryId": "2"
-    }
-  ],
+  "projects": [],
   "categories": [
     {
       "id": "1",

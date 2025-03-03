@@ -1,8 +1,7 @@
 .projectsContainer {
-  padding: 3em;
+  padding: 2em;
   width: 100%;
   min-height: 100vh;
-  background-color: #f4f7fa;
   box-sizing: border-box;
 }
 
@@ -12,14 +11,13 @@
   align-items: center;
   width: 100%;
   margin-bottom: 4em;
-  gap: 1.5em;
+  gap: 1em;
   flex-wrap: wrap;
 }
 
 .titleContainer h1 {
-  font-size: 32px;
-  font-weight: 600;
-  color: #333;
+  font-size: 30px;
+  color: #000000;
   margin: 0;
 }
 
@@ -28,9 +26,9 @@
   max-width: 1200px;
   margin: 0 auto;
   background-color: #fff;
-  padding: 3em;
+  padding: 2em;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 }
 

@@ -68,7 +68,6 @@ function ProjectCard({
         ></span>{" "}
         {category}
       </p>
-      <p className={styles.orcamentoId}>Orcamento ID: {orcamento_id}</p>
     </div>
   );
 }

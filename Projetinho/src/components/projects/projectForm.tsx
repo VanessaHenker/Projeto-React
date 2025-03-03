@@ -67,24 +67,12 @@ function ProjectForm() {
     let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Nome é obrigatório";
-      valid = false;
-    }
-    if (!formData.orcamento_id) {
-      newErrors.orcamento_id = "Orçamento é obrigatório";
-      valid = false;
-    }
-    if (!formData.categoryId) {
-      newErrors.categoryId = "Categoria é obrigatória";
+    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
       valid = false;
     }
 
     setErrors(newErrors);
-
-    if (!valid) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
-    }
     return valid;
   };
 
@@ -164,6 +152,8 @@ function ProjectForm() {
 
       <SubmitButton text="Criar projeto" />
     </form>
+
+
   );
 }
 
