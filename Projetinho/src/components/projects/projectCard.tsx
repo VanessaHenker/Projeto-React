@@ -63,10 +63,10 @@ function ProjectCard({
       </p>
 
       <div className={styles.actions}>
-        <p>
+        <p className={styles.icons}>
           Editar <BsPencil className={styles.icon} />
         </p>
-        <p>
+        <p className={styles.icons}>
           Excluir{" "}
           <BsFillTrashFill
             className={styles.icon}
