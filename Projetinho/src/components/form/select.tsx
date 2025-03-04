@@ -15,10 +15,20 @@ interface SelectProps {
   options?: Option[];
 }
 
-function Select({ type, text, name, placeholder, handleOnChange, value, options }: SelectProps) {
+function Select({
+  type,
+  text,
+  name,
+  placeholder,
+  handleOnChange,
+  value,
+  options,
+}: SelectProps) {
   return (
     <div className={styles.formControl}>
       <label htmlFor={name}>{text}</label>
+
+     
       {type === 'select' && options ? (
         <select id={name} name={name} onChange={handleOnChange} value={value || ''}>
           {options.map((option) => (
@@ -35,6 +45,7 @@ function Select({ type, text, name, placeholder, handleOnChange, value, options 
           placeholder={placeholder}
           onChange={handleOnChange}
           value={value}
+          aria-placeholder={placeholder} // Melhorando a acessibilidade do campo
         />
       )}
     </div>
