@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: flex-start;
   transition: all 0.3s ease;
-  font-family: "Arial", sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Font mais suave */
   width: 100%;
   max-width: 500px;
   box-sizing: border-box;
@@ -46,7 +46,7 @@
 .categoryText {
   font-size: 1.1em;
   margin: 0;
-  color: #777;
+  color: #777; /* Cor mais suave para o texto */
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -86,55 +86,40 @@
   padding-top: 2em;
 }
 
-/* Estilo para as ações de editar e excluir */
 .actions p {
   display: flex;
   align-items: center;
-  font-size: 1.2em;
+  font-size: 1.2em; 
   gap: 0.3em;
   margin: 0;
   padding: 0.3em 0.6em;
   border-radius: 6px;
   transition: border 0.3s ease, background-color 0.3s ease;
   background-color: #fff;
-  border: 1px solid #333; /* Borda sutil padrão */
-}
-
-/* Estilo para as ações de editar e excluir */
-.actions p {
-  display: flex;
-  align-items: center;
-  font-size: 1.2em;
-  gap: 0.3em;
-  margin: 0;
-  padding: 0.3em 0.6em;
-  border-radius: 6px;
-  transition: border 0.3s ease, background-color 0.3s ease;
-  background-color: #fff;
-  border: 1px solid #333; 
+  border: 1px solid #ddd; 
+  color: #888;
 }
 
 
 .actions p:hover {
-  border: 1px solid #007bff; 
+  border: 1px solid #ffbb33;
   cursor: pointer;
   background-color: #f0f8ff; 
 }
 
 
 .icon {
-  font-size: 1.6em;
-  color: #333;
+  font-size: 1.2em;
+  color: #333; 
   transition: color 0.3s ease;
 }
 
 
 .icon:hover {
-  color: #007bff; 
+  color: #ffbb33; 
 }
 
 
-/* Seção do Orçamento */
 .budgetSection {
   margin-bottom: 2em;
   width: 100%;
@@ -153,8 +138,6 @@
 .budgetSection select:focus {
   border-color: #aeb1b2;
 }
-
-
 
 .budgetSection select:disabled {
   background-color: #f5f5f5;
