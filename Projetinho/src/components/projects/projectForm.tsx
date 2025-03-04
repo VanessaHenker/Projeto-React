@@ -21,22 +21,25 @@ interface OrcamentoType {
 function ProjectForm() {
   const navigate = useNavigate();
 
-  // Note que usamos "orcamento_id" para armazenar o id do orçamento selecionado.
+  // Estado inicial do formulário
   const [formData, setFormData] = useState({
     name: "",
     orcamento_id: "",
     categoryId: "",
   });
 
+  // Estado para erros do formulário
   const [errors, setErrors] = useState({
     name: "",
     orcamento_id: "",
     categoryId: "",
   });
 
+  // Estados para categorias e orçamentos
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
 
+  // Função para buscar dados de categorias e orçamentos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -55,6 +58,7 @@ function ProjectForm() {
     fetchData();
   }, []);
 
+  // Função para lidar com mudanças nos campos do formulário
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -63,6 +67,7 @@ function ProjectForm() {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
+  // Função de validação do formulário
   const validateForm = () => {
     let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
@@ -76,6 +81,7 @@ function ProjectForm() {
     return valid;
   };
 
+  // Função para enviar o formulário
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -152,8 +158,6 @@ function ProjectForm() {
 
       <SubmitButton text="Criar projeto" />
     </form>
-
-
   );
 }
 

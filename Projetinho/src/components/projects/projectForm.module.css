@@ -1,4 +1,84 @@
-.form{
-  width: 100%;
-  margin: 2em 0;
+/* projectForm.module.css */
+
+/* Form container */
+.form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.form h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Form control (input and select elements container) */
+.formControl {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5em;
+}
+
+.formControl label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5em;
+}
+
+.formControl input,
+.formControl select {
+  padding: 0.8em;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s ease;
+  background-color: #f7f7f7;
+}
+
+.formControl input:focus,
+.formControl select:focus {
+  border-color: #3498db;
+  background-color: #f1faff;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+.formControl input::placeholder,
+.formControl select::placeholder {
+  color: #aaa;
+}
+
+/* Error message styles */
+.error {
+  color: #e74c3c;
+  font-size: 0.875rem;
+  margin-top: 0.5em;
+}
+
+/* Submit button */
+button[type='submit'] {
+  background-color: #3498db;
+  color: white;
+  font-size: 1rem;
+  padding: 0.8em 1.5em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type='submit']:hover {
+  background-color: #2980b9;
+}
+
+button[type='submit']:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
 }
