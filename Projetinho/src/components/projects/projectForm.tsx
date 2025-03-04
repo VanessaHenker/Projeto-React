@@ -122,7 +122,7 @@ function ProjectForm() {
 
       <Orcamento
         type="select"
-        text="Selecione o orçamento"
+        text="Selecione o orçamento:"
         name="orcamento_id"
         handleOnChange={handleInputChange}
         value={formData.orcamento_id}
