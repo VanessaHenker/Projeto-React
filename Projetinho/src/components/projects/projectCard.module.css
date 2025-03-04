@@ -6,11 +6,12 @@
   margin-bottom: 2em;
   display: flex;
   flex-direction: column;
-  
   align-items: flex-start;
   transition: all 0.3s ease;
   font-family: "Arial", sans-serif;
-  width: 40%;
+  width: 100%; /* Mudança para ser 100% da largura por padrão */
+  max-width: 500px; /* Limita a largura máxima */
+  box-sizing: border-box;
 }
 
 .projectCard:hover {
@@ -43,7 +44,7 @@
   gap: 1em;
   font-size: 0.9em;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .icon {
@@ -64,7 +65,7 @@
 
 .categoryText {
   font-size: 1.1em;
-  margin: auto;
+  margin: 0;
   color: #777;
   font-weight: 500;
 }
@@ -89,4 +90,36 @@
   outline: none;
   border-color: #0056b3;
   background-color: #e4eaf1;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .projectCard {
+    padding: 1.5em;
+    width: 100%; /* Vai ocupar toda a largura disponível em dispositivos menores */
+    max-width: 100%; /* Impede que ultrapasse o limite da tela */
+  }
+
+  .header h4 {
+    font-size: 1.2em;
+    padding: 8px;
+  }
+
+  .actions {
+    gap: 0.5em;
+    font-size: 0.85em;
+  }
+
+  .icon {
+    font-size: 1.4em;
+  }
+
+  .categoryText {
+    font-size: 1em;
+  }
+
+  .budgetSection select {
+    padding: 0.4em 0.8em;
+    font-size: 0.9em;
+  }
 }

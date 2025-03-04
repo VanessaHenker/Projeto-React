@@ -63,12 +63,17 @@ function ProjectCard({
       </p>
 
       <div className={styles.actions}>
-          <BsPencil className={styles.icon} />
+        <p>
+          Editar <BsPencil className={styles.icon} />
+        </p>
+        <p>
+          Excluir{" "}
           <BsFillTrashFill
             className={styles.icon}
             onClick={() => handleRemove(id)}
           />
-        </div>
+        </p>
+      </div>
     </div>
   );
 }
