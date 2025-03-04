@@ -72,7 +72,7 @@
 }
 
 .categoryText.defaultCategory .categoryDot {
-  background-color: #888; /* Cor padrão caso a categoria não seja especificada */
+  background-color: #00bbff; /* Cor padrão caso a categoria não seja especificada */
 }
 
 /* Seção de Ações */

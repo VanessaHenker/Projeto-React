@@ -3,6 +3,7 @@ import styles from "./projectCard.module.css";
 import { BsPencil, BsFillTrashFill } from "react-icons/bs";
 import Orcamento from "../form/orcamento";
 
+// Definindo o tipo de opção
 interface Option {
   value: string;
   label: string;
@@ -25,7 +26,7 @@ function ProjectCard({
   handleRemove,
   updateBudget,
 }: ProjectCardProps) {
-  // Opções de orçamento – podem ser obtidas de um arquivo de configuração ou via props
+  // Definindo as opções de orçamento
   const orcamentoOptions: Option[] = [
     { value: "1", label: "R$ 1.500,00" },
     { value: "2", label: "R$ 2.000,00" },
@@ -33,11 +34,26 @@ function ProjectCard({
     { value: "4", label: "R$ 5.250,00" },
   ];
 
+  // Função para lidar com a mudança do orçamento
   const handleBudgetChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
     const newBudgetId = e.target.value;
     updateBudget(id, newBudgetId);
+  };
+
+  // Função para determinar a classe da categoria
+  const getCategoryClass = (category: string) => {
+    switch (category.toLowerCase()) {
+      case "development":
+        return styles.development;
+      case "design":
+        return styles.design;
+      case "management":
+        return styles.management;
+      default:
+        return styles.defaultCategory;
+    }
   };
 
   return (
@@ -55,13 +71,13 @@ function ProjectCard({
           options={orcamentoOptions}
         />
       </div>
-      <p className={styles.categoryText}>
-        <span
-          className={`${styles[category?.toLowerCase() || "defaultCategory"]}`}
-        ></span>{" "}
-        {category}
+
+      {/* Categoria do Projeto com cor dinâmica */}
+      <p className={`${styles.categoryText} ${getCategoryClass(category)}`}>
+        <span className={styles.categoryDot}></span> {category}
       </p>
 
+      {/* Ações do Projeto (Editar e Excluir) */}
       <div className={styles.actions}>
         <p className={styles.icons}>
           Editar <BsPencil className={styles.icon} />

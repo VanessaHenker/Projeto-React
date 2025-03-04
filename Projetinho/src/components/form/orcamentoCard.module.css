@@ -5,6 +5,7 @@
  }
 
 .formControl label {
+  font-family: "Times New Roman", serif;
   margin-bottom: 0.6em;
   font-weight: bold;
   font-size: 1.2rem; 
