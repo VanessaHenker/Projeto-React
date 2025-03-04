@@ -44,13 +44,6 @@ function ProjectCard({
     <div className={styles.projectCard}>
       <div className={styles.header}>
         <h4>{name}</h4>
-        <div className={styles.actions}>
-          <BsPencil className={styles.icon} />
-          <BsFillTrashFill
-            className={styles.icon}
-            onClick={() => handleRemove(id)}
-          />
-        </div>
       </div>
       <div className={styles.budgetSection}>
         <Orcamento
@@ -68,6 +61,14 @@ function ProjectCard({
         ></span>{" "}
         {category}
       </p>
+
+      <div className={styles.actions}>
+          <BsPencil className={styles.icon} />
+          <BsFillTrashFill
+            className={styles.icon}
+            onClick={() => handleRemove(id)}
+          />
+        </div>
     </div>
   );
 }
