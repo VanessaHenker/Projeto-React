@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './select.module.css';
+import styles from './orcamentoCard.module.css';
 
 interface Option {
   value: string;
