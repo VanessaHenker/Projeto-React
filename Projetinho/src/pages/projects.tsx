@@ -7,7 +7,6 @@ import Loading from "../components/layout/loading";
 import LinkButton from "../components/layout/linkButton";
 import ProjectCard from "../components/projects/projectCard";
 
-
 interface Project {
   id: string;
   name: string;
@@ -31,7 +30,7 @@ function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
-  const [removeLoading, setRemoveLoading = useState(false)]
+  const [removeLoading, setRemoveLoading] = useState(false); // Correção do estado
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || "";
@@ -85,11 +84,13 @@ function Projects() {
 
   const handleRemove = async (id: string) => {
     try {
+      setRemoveLoading(true); // Inicia o loading antes da remoção
       await fetch(`http://localhost:5000/projects/${id}`, { method: "DELETE" });
       setProjects((prevProjects) => prevProjects.filter((p) => p.id !== id));
-      setRemoveLoading(true)
+      setRemoveLoading(false); // Finaliza o loading após a remoção
     } catch (error) {
       console.error("Erro ao remover projeto:", error);
+      setRemoveLoading(false); // Finaliza o loading caso erro
     }
   };
 
@@ -113,12 +114,12 @@ function Projects() {
   return (
     <div className={styles.projectsContainer}>
       <div className={styles.titleContainer}>
-        <div className= {styles.tittlesCenter}>
-        <h1>Meus Projetos</h1>
-        <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
-      </div>
+        <div className={styles.tittlesCenter}>
+          <h1>Meus Projetos</h1>
+          <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
+        </div>
 
-      <LinkButton text="Criar Projeto" to="/criar-projeto" />
+        <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
 
       <div className={styles.projectsCreate}>
@@ -134,7 +135,7 @@ function Projects() {
               updateBudget={updateProjectBudget}
             />
           ))}
-          {!removeLoading  && <Loading />}
+          {removeLoading && <Loading />} 
         </Container>
       </div>
     </div>
