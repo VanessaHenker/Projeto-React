@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FaPlus, FaTrash } from "react-icons/fa"; // Importando os ícones
 
 import styles from "./projects.module.css";
 import Container from "../components/layout/container";
@@ -109,10 +110,14 @@ function Projects() {
   return (
     <div className={styles.projectsContainer}>
       <div className={styles.titleContainer}>
-        <h1>Meus Projetos</h1>
-        <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
+        <div className={styles.tittlesCenter}>
+          <h1>Meus Projetos</h1>
+          <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
+        </div>
 
-        <LinkButton text="Criar Projeto" to="/criar-projeto" />
+        <LinkButton text="Criar Projeto" to="/criar-projeto">
+          <FaPlus style={{ marginLeft: '10px' }} />
+        </LinkButton>
       </div>
 
       <div className={styles.projectsCreate}>

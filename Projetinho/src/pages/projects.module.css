@@ -7,7 +7,6 @@
 
 .titleContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   margin-bottom: 4em;
@@ -15,15 +14,32 @@
   flex-wrap: wrap;
 }
 
-.titleContainer h1 {
-  font-size: 30px;
-  color: #000000;
-  margin: 0;
+.tittlesCenter{
+  text-align: center;
+  margin: auto;
 }
 
-.titleContainer h2{
-  
+.titleContainer h1 {
+  font-family: 'Poppins', sans-serif; 
+  font-size: 2em;
+  color:  #ffbb33;
+  font-weight: bold;
+  font-style: italic;
+  margin: 0;
+  padding-top: 10px;
 }
+
+
+.titleContainer h2 {
+  font-family: 'Poppins', sans-serif; 
+  font-size: 1.2em; 
+  color: #333; 
+  margin-top: 10px;
+  font-weight: normal; 
+  line-height: 1.4; 
+  text-align: center; 
+}
+
 
 .projectsCreate {
   width: 80%;
