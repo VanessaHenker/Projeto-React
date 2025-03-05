@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaPlus } from "react-icons/fa";  
 
 import styles from "./projects.module.css";
 import Container from "../components/layout/container";
@@ -90,6 +89,7 @@ function Projects() {
     }
   };
 
+  // Função para atualizar o orçamento de um projeto
   const updateProjectBudget = (projectId: string, newBudgetId: string) => {
     setProjects((prevProjects) =>
       prevProjects.map((project) => {
@@ -109,14 +109,12 @@ function Projects() {
   return (
     <div className={styles.projectsContainer}>
       <div className={styles.titleContainer}>
-        <div className={styles.tittlesCenter}>
-          <h1>Meus Projetos</h1>
-          <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
+        <div className= {styles.tittlesCenter}>
+        <h1>Meus Projetos</h1>
+        <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
         </div>
 
-        <LinkButton text="Criar Projeto" to="/criar-projeto">
-          <FaPlus style={{ marginLeft: '10px' }} />  {/* Ícone de "adicionar" */}
-        </LinkButton>
+      <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
 
       <div className={styles.projectsCreate}>
