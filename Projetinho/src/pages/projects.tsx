@@ -3,8 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import styles from "./projects.module.css";
 import Container from "../components/layout/container";
+import Loading from "../components/layout/loading";
 import LinkButton from "../components/layout/linkButton";
 import ProjectCard from "../components/projects/projectCard";
+
 
 interface Project {
   id: string;
@@ -29,6 +31,7 @@ function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
+  const [removeLoading, setRemoveLoading = useState(false)]
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || "";
@@ -84,6 +87,7 @@ function Projects() {
     try {
       await fetch(`http://localhost:5000/projects/${id}`, { method: "DELETE" });
       setProjects((prevProjects) => prevProjects.filter((p) => p.id !== id));
+      setRemoveLoading(true)
     } catch (error) {
       console.error("Erro ao remover projeto:", error);
     }
@@ -130,6 +134,7 @@ function Projects() {
               updateBudget={updateProjectBudget}
             />
           ))}
+          {!removeLoading  && <Loading />}
         </Container>
       </div>
     </div>
