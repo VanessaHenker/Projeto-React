@@ -112,7 +112,7 @@ function Projects() {
         <div className= {styles.tittlesCenter}>
         <h1>Meus Projetos</h1>
         <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
-        </div>
+      </div>
 
       <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
