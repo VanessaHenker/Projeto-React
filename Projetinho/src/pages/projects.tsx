@@ -110,6 +110,8 @@ function Projects() {
     <div className={styles.projectsContainer}>
       <div className={styles.titleContainer}>
         <h1>Meus Projetos</h1>
+        <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
+
         <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
 
