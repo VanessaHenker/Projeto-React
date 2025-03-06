@@ -6,6 +6,7 @@ import Container from "../components/layout/container";
 import Loading from "../components/layout/loading";
 import LinkButton from "../components/layout/linkButton";
 import ProjectCard from "../components/projects/projectCard";
+import Message from "../components/layout/message";  // Importando o componente Message
 
 interface Project {
   id: string;
@@ -32,6 +33,7 @@ function Projects() {
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [removeLoading, setRemoveLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [projectMessage, setProjectMessage] = useState<string>(''); // Corrigir nome da variável de estado
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || "";
@@ -92,9 +94,10 @@ function Projects() {
       await fetch(`http://localhost:5000/projects/${id}`, { method: "DELETE" });
       setProjects((prevProjects) => prevProjects.filter((p) => p.id !== id));
       setRemoveLoading(false);
+      setProjectMessage('Projeto removido com sucesso!'); // Mensagem de sucesso
     } catch (error) {
       setRemoveLoading(false);
-      alert("Falha ao remover o projeto. Tente novamente.");
+      setProjectMessage('Erro ao remover projeto!'); // Mensagem de erro
     }
   };
 
@@ -128,6 +131,9 @@ function Projects() {
       </div>
 
       {error && <div className={styles.error}>{error}</div>}
+
+      {/* Exibir a mensagem de sucesso ou erro usando o componente Message */}
+      <Message type="success" msg={projectMessage} />
 
       <div className={styles.projectsCreate}>
         <Container>
