@@ -32,7 +32,7 @@ function Projects() {
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [removeLoading, setRemoveLoading] = useState(false);
   const [error, setError] = useState<string | null>(null); // Para erros gerais
-  const [projectMessage, setProjetMessage] = useState('')
+  const [projectMessage, setProjetMessage] = useState(''); // Corrigido aqui
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || "";
@@ -93,9 +93,9 @@ function Projects() {
       await fetch(`http://localhost:5000/projects/${id}`, { method: "DELETE" });
       setProjects((prevProjects) => prevProjects.filter((p) => p.id !== id));
       setRemoveLoading(false);
-      setProjectMessage('Projeto removido com sucesso!')
+      setProjetMessage('Projeto removido com sucesso!'); // Corrigido aqui
     } catch (error) {
-      setProjectMessage('Erro ao remover projeto: ', error)
+      setProjetMessage(`Erro ao remover projeto: ${error}`); // Corrigido aqui
       setRemoveLoading(false);
       alert("Falha ao remover o projeto. Tente novamente.");
     }
