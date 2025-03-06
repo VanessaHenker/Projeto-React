@@ -32,6 +32,7 @@ function Projects() {
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [removeLoading, setRemoveLoading] = useState(false);
   const [error, setError] = useState<string | null>(null); // Para erros gerais
+  const [projectMessage, setProjetMessage] = useState('')
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || "";
@@ -88,9 +89,9 @@ function Projects() {
       await fetch(`http://localhost:5000/projects/${id}`, { method: "DELETE" });
       setProjects((prevProjects) => prevProjects.filter((p) => p.id !== id));
       setRemoveLoading(false);
-      alert("Projeto removido com sucesso!");
+      setProjectMessage('Projeto removido com sucesso!')
     } catch (error) {
-      console.error("Erro ao remover projeto:", error);
+      setProjectMessage('Erro ao remover projeto: ', error)
       setRemoveLoading(false);
       alert("Falha ao remover o projeto. Tente novamente.");
     }
@@ -125,10 +126,9 @@ function Projects() {
         <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
 
-      {/* Verificação de erro */}
       {error && <div className={styles.error}>{error}</div>}
 
-      {/* Lista de Projetos */}
+     
       <div className={styles.projectsCreate}>
         <Container>
           {categories.length === 0 || orcamentos.length === 0 ? (
@@ -147,7 +147,6 @@ function Projects() {
             ))
           )}
 
-          {/* Mostra o loading se a remoção estiver em andamento */}
           {removeLoading && <Loading />}
         </Container>
       </div>

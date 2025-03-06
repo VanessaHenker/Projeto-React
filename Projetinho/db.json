@@ -1,12 +1,5 @@
 {
-  "projects": [
-    {
-      "id": "8a7e",
-      "name": "Projeto",
-      "orcamento_id": "1",
-      "categoryId": "3"
-    }
-  ],
+  "projects": [],
   "categories": [
     {
       "id": "1",
