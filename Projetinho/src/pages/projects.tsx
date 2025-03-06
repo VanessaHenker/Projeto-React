@@ -62,26 +62,30 @@ function Projects() {
 
   useEffect(() => {
     if (categories.length > 0 && orcamentos.length > 0) {
-      fetch("http://localhost:5000/projects")
-        .then((response) => response.json())
-        .then((data: Project[]) => {
-          const updatedProjects = data.map((project) => {
-            const category = categories.find((cat) => cat.id === project.categoryId);
-            const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
-            return {
-              ...project,
-              category: category ? category.name : "Categoria Desconhecida",
-              budget: orcamento ? orcamento.name : "R$ 0,00",
-            };
-          });
-          setProjects(updatedProjects);
-        })
-        .catch((err) => {
-          console.error("Erro na requisição dos projetos:", err);
-          setError("Falha ao carregar projetos. Tente novamente.");
-        });
+      fetchProjects();
     }
   }, [categories, orcamentos]);
+  
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/projects");
+      const data: Project[] = await response.json();
+      const updatedProjects = data.map((project) => {
+        const category = categories.find((cat) => cat.id === project.categoryId);
+        const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
+        return {
+          ...project,
+          category: category ? category.name : "Categoria Desconhecida",
+          budget: orcamento ? orcamento.name : "R$ 0,00",
+        };
+      });
+      setProjects(updatedProjects);
+    } catch (err) {
+      console.error("Erro na requisição dos projetos:", err);
+      setError("Falha ao carregar projetos. Tente novamente.");
+    }
+  };
+  
 
   const handleRemove = async (id: string) => {
     try {
