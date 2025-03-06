@@ -30,29 +30,31 @@ function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
-  const [removeLoading, setRemoveLoading] = useState(false); // Correção do estado
+  const [removeLoading, setRemoveLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null); // Para erros gerais
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || "";
+
+  // Função para buscar categorias e orçamentos
+  const fetchCategoriesAndOrcamentos = async () => {
+    try {
+      const [categoriesData, orcamentosData] = await Promise.all([
+        fetch("http://localhost:5000/categories").then((res) => res.json()),
+        fetch("http://localhost:5000/orcamentos").then((res) => res.json()),
+      ]);
+      setCategories(categoriesData);
+      setOrcamentos(orcamentosData);
+    } catch (err) {
+      console.error("Erro ao buscar categorias ou orçamentos", err);
+      setError("Falha ao carregar categorias ou orçamentos. Tente novamente.");
+    }
+  };
 
   useEffect(() => {
     if (message) {
       navigate(".", { replace: true });
     }
-
-    const fetchCategoriesAndOrcamentos = async () => {
-      try {
-        const [categoriesData, orcamentosData] = await Promise.all([
-          fetch("http://localhost:5000/categories").then((res) => res.json()),
-          fetch("http://localhost:5000/orcamentos").then((res) => res.json()),
-        ]);
-
-        setCategories(categoriesData);
-        setOrcamentos(orcamentosData);
-      } catch (err) {
-        console.error("Erro ao buscar categorias ou orçamentos", err);
-      }
-    };
 
     fetchCategoriesAndOrcamentos();
   }, [message, navigate]);
@@ -63,34 +65,34 @@ function Projects() {
         .then((response) => response.json())
         .then((data: Project[]) => {
           const updatedProjects = data.map((project) => {
-            const category = categories.find(
-              (cat) => cat.id === project.categoryId
-            );
-            const orcamento = orcamentos.find(
-              (orc) => orc.id === project.orcamento_id
-            );
+            const category = categories.find((cat) => cat.id === project.categoryId);
+            const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
             return {
               ...project,
               category: category ? category.name : "Categoria Desconhecida",
               budget: orcamento ? orcamento.name : "R$ 0,00",
             };
           });
-          console.log("Projetos carregados:", updatedProjects);
           setProjects(updatedProjects);
         })
-        .catch((err) => console.error("Erro na requisição dos projetos:", err));
+        .catch((err) => {
+          console.error("Erro na requisição dos projetos:", err);
+          setError("Falha ao carregar projetos. Tente novamente.");
+        });
     }
   }, [categories, orcamentos]);
 
   const handleRemove = async (id: string) => {
     try {
-      setRemoveLoading(true); // Inicia o loading antes da remoção
+      setRemoveLoading(true);
       await fetch(`http://localhost:5000/projects/${id}`, { method: "DELETE" });
       setProjects((prevProjects) => prevProjects.filter((p) => p.id !== id));
-      setRemoveLoading(false); // Finaliza o loading após a remoção
+      setRemoveLoading(false);
+      alert("Projeto removido com sucesso!");
     } catch (error) {
       console.error("Erro ao remover projeto:", error);
-      setRemoveLoading(false); // Finaliza o loading caso erro
+      setRemoveLoading(false);
+      alert("Falha ao remover o projeto. Tente novamente.");
     }
   };
 
@@ -113,6 +115,7 @@ function Projects() {
 
   return (
     <div className={styles.projectsContainer}>
+      {/* Título e Descrição */}
       <div className={styles.titleContainer}>
         <div className={styles.tittlesCenter}>
           <h1>Meus Projetos</h1>
@@ -122,20 +125,30 @@ function Projects() {
         <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
 
+      {/* Verificação de erro */}
+      {error && <div className={styles.error}>{error}</div>}
+
+      {/* Lista de Projetos */}
       <div className={styles.projectsCreate}>
         <Container>
-          {projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              id={project.id}
-              name={project.name}
-              category={project.category ?? "Categoria Desconhecida"}
-              orcamento_id={project.orcamento_id}
-              handleRemove={handleRemove}
-              updateBudget={updateProjectBudget}
-            />
-          ))}
-          {removeLoading && <Loading />} 
+          {categories.length === 0 || orcamentos.length === 0 ? (
+            <Loading />
+          ) : (
+            projects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                id={project.id}
+                name={project.name}
+                category={project.category ?? "Categoria Desconhecida"}
+                orcamento_id={project.orcamento_id}
+                handleRemove={handleRemove}
+                updateBudget={updateProjectBudget}
+              />
+            ))
+          )}
+
+          {/* Mostra o loading se a remoção estiver em andamento */}
+          {removeLoading && <Loading />}
         </Container>
       </div>
     </div>
