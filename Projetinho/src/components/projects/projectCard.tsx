@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./projectCard.module.css";
 import { BsPencil, BsFillTrashFill } from "react-icons/bs";
 import Orcamento from "../form/orcamento";
+import { Link } from "react-router-dom";
 
 // Definindo o tipo de opção
 interface Option {
@@ -80,6 +81,7 @@ function ProjectCard({
       {/* Ações do Projeto (Editar e Excluir) */}
       <div className={styles.actions}>
         <p className={styles.icons}>
+          <Link to = {'projects'}/>
           Editar <BsPencil className={styles.icon} />
         </p>
         <p className={styles.icons}>
