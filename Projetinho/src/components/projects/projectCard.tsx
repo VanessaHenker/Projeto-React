@@ -79,11 +79,12 @@ function ProjectCard({
       </p>
       <div className={styles.actions}>
         <p className={`${styles.icons} ${styles.editDeleteButton}`}>
-          <Link to={`/projectOne/${id}`}>Editar <BsPencil className={styles.icon}/></Link>
+          <Link to={`/projectOne/${id}`} className={styles.link}>
+            Editar <BsPencil className={styles.icon} />
+          </Link>
         </p>
 
-        <p
-          className={`${styles.icons} ${styles.editDeleteButton}`}
+        <p className={`${styles.icons} ${styles.editDeleteButton}`}
           onClick={() => handleRemove(id)}>Excluir{" "}
           <BsFillTrashFill className={styles.icon} />
         </p>

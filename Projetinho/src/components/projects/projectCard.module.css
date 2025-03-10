@@ -39,6 +39,7 @@
   text-align: center;
   font-family: "Times New Roman", serif;
   padding: 10px;
+  border-radius: 7px;
 }
 
 
@@ -87,7 +88,7 @@
 .actions p {
   display: flex;
   align-items: center;
-  font-size: 1.2em; 
+  font-size: 1.3em; 
   gap: 0.3em;
   margin: 0;
   padding: 0.3em 0.6em;
@@ -96,8 +97,8 @@
   background-color: #fff;
   border: 1px solid #ddd; 
   color: #888;
+  text-transform: none;
 }
-
 
 .actions p:hover {
   border: 1px solid #ffbb33;
@@ -143,6 +144,10 @@
   color: #aaa;
 }
 
+.link {
+  text-decoration: none;  /* Remove o sublinhado */
+  color: inherit;  /* Herda a cor do contêiner, ou defina a cor desejada */
+}
 /* Responsividade */
 @media (max-width: 768px) {
   .projectCard {
