@@ -77,22 +77,19 @@ function ProjectCard({
       <p className={`${styles.categoryText} ${getCategoryClass(category)}`}>
         <span className={styles.categoryDot}></span> {category}
       </p>
-
-     
       <div className={styles.actions}>
-        <p className={styles.icons}>
-          <Link to={`/projectOne/${id}`}> 
-            Editar <BsPencil className={styles.icon} />
-          </Link>
+        <p className={`${styles.icons} ${styles.editDeleteButton}`}>
+          <Link to={`/projectOne/${id}`}>Editar <BsPencil className={styles.icon}/></Link>
         </p>
-        <p className={styles.icons}>
-          Excluir{" "}
-          <BsFillTrashFill
-            className={styles.icon}
-            onClick={() => handleRemove(id)}
-          />
+
+        <p
+          className={`${styles.icons} ${styles.editDeleteButton}`}
+          onClick={() => handleRemove(id)}>Excluir{" "}
+          <BsFillTrashFill className={styles.icon} />
         </p>
       </div>
+
+
     </div>
   );
 }
