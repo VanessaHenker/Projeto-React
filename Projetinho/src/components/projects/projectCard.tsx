@@ -73,16 +73,17 @@ function ProjectCard({
         />
       </div>
 
-      {/* Categoria do Projeto com cor dinâmica */}
+
       <p className={`${styles.categoryText} ${getCategoryClass(category)}`}>
         <span className={styles.categoryDot}></span> {category}
       </p>
 
-      {/* Ações do Projeto (Editar e Excluir) */}
+     
       <div className={styles.actions}>
         <p className={styles.icons}>
-          <Link to = {'projects'}/>
-          Editar <BsPencil className={styles.icon} />
+          <Link to={`/projectOne/${id}`}> 
+            Editar <BsPencil className={styles.icon} />
+          </Link>
         </p>
         <p className={styles.icons}>
           Excluir{" "}
