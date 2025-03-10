@@ -1,5 +1,12 @@
 {
-  "projects": [],
+  "projects": [
+    {
+      "id": "04c0",
+      "name": "Projeto",
+      "orcamento_id": "2",
+      "categoryId": "2"
+    }
+  ],
   "categories": [
     {
       "id": "1",
