@@ -1,4 +1,4 @@
-
+import styles from './projectOne.module.css'
 
 
 
