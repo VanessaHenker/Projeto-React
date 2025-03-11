@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import styles from './projectOne.module.css';
 
 interface Project {
   name: string;
   description: string;
-  // Adicione outros campos conforme necessário
 }
 
 function ProjectOne() {
@@ -28,9 +28,9 @@ function ProjectOne() {
   }
 
   return (
-    <div>
-      <h1>{project.name}</h1>
-      <p>{project.description}</p>
+    <div className={styles.projectContainer}>
+      <h1 className={styles.projectTitle}>{project.name}</h1>
+      <p className={styles.projectDescription}>{project.description}</p>
     </div>
   );
 }
