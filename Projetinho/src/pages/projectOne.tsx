@@ -1,9 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+interface Project {
+  name: string;
+  description: string;
+  // Adicione outros campos conforme necessário
+}
+
 function ProjectOne() {
   const { id } = useParams();
-  const [project, setProject] = useState(null);
+  const [project, setProject] = useState<Project | null>(null);
 
   useEffect(() => {
     fetch(`http://localhost:5000/projects/${id}`, {
