@@ -75,6 +75,10 @@
 
 .contentButtons{
   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 10px;
 }
 /* Responsividade */
 @media (max-width: 768px) {

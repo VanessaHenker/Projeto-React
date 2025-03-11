@@ -1,6 +1,6 @@
 import React from "react";
 import { BsPencil, BsFillTrashFill } from "react-icons/bs";
-import styles from './actionButton.module.css';  // Importando o CSS module corretamente
+import styles from './actionButton.module.css';
 import { Link } from "react-router-dom";
 
 interface ActionButtonProps {
@@ -8,7 +8,7 @@ interface ActionButtonProps {
   label: string;
   iconClass: string;
   onClick?: () => void;
-  to?: string; // 'to' agora é opcional
+  to?: string; 
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -19,9 +19,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   to,
 }) => {
   return (
-    <div className={styles.actionButtonContainer}> {/* Usando a classe da maneira certa */}
+    <div>
       {type === "edit" && to ? (
-        <Link to={to} className={`${styles.editButton} ${styles.button}`}>
+        <Link to={to} className={`${styles.editButton} ${styles.button} ${styles.link}`}>
           {label} <BsPencil className={iconClass} />
         </Link>
       ) : (

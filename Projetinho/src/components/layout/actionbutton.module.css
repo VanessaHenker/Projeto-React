@@ -1,20 +1,21 @@
-.actionButtonContainer {
-  display: flex;
-  gap: 1em; /* Espaçamento entre os botões */
-  justify-content: center; /* Centraliza os botões */
-  align-items: center; /* Alinha verticalmente no centro */
-  margin: 0.5em 0; /* Margem entre os botões */
-}
-
 .button {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  font-size: 1.1em;
-  padding: 0.6em;
+  font-size: 1.2em;
+  padding: 0.5em;
   border-radius: 6px;
   transition: background-color 0.3s ease, color 0.3s ease;
   cursor: pointer;
+}
+
+.link {
+  text-decoration: none; 
+  text-transform: none; 
+}
+
+.button {
+  text-transform: none; 
 }
 
 .editButton {
@@ -25,9 +26,4 @@
 .deleteButton {
   background-color: #ffcccb;
   color: #b94e49;
-}
-
-.button:hover {
-  background-color: #f2f2f2; /* Cor de fundo ao passar o mouse */
-  color: #333;
 }
