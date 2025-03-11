@@ -1,17 +1,14 @@
-import styles from './actionbutton.module.css'
-
 import React from "react";
 import { BsPencil, BsFillTrashFill } from "react-icons/bs";
+import styles from './actionButton.module.css';
 import { Link } from "react-router-dom";
 
-
 interface ActionButtonProps {
-  type: "edit" | "delete"; 
+  type: "edit" | "delete";
   label: string;
   iconClass: string;
-  onClick?: () => void; 
-  to?: string; 
-  id?: string;
+  onClick?: () => void;
+  to?: string;
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -20,7 +17,6 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   iconClass,
   onClick,
   to,
-  id,
 }) => {
   return (
     <p className={`${styles.icons} ${styles.editDeleteButton}`}>

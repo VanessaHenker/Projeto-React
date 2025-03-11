@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./projectCard.module.css";
-import { BsPencil, BsFillTrashFill } from "react-icons/bs";
 import Orcamento from "../form/orcamento";
-import { Link } from "react-router-dom";
+import ActionButton from "../layout/actionButton";
 
 // Definindo o tipo de opção
 interface Option {
@@ -19,14 +18,14 @@ interface ProjectCardProps {
   updateBudget: (id: string, newBudgetId: string) => void;
 }
 
-function ProjectCard({
+const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   name,
   category,
   orcamento_id,
   handleRemove,
   updateBudget,
-}: ProjectCardProps) {
+}) => {
   // Definindo as opções de orçamento
   const orcamentoOptions: Option[] = [
     { value: "1", label: "R$ 1.500,00" },
@@ -36,9 +35,7 @@ function ProjectCard({
   ];
 
   // Função para lidar com a mudança do orçamento
-  const handleBudgetChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
-  ) => {
+  const handleBudgetChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const newBudgetId = e.target.value;
     updateBudget(id, newBudgetId);
   };
@@ -73,26 +70,25 @@ function ProjectCard({
         />
       </div>
 
-
       <p className={`${styles.categoryText} ${getCategoryClass(category)}`}>
         <span className={styles.categoryDot}></span> {category}
       </p>
-      <div className={styles.actions}>
-        <p className={`${styles.icons} ${styles.editDeleteButton}`}>
-          <Link to={`/projectOne/${id}`} className={styles.link}>
-            Editar <BsPencil className={styles.icon} />
-          </Link>
-        </p>
 
-        <p className={`${styles.icons} ${styles.editDeleteButton}`}
-          onClick={() => handleRemove(id)}>Excluir{" "}
-          <BsFillTrashFill className={styles.icon} />
-        </p>
-      </div>
+      <ActionButton
+        type="edit"
+        label="Editar"
+        iconClass={styles.icon}
+        to={`/projectOne/${id}`}
+      />
 
-
+      <ActionButton
+        type="delete"
+        label="Excluir"
+        iconClass={styles.icon}
+        onClick={() => handleRemove(id)}
+      />
     </div>
   );
-}
+};
 
 export default ProjectCard;
