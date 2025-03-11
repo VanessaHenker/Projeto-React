@@ -1,6 +1,6 @@
 import React from "react";
 import { BsPencil, BsFillTrashFill } from "react-icons/bs";
-import styles from './actionButton.module.css';
+import styles from './actionButton.module.css';  // Importando o CSS module corretamente
 import { Link } from "react-router-dom";
 
 interface ActionButtonProps {
@@ -19,18 +19,17 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   to,
 }) => {
   return (
-    <p className={`${styles.icons} ${styles.editDeleteButton}`}>
+    <div className={styles.actionButtonContainer}> {/* Usando a classe da maneira certa */}
       {type === "edit" && to ? (
-      
-        <Link to={to} className={styles.link}>
+        <Link to={to} className={`${styles.editButton} ${styles.button}`}>
           {label} <BsPencil className={iconClass} />
         </Link>
       ) : (
-        <span className={styles.deleteButton} onClick={onClick}>
+        <span className={`${styles.deleteButton} ${styles.button}`} onClick={onClick}>
           {label} <BsFillTrashFill className={iconClass} />
         </span>
       )}
-    </p>
+    </div>
   );
 };
 

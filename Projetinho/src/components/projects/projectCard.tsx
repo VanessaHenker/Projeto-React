@@ -74,19 +74,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <span className={styles.categoryDot}></span> {category}
       </p>
 
-      <ActionButton
-        type="edit"
-        label="Editar"
-        iconClass={styles.icon}
-        to={`/projectOne/${id}`}
-      />
+      <div className={`${styles.contentButton}`}>
+        <ActionButton
+          type="edit"
+          label="Editar"
+          iconClass={styles.icon}
+          to={`/projectOne/${id}`}
+        />
 
-      <ActionButton
-        type="delete"
-        label="Excluir"
-        iconClass={styles.icon}
-        onClick={() => handleRemove(id)}
-      />
+        <ActionButton
+          type="delete"
+          label="Excluir"
+          iconClass={styles.icon}
+          onClick={() => handleRemove(id)}
+        />
+      </div>
     </div>
   );
 };

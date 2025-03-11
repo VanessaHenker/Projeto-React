@@ -1,117 +1,33 @@
-
-.actions {
+.actionButtonContainer {
   display: flex;
-  gap: 1em;
-  font-size: 0.9em;
-  align-items: center;
-  justify-content: flex-end;
-  padding-top: 2em;
-  margin-bottom: 2em; 
+  gap: 1em; /* Espaçamento entre os botões */
+  justify-content: center; /* Centraliza os botões */
+  align-items: center; /* Alinha verticalmente no centro */
+  margin: 0.5em 0; /* Margem entre os botões */
 }
 
-
-.actions p {
-  display: flex;
-  align-items: center;
-  font-size: 1.3em;
-  gap: 0.3em;
-  margin: 0;
-  padding: 0.3em 0.6em;
-  border-radius: 6px;
-  transition: border 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  color: #888; 
-  text-transform: none;
-}
-
-
-.actions p:hover {
-  border: 1px solid #ffbb33;
-  cursor: pointer;
-  background-color: #f0f8ff;
-  color: #333; 
-}
-
-
-.icon {
-  font-size: 1.2em;
-  color: #333;
-  transition: color 0.3s ease;
-}
-
-.icon:hover {
-  color: #ffbb33;
-}
-
-
-.budgetSection {
-  margin-bottom: 2em;
-  width: 100%;
-}
-
-.budgetSection select {
-  padding: 0.7em;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s ease;
-  width: 100%;
-}
-
-
-.budgetSection select:focus {
-  border-color: #aeb1b2;
-}
-
-
-.budgetSection select:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-  color: #aaa;
-}
-
-/* Link estilizado para remover o sublinhado e herdar a cor */
-.link {
-  text-decoration: none;  /* Remove o sublinhado */
-  color: inherit;  /* Herda a cor do contêiner, ou defina a cor desejada */
-}
-
-/* Estilos para o botão de excluir */
-.deleteButton {
-  background-color: #ffcccb; /* Cor de fundo para botão de excluir */
-  color: #b94e49; /* Cor do texto para botão de excluir */
-  padding: 0.6em;
-  border-radius: 6px;
-  cursor: pointer;
+.button {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
+  font-size: 1.1em;
+  padding: 0.6em;
+  border-radius: 6px;
   transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
 }
 
-/* Efeito de hover no botão de excluir */
-.deleteButton:hover {
-  background-color: #f2dede;
-  color: #a94442;
-}
-
-/* Estilos para o botão de editar */
 .editButton {
-  background-color: #d9edf7; /* Cor de fundo para o botão de editar */
-  color: #31708f; /* Cor do texto para o botão de editar */
-  padding: 0.6em;
-  border-radius: 6px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5em;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #d9edf7;
+  color: #31708f;
 }
 
-/* Efeito de hover no botão de editar */
-.editButton:hover {
-  background-color: #cce5ff;
-  color: #1c5d76;
+.deleteButton {
+  background-color: #ffcccb;
+  color: #b94e49;
+}
+
+.button:hover {
+  background-color: #f2f2f2; /* Cor de fundo ao passar o mouse */
+  color: #333;
 }

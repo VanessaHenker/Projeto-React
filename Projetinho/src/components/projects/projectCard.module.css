@@ -73,6 +73,9 @@
   background-color: #00bbff; 
 }
 
+.contentButtons{
+  display: flex;
+}
 /* Responsividade */
 @media (max-width: 768px) {
   .projectCard {
@@ -89,10 +92,5 @@
 
   .categoryText {
     font-size: 1em;
-  }
-
-  .budgetSection select {
-    padding: 0.4em 0.8em;
-    font-size: 0.9em;
   }
 }
