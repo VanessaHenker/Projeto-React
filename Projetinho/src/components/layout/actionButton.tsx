@@ -8,7 +8,7 @@ interface ActionButtonProps {
   label: string;
   iconClass: string;
   onClick?: () => void;
-  to?: string;
+  to?: string; // 'to' agora é opcional
 }
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -20,8 +20,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
 }) => {
   return (
     <p className={`${styles.icons} ${styles.editDeleteButton}`}>
-      {type === "edit" ? (
-        <Link to={to!} className={styles.link}>
+      {type === "edit" && to ? (
+      
+        <Link to={to} className={styles.link}>
           {label} <BsPencil className={iconClass} />
         </Link>
       ) : (
