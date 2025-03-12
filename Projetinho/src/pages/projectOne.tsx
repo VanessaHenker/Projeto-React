@@ -13,17 +13,23 @@ function ProjectOne() {
   const [project, setProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    setTimeout(() =>)
+    setTimeout(() => {
+      fetch(`http://localhost:5000/projects/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setProject(data))
+        .catch((err) => console.error('Erro ao buscar o projeto:', err));
+    }, 5000); 
   }, [id]);
 
   if (!project) {
-    return <p>Carregando...</p>;
+    return <Loading />; 
   }
 
-  if (!project) {
-    return <Loading />;
-  }
-  
   return (
     <div className={styles.projectContainer}>
       <h1 className={styles.projectTitle}>{project.name}</h1>
