@@ -23,7 +23,7 @@ function ProjectOne() {
         .then((res) => res.json())
         .then((data) => setProject(data))
         .catch((err) => console.error('Erro ao buscar o projeto:', err));
-    }); 
+    }, 300); 
   }, [id]);
 
   if (!project) {
