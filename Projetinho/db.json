@@ -1,16 +1,10 @@
 {
   "projects": [
     {
-      "id": "3268",
-      "name": "Projeto",
+      "id": "ba1d",
+      "name": "Projeto 3",
       "orcamento_id": "3",
-      "categoryId": "2"
-    },
-    {
-      "id": "404d",
-      "name": "Vanessa",
-      "orcamento_id": "3",
-      "categoryId": "2"
+      "categoryId": "1"
     }
   ],
   "categories": [
