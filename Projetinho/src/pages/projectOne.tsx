@@ -35,39 +35,42 @@ function ProjectOne() {
 
   useEffect(() => {
     if (id) {
-      // Simulação de chamada à API
+      setProject(null);
+      setCategories([]);
+      setOrcamentos([]);
+
       fetch(`http://localhost:5000/projects/${id}`)
         .then((res) => res.json())
         .then((data: Data) => {
           const projectData = data.projects.find((p) => p.id === id);
-          setProject(projectData || null);
-          setCategories(data.categories);
-          setOrcamentos(data.orcamentos);
+          if (projectData) {
+            setProject(projectData);
+            setCategories(data.categories);
+            setOrcamentos(data.orcamentos);
+          } else {
+            console.error('Projeto não encontrado');
+          }
         })
         .catch((err) => console.error('Erro ao buscar o projeto:', err));
     }
   }, [id]);
 
-  // Função para obter o nome da categoria com base no id
   const getCategoryName = (categoryId: string) => {
     const category = categories.find((cat) => cat.id === categoryId);
     return category ? category.name : 'Categoria desconhecida';
   };
 
-  // Função para obter o nome do orçamento com base no id
   const getOrcamentoName = (orcamentoId: string) => {
     const orcamento = orcamentos.find((orc) => orc.id === orcamentoId);
     return orcamento ? orcamento.name : 'Orçamento desconhecido';
   };
 
-
-  const toggleProjectForm = () => {
-    setShowProjectForm((prev) => !prev);
-  };
-
-
   if (!project) {
     return <Loading />;
+  }
+
+  function toggleProjectForm() {
+    setShowProjectForm(!showProjectForm);
   }
 
   return (
@@ -87,19 +90,7 @@ function ProjectOne() {
           </p>
         </div>
       ) : (
-
-        <div>
-          <p>Detalhes do Projeto para edição...</p>
-          <form>
-            <label htmlFor="projectName">Nome do Projeto</label>
-            <input
-              type="text"
-              id="projectName"
-              value={project.name}
-              onChange={(e) => setProject({ ...project, name: e.target.value })}
-            />
-          </form>
-        </div>
+        <p>Detalhes do Projeto</p> 
       )}
     </div>
   );
