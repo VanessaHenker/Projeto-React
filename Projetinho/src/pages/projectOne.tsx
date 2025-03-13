@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import styles from './projectOne.module.css';
 import Loading from '../components/layout/loading';
 
-
 interface Category {
   id: string;
   name: string;
