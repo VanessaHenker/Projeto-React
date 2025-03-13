@@ -42,8 +42,24 @@ function ProjectOne() {
       <button onClick={toggleProjectForm}>
         {!showProjectForm ? 'Editar projeto' : 'Fechar'}
       </button>
+      {!showProjectForm ? (
+        <div>
+          <p>
+            <span>Categoria:</span> {project.category.name}
+          </p>
+          <p>
+            <span>Total Utilizado:</span> R$ {project.budget}
+          </p>
+          <p>
+            <span>Total Utilizado:</span> R$ {project.cost}
+          </p>
+        </div>
+      ) : (
+        <p>Detalhes do Projeto</p>
+      )}
     </div>
-  );
+
+  )
 }
 
 export default ProjectOne;
