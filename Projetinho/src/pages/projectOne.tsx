@@ -60,12 +60,14 @@ function ProjectOne() {
     return orcamento ? orcamento.name : 'Orçamento desconhecido';
   };
 
+
+  const toggleProjectForm = () => {
+    setShowProjectForm((prev) => !prev);
+  };
+
+
   if (!project) {
     return <Loading />;
-  }
-
-  function toggleProjectForm() {
-    setShowProjectForm(!showProjectForm);
   }
 
   return (
@@ -85,7 +87,19 @@ function ProjectOne() {
           </p>
         </div>
       ) : (
-        <p>Detalhes do Projeto</p>
+
+        <div>
+          <p>Detalhes do Projeto para edição...</p>
+          <form>
+            <label htmlFor="projectName">Nome do Projeto</label>
+            <input
+              type="text"
+              id="projectName"
+              value={project.name}
+              onChange={(e) => setProject({ ...project, name: e.target.value })}
+            />
+          </form>
+        </div>
       )}
     </div>
   );
