@@ -9,11 +9,12 @@ interface Project {
 }
 
 function ProjectOne() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>(); // Defina o tipo explicitamente para garantir que id é uma string.
   const [project, setProject] = useState<Project | null>(null);
+  const [showProjectForm, setShowProjectForm] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
+    if (id) { // Garante que o id não é undefined
       fetch(`http://localhost:5000/projects/${id}`, {
         method: 'GET',
         headers: {
@@ -23,17 +24,24 @@ function ProjectOne() {
         .then((res) => res.json())
         .then((data) => setProject(data))
         .catch((err) => console.error('Erro ao buscar o projeto:', err));
-    }, 300); 
+    }
   }, [id]);
 
   if (!project) {
-    return <Loading />; 
+    return <Loading />;
+  }
+
+  function toggleProjectForm() {
+    setShowProjectForm(!showProjectForm);
   }
 
   return (
     <div className={styles.projectContainer}>
       <h1 className={styles.projectTitle}>{project.name}</h1>
       <p className={styles.projectDescription}>{project.description}</p>
+      <button onClick={toggleProjectForm}>
+        {!showProjectForm ? 'Editar projeto' : 'Fechar'}
+      </button>
     </div>
   );
 }
