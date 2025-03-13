@@ -12,27 +12,41 @@ interface Option {
 interface ProjectCardProps {
   id: string;
   name: string;
-  category: string;
-  orcamento_id: string;
+  categoryId: string; // Usando categoryId direto
+  orcamento_id: string; // Usando orcamento_id direto
   handleRemove: (id: string) => void;
   updateBudget: (id: string, newBudgetId: string) => void;
+  categories: { id: string; name: string }[]; // Lista de categorias para mapear categoryId
+  orcamentos: { id: string; name: string }[]; // Lista de orçamentos para mapear orcamento_id
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   name,
-  category,
+  categoryId,
   orcamento_id,
   handleRemove,
   updateBudget,
+  categories,
+  orcamentos,
 }) => {
+  // Função para obter o nome da categoria
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    return category ? category.name : "Categoria desconhecida";
+  };
+
+  // Função para obter o nome do orçamento
+  const getOrcamentoName = (orcamentoId: string) => {
+    const orcamento = orcamentos.find((orc) => orc.id === orcamentoId);
+    return orcamento ? orcamento.name : "Orçamento desconhecido";
+  };
+
   // Definindo as opções de orçamento
-  const orcamentoOptions: Option[] = [
-    { value: "1", label: "R$ 1.500,00" },
-    { value: "2", label: "R$ 2.000,00" },
-    { value: "3", label: "R$ 3.000,00" },
-    { value: "4", label: "R$ 5.250,00" },
-  ];
+  const orcamentoOptions: Option[] = orcamentos.map((orc) => ({
+    value: orc.id,
+    label: orc.name,
+  }));
 
   // Função para lidar com a mudança do orçamento
   const handleBudgetChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -43,11 +57,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   // Função para determinar a classe da categoria
   const getCategoryClass = (category: string) => {
     switch (category.toLowerCase()) {
-      case "development":
+      case "desenvolvimento":
         return styles.development;
       case "design":
         return styles.design;
-      case "management":
+      case "planejamento":
         return styles.management;
       default:
         return styles.defaultCategory;
@@ -70,8 +84,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         />
       </div>
 
-      <p className={`${styles.categoryText} ${getCategoryClass(category)}`}>
-        <span className={styles.categoryDot}></span> {category}
+      <p className={`${styles.categoryText} ${getCategoryClass(getCategoryName(categoryId))}`}>
+        <span className={styles.categoryDot}></span> {getCategoryName(categoryId)}
       </p>
 
       <div className={`${styles.contentButtons}`}> {/* Use contentButtons, não contentButton */}
