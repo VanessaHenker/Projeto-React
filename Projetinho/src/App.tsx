@@ -3,9 +3,7 @@ import './style.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Company from './components/company';
-
 import Container from './components/layout/container';
-
 import NavBar from './components/layout/navBar';
 import Projects from './pages/projects';
 import Footer from './components/footer';
