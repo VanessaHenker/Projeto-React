@@ -35,12 +35,18 @@ function ProjectOne() {
 
   useEffect(() => {
     if (id) {
+      // Iniciar o carregamento
       setProject(null);
       setCategories([]);
       setOrcamentos([]);
 
       fetch(`http://localhost:5000/projects/${id}`)
-        .then((res) => res.json())
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Erro ao buscar o projeto');
+          }
+          return res.json();
+        })
         .then((data: Data) => {
           const projectData = data.projects.find((p) => p.id === id);
           if (projectData) {
@@ -90,7 +96,7 @@ function ProjectOne() {
           </p>
         </div>
       ) : (
-        <p>Detalhes do Projeto</p> 
+        <p>Detalhes do Projeto</p> // Aqui você pode substituir por um formulário de edição
       )}
     </div>
   );
