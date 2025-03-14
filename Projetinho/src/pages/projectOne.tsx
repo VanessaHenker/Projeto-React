@@ -79,12 +79,18 @@ function ProjectOne() {
     return orcamento ? orcamento.name : 'Orçamento desconhecido';
   };
 
+  // Verifica se o projeto está carregado ou se ocorreu erro
   if (loading) {
     return <Loading />;
   }
 
   if (error) {
     return <div>{error}</div>;
+  }
+
+  // Verifica se 'project' é null antes de acessar suas propriedades
+  if (!project) {
+    return <div>Projeto não encontrado</div>;
   }
 
   function toggleProjectForm() {
@@ -111,11 +117,11 @@ function ProjectOne() {
         <form>
           <label>
             Nome do Projeto:
-            <input type="text" value={project.name} onChange={() => { /* Handle input changes here */ }} />
+            <input type="text" value={project.name} onChange={() => {  }} />
           </label>
           <label>
             Categoria:
-            <select value={project.categoryId} onChange={() => { /* Handle category change here */ }}>
+            <select value={project.categoryId} onChange={() => {  }}>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
@@ -125,7 +131,8 @@ function ProjectOne() {
           </label>
           <label>
             Orçamento:
-            <select value={project.orcamento_id} onChange={() => { /* Handle orcamento change here */ }}>
+            <select value={project.orcamento_id} onChange={() => {
+             }}>
               {orcamentos.map((orc) => (
                 <option key={orc.id} value={orc.id}>
                   {orc.name}
