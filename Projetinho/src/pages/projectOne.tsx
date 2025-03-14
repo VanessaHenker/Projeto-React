@@ -21,7 +21,7 @@ interface Project {
 }
 
 interface Data {
-  project: Project;
+  projects: Project[];
   categories: Category[];
   orcamentos: Orcamento[];
 }
@@ -51,9 +51,14 @@ function ProjectOne() {
           return res.json();
         })
         .then((data: Data) => {
-          setProject(data.project);
-          setCategories(data.categories);
-          setOrcamentos(data.orcamentos);
+          const projectData = data.projects.find((p) => p.id === id);
+          if (projectData) {
+            setProject(projectData);
+            setCategories(data.categories);
+            setOrcamentos(data.orcamentos);
+          } else {
+            setError('Projeto não encontrado');
+          }
           setLoading(false);
         })
         .catch((err) => {
@@ -83,7 +88,7 @@ function ProjectOne() {
   }
 
   if (!project) {
-    return <div>Projeto não encontrado</div>;
+    return <div>Projeto não encontrado.</div>;
   }
 
   function toggleProjectForm() {
