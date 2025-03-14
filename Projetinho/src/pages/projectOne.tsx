@@ -115,11 +115,11 @@ function ProjectOne() {
         <form>
           <label>
             Nome do Projeto:
-            <input type="text" value={project.name} onChange={() => {}} />
+            <input type="text" value={project.name} onChange={(e) => setProject({ ...project, name: e.target.value })} />
           </label>
           <label>
             Categoria:
-            <select value={project.categoryId} onChange={() => {}}>
+            <select value={project.categoryId} onChange={(e) => setProject({ ...project, categoryId: e.target.value })}>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
@@ -129,7 +129,7 @@ function ProjectOne() {
           </label>
           <label>
             Orçamento:
-            <select value={project.orcamento_id} onChange={() => {}}>
+            <select value={project.orcamento_id} onChange={(e) => setProject({ ...project, orcamento_id: e.target.value })}>
               {orcamentos.map((orc) => (
                 <option key={orc.id} value={orc.id}>
                   {orc.name}
