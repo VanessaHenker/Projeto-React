@@ -21,7 +21,7 @@ interface Project {
 }
 
 interface Data {
-  projects: Project[];
+  project: Project;
   categories: Category[];
   orcamentos: Orcamento[];
 }
@@ -51,14 +51,9 @@ function ProjectOne() {
           return res.json();
         })
         .then((data: Data) => {
-          const projectData = data.projects.find((p) => p.id === id);
-          if (projectData) {
-            setProject(projectData);
-            setCategories(data.categories);
-            setOrcamentos(data.orcamentos);
-          } else {
-            setError('Projeto não encontrado');
-          }
+          setProject(data.project);
+          setCategories(data.categories);
+          setOrcamentos(data.orcamentos);
           setLoading(false);
         })
         .catch((err) => {
@@ -79,7 +74,6 @@ function ProjectOne() {
     return orcamento ? orcamento.name : 'Orçamento desconhecido';
   };
 
-  // Verifica se o projeto está carregado ou se ocorreu erro
   if (loading) {
     return <Loading />;
   }
@@ -88,7 +82,6 @@ function ProjectOne() {
     return <div>{error}</div>;
   }
 
-  // Verifica se 'project' é null antes de acessar suas propriedades
   if (!project) {
     return <div>Projeto não encontrado</div>;
   }
@@ -117,11 +110,11 @@ function ProjectOne() {
         <form>
           <label>
             Nome do Projeto:
-            <input type="text" value={project.name} onChange={() => {  }} />
+            <input type="text" value={project.name} onChange={() => {}} />
           </label>
           <label>
             Categoria:
-            <select value={project.categoryId} onChange={() => {  }}>
+            <select value={project.categoryId} onChange={() => {}}>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
                   {cat.name}
@@ -131,8 +124,7 @@ function ProjectOne() {
           </label>
           <label>
             Orçamento:
-            <select value={project.orcamento_id} onChange={() => {
-             }}>
+            <select value={project.orcamento_id} onChange={() => {}}>
               {orcamentos.map((orc) => (
                 <option key={orc.id} value={orc.id}>
                   {orc.name}
