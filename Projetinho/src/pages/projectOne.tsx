@@ -32,10 +32,13 @@ function ProjectOne() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [showProjectForm, setShowProjectForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
-      // Iniciar o carregamento
+      setLoading(true);
+      setError(null);
       setProject(null);
       setCategories([]);
       setOrcamentos([]);
@@ -54,10 +57,15 @@ function ProjectOne() {
             setCategories(data.categories);
             setOrcamentos(data.orcamentos);
           } else {
-            console.error('Projeto não encontrado');
+            setError('Projeto não encontrado');
           }
+          setLoading(false);
         })
-        .catch((err) => console.error('Erro ao buscar o projeto:', err));
+        .catch((err) => {
+          setError('Erro ao buscar o projeto');
+          setLoading(false);
+          console.error('Erro ao buscar o projeto:', err);
+        });
     }
   }, [id]);
 
@@ -71,8 +79,12 @@ function ProjectOne() {
     return orcamento ? orcamento.name : 'Orçamento desconhecido';
   };
 
-  if (!project) {
+  if (loading) {
     return <Loading />;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
   }
 
   function toggleProjectForm() {
@@ -96,7 +108,33 @@ function ProjectOne() {
           </p>
         </div>
       ) : (
-        <p>Detalhes do Projeto</p> // Aqui você pode substituir por um formulário de edição
+        <form>
+          <label>
+            Nome do Projeto:
+            <input type="text" value={project.name} onChange={() => { /* Handle input changes here */ }} />
+          </label>
+          <label>
+            Categoria:
+            <select value={project.categoryId} onChange={() => { /* Handle category change here */ }}>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Orçamento:
+            <select value={project.orcamento_id} onChange={() => { /* Handle orcamento change here */ }}>
+              {orcamentos.map((orc) => (
+                <option key={orc.id} value={orc.id}>
+                  {orc.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button type="submit">Salvar</button>
+        </form>
       )}
     </div>
   );

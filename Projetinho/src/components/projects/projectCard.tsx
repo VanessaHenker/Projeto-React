@@ -74,7 +74,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <span className={styles.categoryDot}></span> {category}
       </p>
 
-      <div className={`${styles.contentButtons}`}> {/* Use contentButtons, não contentButton */}
+      <div className={`${styles.contentButtons}`}> 
         <ActionButton
           type="edit"
           label="Editar"
