@@ -44,11 +44,17 @@ function ProjectOne() {
               </button>
               {!showProjectForm ? (
                 <div>
-                  <p>project form</p>
+                  <p>
+                    <span>Categoria:</span> {project.category?.name || 'Categoria desconhecida'}
+                  </p>
+
+                  <p>
+                    <span>Total de Orçamento:</span> {project.budget || 'Orçamento não disponível'}
+                  </p>
                 </div>
               ) : (
                 <div>
-                  <p>detalhes do project</p>
+                  <p>detalhes do projeto</p>
                 </div>
               )}
             </div>
