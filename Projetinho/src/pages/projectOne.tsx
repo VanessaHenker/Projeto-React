@@ -31,87 +31,48 @@ function ProjectOne() {
   const [project, setProject] = useState<Project | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
-  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (id) {
-      setLoading(true);
-      setError(null);
-      setProject(null);
-      setCategories([]);
-      setOrcamentos([]);
+    if (!id) return;
 
-      fetch(`http://localhost:5000/projects/${id}`)
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error('Erro ao buscar o projeto');
-          }
-          return res.json();
-        })
-        .then((data: Data) => {
-          const projectData = data.projects.find((p) => p.id === id);
-          if (projectData) {
-            setProject(projectData);
-            setCategories(data.categories);
-            setOrcamentos(data.orcamentos);
-          } else {
-            setError('Projeto não encontrado');
-          }
-          setLoading(false);
-        })
-        .catch((err) => {
-          setError('Erro ao buscar o projeto');
-          setLoading(false);
-          console.error('Erro ao buscar o projeto:', err);
-        });
-    }
+    setLoading(true);
+    setError(null);
+
+    fetch(`http://localhost:5000/projects/${id}`)
+      .then((res) => res.ok ? res.json() : Promise.reject('Erro ao buscar o projeto'))
+      .then((data: Data) => {
+        const projectData = data.projects.find((p) => p.id === id);
+        if (projectData) {
+          setProject(projectData);
+          setCategories(data.categories);
+          setOrcamentos(data.orcamentos);
+        } else {
+          setError('Projeto não encontrado');
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err as string);
+        setLoading(false);
+      });
   }, [id]);
 
-  const getCategoryName = (categoryId: string) => {
-    const category = categories.find((cat) => cat.id === categoryId);
-    return category ? category.name : 'Categoria desconhecida';
-  };
+  const getCategoryName = (categoryId: string) => categories.find((cat) => cat.id === categoryId)?.name || 'Categoria desconhecida';
+  const getOrcamentoName = (orcamentoId: string) => orcamentos.find((orc) => orc.id === orcamentoId)?.name || 'Orçamento desconhecido';
 
-  const getOrcamentoName = (orcamentoId: string) => {
-    const orcamento = orcamentos.find((orc) => orc.id === orcamentoId);
-    return orcamento ? orcamento.name : 'Orçamento desconhecido';
-  };
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  if (!project) {
-    return <div>Projeto não encontrado.</div>;
-  }
-
-  function toggleProjectForm() {
-    setShowProjectForm(!showProjectForm);
-  }
+  if (loading) return <Loading />;
+  if (error) return <div>{error}</div>;
+  if (!project) return <div>Projeto não encontrado.</div>;
 
   return (
     <div className={styles.projectContainer}>
       <h1 className={styles.projectTitle}>{project.name}</h1>
-      <button onClick={toggleProjectForm}>
-        {!showProjectForm ? 'Editar projeto' : 'Fechar'}
-      </button>
+      <button onClick={() => setShowForm(!showForm)}>{showForm ? 'Fechar' : 'Editar projeto'}</button>
 
-      {!showProjectForm ? (
-        <div>
-          <p>
-            <span>Categoria:</span> {getCategoryName(project.categoryId)}
-          </p>
-          <p>
-            <span>Orçamento:</span> {getOrcamentoName(project.orcamento_id)}
-          </p>
-        </div>
-      ) : (
+      {showForm ? (
         <form>
           <label>
             Nome do Projeto:
@@ -121,9 +82,7 @@ function ProjectOne() {
             Categoria:
             <select value={project.categoryId} onChange={(e) => setProject({ ...project, categoryId: e.target.value })}>
               {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
           </label>
@@ -131,14 +90,17 @@ function ProjectOne() {
             Orçamento:
             <select value={project.orcamento_id} onChange={(e) => setProject({ ...project, orcamento_id: e.target.value })}>
               {orcamentos.map((orc) => (
-                <option key={orc.id} value={orc.id}>
-                  {orc.name}
-                </option>
+                <option key={orc.id} value={orc.id}>{orc.name}</option>
               ))}
             </select>
           </label>
           <button type="submit">Salvar</button>
         </form>
+      ) : (
+        <div>
+          <p><span>Categoria:</span> {getCategoryName(project.categoryId)}</p>
+          <p><span>Orçamento:</span> {getOrcamentoName(project.orcamento_id)}</p>
+        </div>
       )}
     </div>
   );
