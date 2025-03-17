@@ -1,10 +1,12 @@
 import styles from './projectOne.module.css';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Container from '../components/layout/container';
 
 function ProjectOne() {
   const { id } = useParams();
   const [project, setProject] = useState<any>(null);
+  const [showProjectForm, setShowProjectForm] = useState(false)
 
   useEffect(() => {
     if (id) {
@@ -26,10 +28,25 @@ function ProjectOne() {
     return <div>Carregando projeto...</div>;
   }
 
+  function toggleProjectForm (){
+
+  }
+
   return (
-    <div className={styles.projectContainer}>
-      <h1>{project.name}</h1>
-    </div>
+   <>
+    {project.name ? (
+      <div>
+        <Container>
+          <div>
+            <h1>Projeto: {project.name}</h1>
+            <button onclick {toggleProjectForm}>Editar projeto</button>
+          </div>
+        </Container>
+      </div>
+    ) : (
+
+    )}
+   </>
   );
 }
 
