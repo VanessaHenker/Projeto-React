@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import styles from './projectOne.module.css';
 import Loading from '../components/layout/loading';
+import Container from '../components/layout/container';
 
 interface Category {
   id: string;
@@ -63,16 +64,27 @@ function ProjectOne() {
   const getCategoryName = (categoryId: string) => categories.find((cat) => cat.id === categoryId)?.name || 'Categoria desconhecida';
   const getOrcamentoName = (orcamentoId: string) => orcamentos.find((orc) => orc.id === orcamentoId)?.name || 'Orçamento desconhecido';
 
+  const toggleProjectForm = () => {
+    setShowForm((prev) => !prev);
+  };
+
   if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
   if (!project) return <div>Projeto não encontrado.</div>;
 
   return (
-    <div className={styles.projectContainer}>
-      <h1 className={styles.projectTitle}>{project.name}</h1>
-      <button onClick={() => setShowForm(!showForm)}>{showForm ? 'Fechar' : 'Editar projeto'}</button>
+    <Container customClass='column'>
+      <h1 className= {styles.projectContainer}>Projeto: {project.name}</h1>
+      <button onClick={toggleProjectForm}>
+        {!showForm ? 'Editar projeto' : 'Fechar'}
+      </button>
 
-      {showForm ? (
+      {!showForm ? (
+        <div>
+          <p><strong>Categoria:</strong> {getCategoryName(project.categoryId)}</p>
+          <p><strong>Orçamento:</strong> {getOrcamentoName(project.orcamento_id)}</p>
+        </div>
+      ) : (
         <form>
           <label>
             Nome do Projeto:
@@ -96,13 +108,8 @@ function ProjectOne() {
           </label>
           <button type="submit">Salvar</button>
         </form>
-      ) : (
-        <div>
-          <p><span>Categoria:</span> {getCategoryName(project.categoryId)}</p>
-          <p><span>Orçamento:</span> {getOrcamentoName(project.orcamento_id)}</p>
-        </div>
       )}
-    </div>
+    </Container>
   );
 }
 
