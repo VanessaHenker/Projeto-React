@@ -6,7 +6,7 @@ import Container from '../components/layout/container';
 function ProjectOne() {
   const { id } = useParams();
   const [project, setProject] = useState<any>(null);
-  const [showProjectForm, setShowProjectForm] = useState(false)
+  const [showProjectForm, setShowProjectForm] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -28,25 +28,27 @@ function ProjectOne() {
     return <div>Carregando projeto...</div>;
   }
 
-  function toggleProjectForm (){
-
+  function toggleProjectForm() {
+    setShowProjectForm(!showProjectForm);
   }
 
   return (
-   <>
-    {project.name ? (
-      <div>
-        <Container>
-          <div>
-            <h1>Projeto: {project.name}</h1>
-            <button onclick {toggleProjectForm}>Editar projeto</button>
-          </div>
-        </Container>
-      </div>
-    ) : (
-
-    )}
-   </>
+    <>
+      {project.name ? (
+        <div className= {styles.teste}>
+          <Container>
+            <div>
+              <h1>Projeto: {project.name}</h1>
+              <button onClick={toggleProjectForm}>
+                {!showProjectForm ? 'Editar projeto' : 'Fechar projeto'}
+              </button>
+            </div>
+          </Container>
+        </div>
+      ) : (
+        <div>Projeto não encontrado</div>
+      )}
+    </>
   );
 }
 
