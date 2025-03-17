@@ -62,14 +62,23 @@ function ProjectOne() {
       });
   }, [id]);
 
-  const getCategoryName = (categoryId: string) => categories.find((cat) => cat.id === categoryId)?.name || 'Categoria desconhecida';
-  const getOrcamentoName = (orcamentoId: string) => orcamentos.find((orc) => orc.id === orcamentoId)?.name || 'Orçamento desconhecido';
+  // Funções para pegar os nomes das categorias e orçamentos
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    return category ? category.name : 'Categoria desconhecida';
+  };
+
+  const getOrcamentoName = (orcamentoId: string) => {
+    const orcamento = orcamentos.find((orc) => orc.id === orcamentoId);
+    return orcamento ? orcamento.name : 'Orçamento desconhecido';
+  };
 
   // Alternar a exibição do formulário
   const toggleProjectForm = () => {
     setShowForm((prev) => !prev);
   };
 
+  // Tratamento dos estados de carregamento e erro
   if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
   if (!project) return <div>Projeto não encontrado.</div>;
@@ -82,7 +91,7 @@ function ProjectOne() {
       </button>
 
       {!showForm ? (
-        <div className= {styles.projectContainer}>
+        <div className= {styles.rt}>
           <p><strong>Categoria:</strong> {getCategoryName(project.categoryId)}</p>
           <p><strong>Orçamento:</strong> {getOrcamentoName(project.orcamento_id)}</p>
         </div>
