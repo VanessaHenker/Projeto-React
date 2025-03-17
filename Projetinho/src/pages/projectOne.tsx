@@ -36,6 +36,7 @@ function ProjectOne() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Carregar o projeto, categorias e orçamentos
   useEffect(() => {
     if (!id) return;
 
@@ -64,6 +65,7 @@ function ProjectOne() {
   const getCategoryName = (categoryId: string) => categories.find((cat) => cat.id === categoryId)?.name || 'Categoria desconhecida';
   const getOrcamentoName = (orcamentoId: string) => orcamentos.find((orc) => orc.id === orcamentoId)?.name || 'Orçamento desconhecido';
 
+  // Alternar a exibição do formulário
   const toggleProjectForm = () => {
     setShowForm((prev) => !prev);
   };
@@ -73,14 +75,14 @@ function ProjectOne() {
   if (!project) return <div>Projeto não encontrado.</div>;
 
   return (
-    <Container customClass='column'>
-      <h1 className= {styles.projectContainer}>Projeto: {project.name}</h1>
+    <Container customClass="column">
+      <h1>Projeto: {project.name}</h1>
       <button onClick={toggleProjectForm}>
         {!showForm ? 'Editar projeto' : 'Fechar'}
       </button>
 
       {!showForm ? (
-        <div>
+        <div className= {styles.projectContainer}>
           <p><strong>Categoria:</strong> {getCategoryName(project.categoryId)}</p>
           <p><strong>Orçamento:</strong> {getOrcamentoName(project.orcamento_id)}</p>
         </div>
@@ -88,21 +90,35 @@ function ProjectOne() {
         <form>
           <label>
             Nome do Projeto:
-            <input type="text" value={project.name} onChange={(e) => setProject({ ...project, name: e.target.value })} />
+            <input
+              type="text"
+              value={project.name}
+              onChange={(e) => setProject({ ...project, name: e.target.value })}
+            />
           </label>
           <label>
             Categoria:
-            <select value={project.categoryId} onChange={(e) => setProject({ ...project, categoryId: e.target.value })}>
+            <select
+              value={project.categoryId}
+              onChange={(e) => setProject({ ...project, categoryId: e.target.value })}
+            >
               {categories.map((cat) => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
               ))}
             </select>
           </label>
           <label>
             Orçamento:
-            <select value={project.orcamento_id} onChange={(e) => setProject({ ...project, orcamento_id: e.target.value })}>
+            <select
+              value={project.orcamento_id}
+              onChange={(e) => setProject({ ...project, orcamento_id: e.target.value })}
+            >
               {orcamentos.map((orc) => (
-                <option key={orc.id} value={orc.id}>{orc.name}</option>
+                <option key={orc.id} value={orc.id}>
+                  {orc.name}
+                </option>
               ))}
             </select>
           </label>
