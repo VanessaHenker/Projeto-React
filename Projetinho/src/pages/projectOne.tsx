@@ -35,13 +35,22 @@ function ProjectOne() {
   return (
     <>
       {project.name ? (
-        <div className= {styles.teste}>
+        <div className={styles.teste}>
           <Container>
             <div>
               <h1>Projeto: {project.name}</h1>
               <button onClick={toggleProjectForm}>
                 {!showProjectForm ? 'Editar projeto' : 'Fechar projeto'}
               </button>
+              {!showProjectForm ? (
+                <div>
+                  <p>project form</p>
+                </div>
+              ) : (
+                <div>
+                  <p>detalhes do project</p>
+                </div>
+              )}
             </div>
           </Container>
         </div>
