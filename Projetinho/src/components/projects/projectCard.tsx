@@ -15,7 +15,7 @@ interface ProjectCardProps {
   category: string;
   orcamento_id: string;
   handleRemove: (id: string) => void;
-  updateBudget: (id: string, newBudgetId: string) => void;
+  updateBudget: (id: string, newBudgetId: string) => void; // Função de atualização do orçamento
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -35,9 +35,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   ];
 
   // Função para lidar com a mudança do orçamento
-  const handleBudgetChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+  const handleBudgetChange = async (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const newBudgetId = e.target.value;
-    updateBudget(id, newBudgetId);
+
+    // Enviar requisição PUT ou PATCH para o backend
+    try {
+      const response = await fetch(`http://localhost:5000/projects/${id}`, {
+        method: "PATCH", // Ou PUT, dependendo do que o backend espera
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orcamento_id: newBudgetId, // Atualiza o orçamento do projeto
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao atualizar o orçamento.");
+      }
+
+      // Se a requisição for bem-sucedida, chamamos a função `updateBudget` do pai
+      updateBudget(id, newBudgetId);
+    } catch (error) {
+      console.error("Erro ao atualizar orçamento:", error);
+    }
   };
 
   // Função para determinar a classe da categoria
@@ -74,7 +95,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <span className={styles.categoryDot}></span> {category}
       </p>
 
-      <div className={`${styles.contentButtons}`}> 
+      <div className={`${styles.contentButtons}`}>
         <ActionButton
           type="edit"
           label="Editar"
