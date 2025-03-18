@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./projectCard.module.css";
 import Orcamento from "../form/orcamento";
 import ActionButton from "../layout/actionButton";
@@ -15,7 +15,7 @@ interface ProjectCardProps {
   category: string;
   orcamento_id: string;
   handleRemove: (id: string) => void;
-  updateBudget: (id: string, newBudgetId: string) => void; // Função de atualização do orçamento
+  updateBudget: (id: string, newBudgetId: string) => void; 
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -26,13 +26,27 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   handleRemove,
   updateBudget,
 }) => {
-  // Definindo as opções de orçamento
-  const orcamentoOptions: Option[] = [
-    { value: "1", label: "R$ 1.500,00" },
-    { value: "2", label: "R$ 2.000,00" },
-    { value: "3", label: "R$ 3.000,00" },
-    { value: "4", label: "R$ 5.250,00" },
-  ];
+  const [orcamentoOptions, setOrcamentoOptions] = useState<Option[]>([]);
+
+  // Função para carregar as opções de orçamentos dinamicamente do backend
+  useEffect(() => {
+    const fetchOrcamentos = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/orcamentos");
+        const data = await response.json();
+        // Mapeando para criar as opções de orçamentos
+        const options = data.map((orcamento: { id: string, name: string }) => ({
+          value: orcamento.id,
+          label: orcamento.name,
+        }));
+        setOrcamentoOptions(options);
+      } catch (error) {
+        console.error("Erro ao carregar os orçamentos:", error);
+      }
+    };
+
+    fetchOrcamentos();
+  }, []);
 
   // Função para lidar com a mudança do orçamento
   const handleBudgetChange = async (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -41,12 +55,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     // Enviar requisição PUT ou PATCH para o backend
     try {
       const response = await fetch(`http://localhost:5000/projects/${id}`, {
-        method: "PATCH", // Ou PUT, dependendo do que o backend espera
+        method: "PATCH", 
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          orcamento_id: newBudgetId, // Atualiza o orçamento do projeto
+          orcamento_id: newBudgetId, 
         }),
       });
 
@@ -87,7 +101,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           name={`orcamento-${id}`}
           value={orcamento_id}
           handleOnChange={handleBudgetChange}
-          options={orcamentoOptions}
+          options={orcamentoOptions} 
         />
       </div>
 
