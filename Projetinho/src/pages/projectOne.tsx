@@ -3,15 +3,21 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Container from '../components/layout/container';
 
+interface Project {
+  id: string;
+  name: string;
+  categoryId: string;
+  orcamento_id: string;
+}
+
 function ProjectOne() {
   const { id } = useParams();
-  const [project, setProject] = useState<any>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [showProjectForm, setShowProjectForm] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [orcamentos, setOrcamentos] = useState([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [orcamentos, setOrcamentos] = useState<any[]>([]);
 
   useEffect(() => {
-    // Fetch project data
     if (id) {
       fetch(`http://localhost:5000/projects/${id}`, {
         method: 'GET',
@@ -26,7 +32,6 @@ function ProjectOne() {
         .catch((error) => console.error('Erro ao buscar o projeto:', error));
     }
 
-    // Fetch categories data
     fetch('http://localhost:5000/categories', {
       method: 'GET',
       headers: {
@@ -39,7 +44,6 @@ function ProjectOne() {
       })
       .catch((error) => console.error('Erro ao buscar categorias:', error));
 
-    // Fetch orcamentos data
     fetch('http://localhost:5000/orcamentos', {
       method: 'GET',
       headers: {
@@ -53,7 +57,6 @@ function ProjectOne() {
       .catch((error) => console.error('Erro ao buscar orçamentos:', error));
   }, [id]);
 
-  // Find the category and budget names based on the project data
   const projectCategory = categories.find(category => category.id === project?.categoryId);
   const projectBudget = orcamentos.find(orcamento => orcamento.id === project?.orcamento_id);
 

@@ -5,6 +5,12 @@
       "name": "Projeto 3",
       "orcamento_id": "3",
       "categoryId": "1"
+    },
+    {
+      "id": "b34f",
+      "name": "Projeto 1",
+      "orcamento_id": "1",
+      "categoryId": "2"
     }
   ],
   "categories": [
