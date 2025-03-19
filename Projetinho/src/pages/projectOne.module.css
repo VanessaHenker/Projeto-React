@@ -1,113 +1,70 @@
-/* Container principal do projeto */
-.projectContainer {
-  padding: 40px;
-  border-radius: 12px;
-  max-width: 1000px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  transition: transform 0.3s ease;
-}
-
-.projectContainer:hover {
-  transform: translateY(-10px);
-}
-
-/* Título do projeto */
-.projectTitle {
-  font-size: 3.6rem;
-  font-weight: 800;
-  color: #2980b9;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  background: linear-gradient(45deg, #2980b9, #8e44ad);
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding-bottom: 5px;
-}
-
-/* Descrição do projeto */
-.projectDescription {
-  font-size: 1.2rem;
-  color: #2c3e50;
-  margin-top: 15px;
-  line-height: 1.8;
-  text-align: left;
-}
-
-/* Destaques (span) */
-.projectDescription span {
-  font-weight: bold;
-  color: #2980b9;
-}
-
-/* Botão de ação */
-button {
-  background-color: #e74c3c;
-  color: #fff;
-  font-size: 1.1rem;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 25px;
-  text-transform: uppercase;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-button:hover {
-  background-color: #c0392b;
-  transform: scale(1.05);
-}
-
-button:focus {
-  outline: none;
-}
-
-/* Formulário de edição */
-.formContainer {
-  margin-top: 30px;
+/* Estilos para o container geral de projetos */
+.projectsContainer {
+  padding: 2em;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
   background-color: #f4f6f7;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
 }
 
-.formContainer:hover {
-  transform: translateY(-5px);
+/* Estilo do container do título */
+.titleContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 4em;
+  gap: 1em;
+  flex-wrap: wrap;
 }
 
-.formContainer p {
-  font-size: 1.3rem;
-  color: #2c3e50;
-  margin-bottom: 20px;
+/* Centralizando o texto dentro do container */
+.tittlesCenter {
+  text-align: center;
+  margin: auto;
 }
 
-/* Layout responsivo */
+/* Estilo do título principal (h1) */
+.titleContainer h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2em;
+  color: #ffbb33;
+  font-weight: bold;
+  font-style: italic;
+  margin: 0;
+  padding-top: 10px;
+}
+
+/* Estilo do subtítulo (h2) */
+.titleContainer h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2em;
+  color: #333;
+  margin-top: 10px;
+  font-weight: normal;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Estilo do formulário de criação de projeto */
+.projectsCreate {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+}
+
+/* Estilos responsivos para telas menores */
 @media (max-width: 768px) {
-  .projectContainer {
-    padding: 20px;
-    max-width: 100%;
-    margin: 20px;
+  .projectsCreate {
+    width: 90%;
   }
 
-  .projectTitle {
-    font-size: 2.8rem;
-  }
-
-  .projectDescription {
-    font-size: 1rem;
-  }
-
-  button {
-    width: 100%;
+  .titleContainer {
+    flex-direction: column;
+    text-align: center;
   }
 }
