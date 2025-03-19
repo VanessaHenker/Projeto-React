@@ -2,73 +2,93 @@
 .projectContainer {
   padding: 40px;
   border-radius: 12px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 40px auto;
-  background-color: #fff;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: all 0.3s ease;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  transition: transform 0.3s ease;
+}
+
+.projectContainer:hover {
+  transform: translateY(-10px);
 }
 
 /* Título do projeto */
 .projectTitle {
-  font-size: 3.2rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-size: 3.6rem;
+  font-weight: 800;
+  color: #2980b9;
   margin-bottom: 20px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  line-height: 1.2;
+  letter-spacing: 2px;
+  background: linear-gradient(45deg, #2980b9, #8e44ad);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding-bottom: 5px;
 }
 
 /* Descrição do projeto */
 .projectDescription {
-  font-size: 1.1rem;
-  color: #7f8c8d;
+  font-size: 1.2rem;
+  color: #2c3e50;
   margin-top: 15px;
-  line-height: 1.6;
+  line-height: 1.8;
   text-align: left;
 }
 
 /* Destaques (span) */
 .projectDescription span {
-  font-weight: 600;
-  color: #34495e;
+  font-weight: bold;
+  color: #2980b9;
 }
 
 /* Botão de ação */
 button {
-  background-color: #2980b9;
+  background-color: #e74c3c;
   color: #fff;
   font-size: 1.1rem;
-  padding: 12px 30px;
+  padding: 15px 30px;
   border: none;
-  border-radius: 6px;
+  border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   margin-top: 25px;
   text-transform: uppercase;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-  background-color: #3498db;
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+button:focus {
+  outline: none;
 }
 
 /* Formulário de edição */
 .formContainer {
   margin-top: 30px;
-  background-color: #ecf0f1;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  background-color: #f4f6f7;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
-/* Parágrafo do formulário de edição */
+.formContainer:hover {
+  transform: translateY(-5px);
+}
+
 .formContainer p {
-  font-size: 1.2rem;
-  color: #34495e;
-  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
 }
 
 /* Layout responsivo */
@@ -80,7 +100,7 @@ button:hover {
   }
 
   .projectTitle {
-    font-size: 2.4rem;
+    font-size: 2.8rem;
   }
 
   .projectDescription {
