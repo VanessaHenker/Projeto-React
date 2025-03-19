@@ -64,6 +64,9 @@ function ProjectOne() {
     return <div>Carregando projeto...</div>;
   }
 
+  // Calculando o total utilizado do orçamento
+  const totalUtilizado = projectBudget?.used ? projectBudget.used : 'Informação não disponível';
+
   function toggleProjectForm() {
     setShowProjectForm(!showProjectForm);
   }
@@ -86,6 +89,10 @@ function ProjectOne() {
 
                   <p>
                     <span>Total de Orçamento:</span> {projectBudget?.name || 'Orçamento não disponível'}
+                  </p>
+
+                  <p>
+                    <span>Total utilizado:</span> {totalUtilizado}
                   </p>
                 </div>
               ) : (
