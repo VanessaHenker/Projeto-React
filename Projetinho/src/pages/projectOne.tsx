@@ -65,7 +65,7 @@ function ProjectOne() {
   }
 
   // Calculando o total utilizado do orçamento
-  const totalUtilizado = projectBudget?.used ? projectBudget.used : 'Informação não disponível';
+  const totalUtilizado = projectBudget?.used ? projectBudget.used : 'R$ 0,00';
 
   function toggleProjectForm() {
     setShowProjectForm(!showProjectForm);
