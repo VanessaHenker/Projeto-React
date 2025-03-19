@@ -74,24 +74,24 @@ function ProjectOne() {
   return (
     <>
       {project.name ? (
-        <div className={styles.teste}>
+        <div className={styles.projectContainer}>
           <Container>
             <div>
-              <h1>Projeto: {project.name}</h1>
+              <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
               <button onClick={toggleProjectForm}>
                 {!showProjectForm ? 'Editar projeto' : 'Fechar projeto'}
               </button>
               {!showProjectForm ? (
                 <div>
-                  <p>
+                  <p className={styles.projectDescription}>
                     <span>Categoria:</span> {projectCategory?.name || 'Categoria desconhecida'}
                   </p>
 
-                  <p>
+                  <p className={styles.projectDescription}>
                     <span>Total de Orçamento:</span> {projectBudget?.name || 'Orçamento não disponível'}
                   </p>
 
-                  <p>
+                  <p className={styles.projectDescription}>
                     <span>Total utilizado:</span> {totalUtilizado}
                   </p>
                 </div>
