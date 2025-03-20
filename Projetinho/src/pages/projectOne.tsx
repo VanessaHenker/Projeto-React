@@ -2,7 +2,7 @@ import styles from './projectOne.module.css';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Container from '../components/layout/container';
-import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa'; // Importando ícones
+import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa'
 
 interface Project {
   id: string;
