@@ -1,8 +1,8 @@
-
 import styles from './projectOne.module.css';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Container from '../components/layout/container';
+import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa'; // Importando ícones
 
 interface Project {
   id: string;
@@ -84,19 +84,20 @@ function ProjectOne() {
               {!showProjectForm ? (
                 <div>
                   <p className={styles.projectDescription}>
+                    <FaTags className={styles.icon} />
                     <span>Categoria:</span> {projectCategory?.name || 'Categoria desconhecida'}
                   </p>
-
                   <p className={styles.projectDescription}>
+                    <FaMoneyBillAlt className={styles.icon} />
                     <span>Total de Orçamento:</span> {projectBudget?.name || 'Orçamento não disponível'}
                   </p>
-
                   <p className={styles.projectDescription}>
-                    <span>Total utilizado:</span> {totalUtilizado}
+                    <FaClipboardList className={styles.icon} />
+                    <span>Total Utilizado:</span> {totalUtilizado}
                   </p>
                 </div>
               ) : (
-                <div className={styles.projectFormContainer}>
+                <div>
                   <p>Detalhes do projeto</p>
                 </div>
               )}
