@@ -2,12 +2,26 @@
   width: 600px;
   margin: 60px auto;
   padding: 40px;
-  background: #ffffff;
+  background: #ffffff; /* Fundo branco */
   color: #333;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  animation: moveBackground 10s infinite linear; /* Animação de movimento do fundo */
+}
+
+/* Animação de movimento do fundo */
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0 0;
+  }
 }
 
 .projectTitle {
@@ -102,7 +116,6 @@ button:active {
   transform: translateY(1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 .projectFormContainer {
   margin-top: 40px;
