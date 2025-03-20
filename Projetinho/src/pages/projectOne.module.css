@@ -8,19 +8,81 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
-  animation: moveBackground 10s infinite linear; /* Animação de movimento do fundo */
 }
 
-/* Animação de movimento do fundo */
-@keyframes moveBackground {
+.projectContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent; /* Sem cor de fundo */
+  z-index: -1;
+}
+
+.projectContainer .circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 204, 204, 0.5); /* Cor suave e clara */
+  animation: pulse 6s infinite ease-in-out;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.projectContainer .circle:nth-child(1) {
+  width: 200px;
+  height: 200px;
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.projectContainer .circle:nth-child(2) {
+  width: 150px;
+  height: 150px;
+  top: 40%;
+  left: 60%;
+  animation-delay: 1s;
+}
+
+.projectContainer .circle:nth-child(3) {
+  width: 250px;
+  height: 250px;
+  top: 70%;
+  left: 30%;
+  animation-delay: 2s;
+}
+
+.projectContainer .circle:nth-child(4) {
+  width: 180px;
+  height: 180px;
+  top: 30%;
+  left: 80%;
+  animation-delay: 3s;
+}
+
+.projectContainer .circle:nth-child(5) {
+  width: 220px;
+  height: 220px;
+  top: 60%;
+  left: 20%;
+  animation-delay: 4s;
+}
+
+/* Animação de expansão e contração dos círculos */
+@keyframes pulse {
   0% {
-    background-position: 0 0;
+    transform: scale(0.5);
+    opacity: 0.6;
   }
   50% {
-    background-position: 100% 100%;
+    transform: scale(1.2);
+    opacity: 0.4;
   }
   100% {
-    background-position: 0 0;
+    transform: scale(0.5);
+    opacity: 0.6;
   }
 }
 
