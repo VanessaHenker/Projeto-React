@@ -1,3 +1,4 @@
+
 import styles from './projectOne.module.css';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -57,14 +58,13 @@ function ProjectOne() {
       .catch((error) => console.error('Erro ao buscar orçamentos:', error));
   }, [id]);
 
-  const projectCategory = categories.find(category => category.id === project?.categoryId);
-  const projectBudget = orcamentos.find(orcamento => orcamento.id === project?.orcamento_id);
+  const projectCategory = categories.find((category) => category.id === project?.categoryId);
+  const projectBudget = orcamentos.find((orcamento) => orcamento.id === project?.orcamento_id);
 
   if (!project) {
-    return <div>Carregando projeto...</div>;
+    return <div className={styles.loadingMessage}>Carregando projeto...</div>;
   }
 
-  // Calculando o total utilizado do orçamento
   const totalUtilizado = projectBudget?.used ? projectBudget.used : 'R$ 0,00';
 
   function toggleProjectForm() {
@@ -96,15 +96,15 @@ function ProjectOne() {
                   </p>
                 </div>
               ) : (
-                <div>
-                  <p>detalhes do projeto</p>
+                <div className={styles.projectFormContainer}>
+                  <p>Detalhes do projeto</p>
                 </div>
               )}
             </div>
           </Container>
         </div>
       ) : (
-        <div>Projeto não encontrado</div>
+        <div className={styles.loadingMessage}>Projeto não encontrado</div>
       )}
     </>
   );
