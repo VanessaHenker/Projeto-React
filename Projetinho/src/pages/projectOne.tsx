@@ -75,12 +75,21 @@ function ProjectOne() {
     <>
       {project.name ? (
         <div className={styles.projectContainer}>
+          <div className={styles.circle}></div>
+          <div className={styles.circle}></div>
+          <div className={styles.circle}></div>
+          <div className={styles.circle}></div>
+          <div className={styles.circle}></div>
+
           <Container>
             <div>
               <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
+
               <button onClick={toggleProjectForm}>
                 {!showProjectForm ? 'Editar projeto' : 'Fechar projeto'}
               </button>
+      
+          
               {!showProjectForm ? (
                 <div>
                   <p className={styles.projectDescription}>
