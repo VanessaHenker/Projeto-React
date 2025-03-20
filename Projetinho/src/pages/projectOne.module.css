@@ -67,7 +67,7 @@
 }
 
 .projectDescription:hover .icon {
-  color: #ffbb33; /* Mudando a cor do ícone para laranja no hover */
+  color: #ffbb33; 
 }
 
 button {
@@ -83,18 +83,24 @@ button {
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   margin-top: 30px;
   text-transform: uppercase;
+  display: inline-block;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 button:hover {
   background: linear-gradient(45deg, #ff7f50, #ffbb33);
   transform: translateY(-3px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 button:active {
   transform: translateY(1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 .projectFormContainer {
   margin-top: 40px;
