@@ -82,7 +82,7 @@ function ProjectOne() {
           <div className={styles.circle}></div>
 
           <Container>
-            <div>
+            <div className= {styles.mainContent}>
               <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
 
               <button onClick={toggleProjectForm}>
