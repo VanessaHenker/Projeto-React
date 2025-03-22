@@ -4,13 +4,7 @@ import { useState, useEffect } from 'react';
 import Container from '../components/layout/container';
 import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
-
-interface Project {
-  id: string;
-  name: string;
-  categoryId: string;
-  orcamento_id: string;
-}
+import { Project } from '../types'; // Ajuste o caminho conforme necessário
 
 function ProjectOne() {
   const { id } = useParams();
@@ -69,11 +63,6 @@ function ProjectOne() {
   const totalUtilizado = projectBudget?.used ? projectBudget.used : 'R$ 0,00';
 
   function editPost(project: Project) {
-    // Assuming `project.budget` is a valid field for budget and `projectCost` is some defined value
-    // if(project.budget < projectCost){
-    //   return; // Optional: prevent update if condition fails
-    // }
-
     fetch(`http://localhost:5000/projects/${project.id}`, {
       method: 'PATCH',
       headers: {
