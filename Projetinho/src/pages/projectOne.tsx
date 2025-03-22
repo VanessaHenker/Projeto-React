@@ -68,10 +68,25 @@ function ProjectOne() {
 
   const totalUtilizado = projectBudget?.used ? projectBudget.used : 'R$ 0,00';
 
+  function editPost(project: Project) {
+    // Assuming `project.budget` is a valid field for budget and `projectCost` is some defined value
+    // if(project.budget < projectCost){
+    //   return; // Optional: prevent update if condition fails
+    // }
 
-  function editPost (project){
-    if(project.buget < projectCost)
-      
+    fetch(`http://localhost:5000/projects/${project.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(project),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        setProject(data);
+        setShowProjectForm(false);
+      })
+      .catch((error) => console.error('Erro ao editar o projeto:', error));
   }
 
   function toggleProjectForm() {
@@ -89,14 +104,13 @@ function ProjectOne() {
           <div className={styles.circle}></div>
 
           <Container>
-            <div className= {styles.mainContent}>
+            <div className={styles.mainContent}>
               <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
 
               <button onClick={toggleProjectForm}>
                 {!showProjectForm ? 'Editar projeto' : 'Fechar projeto'}
               </button>
-      
-          
+
               {!showProjectForm ? (
                 <div>
                   <p className={styles.projectDescription}>
@@ -113,8 +127,8 @@ function ProjectOne() {
                   </p>
                 </div>
               ) : (
-                <div className= {styles.projectInfo}>
-                  <ProjectForm handleSubmit = {editPost} btn= "Concluir edição" projectData={project} />
+                <div className={styles.projectInfo}>
+                  <ProjectForm handleSubmit={editPost} btn="Concluir edição" projectData={project} />
                 </div>
               )}
             </div>
