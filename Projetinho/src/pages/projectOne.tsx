@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Container from '../components/layout/container';
 import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
+import ProjectForm from '../components/projects/projectForm';
 
 interface Project {
   id: string;
@@ -106,8 +107,8 @@ function ProjectOne() {
                   </p>
                 </div>
               ) : (
-                <div>
-                  <p>Detalhes do projeto</p>
+                <div className= {styles.projectInfo}>
+                  <ProjectForm/>
                 </div>
               )}
             </div>
