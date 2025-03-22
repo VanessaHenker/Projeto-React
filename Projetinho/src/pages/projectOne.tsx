@@ -68,6 +68,12 @@ function ProjectOne() {
 
   const totalUtilizado = projectBudget?.used ? projectBudget.used : 'R$ 0,00';
 
+
+  function editPost (project){
+    if(project.buget < projectCost)
+      
+  }
+
   function toggleProjectForm() {
     setShowProjectForm(!showProjectForm);
   }
@@ -108,7 +114,7 @@ function ProjectOne() {
                 </div>
               ) : (
                 <div className= {styles.projectInfo}>
-                  <ProjectForm/>
+                  <ProjectForm handleSubmit = {editPost} btn= "Concluir edição" projectData={project} />
                 </div>
               )}
             </div>
