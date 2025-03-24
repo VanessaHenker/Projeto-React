@@ -12,6 +12,8 @@ function ProjectOne() {
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [categories, setCategories] = useState<any[]>([]);
   const [orcamentos, setOrcamentos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true); // Estado de carregamento
+  const [error, setError] = useState<string | null>(null); // Estado de erro
 
   useEffect(() => {
     if (id) {
@@ -24,8 +26,13 @@ function ProjectOne() {
         .then((resp) => resp.json())
         .then((data) => {
           setProject(data);
+          setLoading(false); // Termina o carregamento após buscar o projeto
         })
-        .catch((error) => console.error('Erro ao buscar o projeto:', error));
+        .catch((error) => {
+          console.error('Erro ao buscar o projeto:', error);
+          setError('Erro ao carregar o projeto. Tente novamente mais tarde.');
+          setLoading(false); // Termina o carregamento em caso de erro
+        });
     }
 
     fetch('http://localhost:5000/categories', {
@@ -38,7 +45,10 @@ function ProjectOne() {
       .then((data) => {
         setCategories(data);
       })
-      .catch((error) => console.error('Erro ao buscar categorias:', error));
+      .catch((error) => {
+        console.error('Erro ao buscar categorias:', error);
+        setError('Erro ao carregar categorias. Tente novamente mais tarde.');
+      });
 
     fetch('http://localhost:5000/orcamentos', {
       method: 'GET',
@@ -50,15 +60,22 @@ function ProjectOne() {
       .then((data) => {
         setOrcamentos(data);
       })
-      .catch((error) => console.error('Erro ao buscar orçamentos:', error));
+      .catch((error) => {
+        console.error('Erro ao buscar orçamentos:', error);
+        setError('Erro ao carregar orçamentos. Tente novamente mais tarde.');
+      });
   }, [id]);
+
+  if (loading) {
+    return <div className={styles.loadingMessage}>Carregando dados...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.errorMessage}>{error}</div>;
+  }
 
   const projectCategory = categories.find((category) => category.id === project?.categoryId);
   const projectBudget = orcamentos.find((orcamento) => orcamento.id === project?.orcamento_id);
-
-  if (!project) {
-    return <div className={styles.loadingMessage}>Carregando projeto...</div>;
-  }
 
   const totalUtilizado = projectBudget?.used ? projectBudget.used : 'R$ 0,00';
 
@@ -104,11 +121,11 @@ function ProjectOne() {
                 <div>
                   <p className={styles.projectDescription}>
                     <FaTags className={styles.icon} />
-                    <span>Categoria:</span> {projectCategory?.name || 'Categoria desconhecida'}
+                    <span>Categoria:</span> {projectCategory ? projectCategory.name : 'Categoria não atribuída'}
                   </p>
                   <p className={styles.projectDescription}>
                     <FaMoneyBillAlt className={styles.icon} />
-                    <span>Total de Orçamento:</span> {projectBudget?.name || 'Orçamento não disponível'}
+                    <span>Total de Orçamento:</span> {projectBudget ? projectBudget.name : 'Orçamento não atribuído'}
                   </p>
                   <p className={styles.projectDescription}>
                     <FaClipboardList className={styles.icon} />
