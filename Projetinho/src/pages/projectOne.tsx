@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Container from '../components/layout/container';
 import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
-import { Project } from '../types';  // Certifique-se de importar o tipo Project corretamente
+import { Project } from '../types';  
 
 function ProjectOne() {
   const { id } = useParams();
