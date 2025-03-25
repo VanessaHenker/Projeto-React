@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 import Input from "../form/input";
 import Select from "../form/select";
 import SubmitButton from "../form/submitButton";
 import Orcamento from "../form/orcamento";
-
 import styles from "./projectForm.module.css";
+
+
+interface ProjectFormProps {
+  handleSubmit: (project: Project) => void; 
+  btn: string; 
+  projectData: Project;
+  isForm: boolean; 
+}
 
 interface Category {
   id: string;
@@ -18,28 +23,11 @@ interface OrcamentoType {
   name: string;
 }
 
-function ProjectForm() {
-  const navigate = useNavigate();
-
-  // Estado inicial do formulário
-  const [formData, setFormData] = useState({
-    name: "",
-    orcamento_id: "",
-    categoryId: "",
-  });
-
-  // Estado para erros do formulário
-  const [errors, setErrors] = useState({
-    name: "",
-    orcamento_id: "",
-    categoryId: "",
-  });
-
-  // Estados para categorias e orçamentos
+function ProjectForm({ handleSubmit, btn, projectData, isForm }: ProjectFormProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
 
-  // Função para buscar dados de categorias e orçamentos
+  // Função para buscar categorias e orçamentos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,74 +46,31 @@ function ProjectForm() {
     fetchData();
   }, []);
 
-  // Função para lidar com mudanças nos campos do formulário
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    // Limpa o erro para o campo alterado
-    setErrors({ ...errors, [e.target.name]: "" });
-  };
-
-  // Função de validação do formulário
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = { name: "", orcamento_id: "", categoryId: "" };
-
-    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
-  };
-
-  // Função para enviar o formulário
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!validateForm()) return;
-
-    console.log("Dados enviados:", formData);
-
-    try {
-      const response = await fetch("http://localhost:5000/projects", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        navigate("/projects", {
-          state: { message: "Projeto criado com sucesso!" },
-        });
-      } else {
-        console.error("Erro ao criar projeto");
-      }
-    } catch (error) {
-      console.error("Erro na requisição:", error);
-    }
-  };
-
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    // A classe condicional é aplicada diretamente no <form>
+    <form 
+      className={isForm ? styles.form : styles.otherComponent} 
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(projectData); // Envia os dados do projeto
+      }}
+    >
       <Input
         type="text"
         text="Nome do projeto:"
         name="name"
         placeholder="Insira o nome do projeto"
-        handleOnChange={handleInputChange}
-        value={formData.name}
+        handleOnChange={() => {}}
+        value={projectData.name}
       />
-      {errors.name && <span className={styles.error}>{errors.name}</span>}
 
+      {/* Campo de Orçamento */}
       <Orcamento
         type="select"
         text="Selecione o orçamento:"
         name="orcamento_id"
-        handleOnChange={handleInputChange}
-        value={formData.orcamento_id}
+        handleOnChange={() => {}}
+        value={projectData.orcamento_id}
         options={[
           { value: "", label: "Selecione um orçamento" },
           ...orcamentos.map((orcamento) => ({
@@ -134,16 +79,14 @@ function ProjectForm() {
           })),
         ]}
       />
-      {errors.orcamento_id && (
-        <span className={styles.error}>{errors.orcamento_id}</span>
-      )}
 
+ 
       <Select
         type="select"
         text="Selecione a categoria:"
         name="categoryId"
-        handleOnChange={handleInputChange}
-        value={formData.categoryId}
+        handleOnChange={() => {}}
+        value={projectData.categoryId}
         options={[
           { value: "", label: "Selecione uma categoria" },
           ...categories.map((category) => ({
@@ -152,11 +95,8 @@ function ProjectForm() {
           })),
         ]}
       />
-      {errors.categoryId && (
-        <span className={styles.error}>{errors.categoryId}</span>
-      )}
 
-      <SubmitButton text="Criar projeto" />
+      <SubmitButton text={btn} />
     </form>
   );
 }
