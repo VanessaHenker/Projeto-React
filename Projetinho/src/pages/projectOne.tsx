@@ -9,7 +9,7 @@ import { Project } from '../types';
 function ProjectOne() {
   const { id } = useParams();
   const [project, setProject] = useState<Project | null>(null);
-  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [showProjectForm, setShowProjectForm] = useState(false); // Controle de exibição do formulário
   const [categories, setCategories] = useState<any[]>([]);
   const [orcamentos, setOrcamentos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true); // Estado de carregamento
@@ -90,13 +90,13 @@ function ProjectOne() {
       .then((resp) => resp.json())
       .then((data) => {
         setProject(data);
-        setShowProjectForm(false);
+        setShowProjectForm(false); // Fecha o formulário após editar
       })
       .catch((error) => console.error('Erro ao editar o projeto:', error));
   }
 
   function toggleProjectForm() {
-    setShowProjectForm(!showProjectForm);
+    setShowProjectForm(!showProjectForm); // Alterna a exibição do formulário
   }
 
   return (
@@ -134,7 +134,9 @@ function ProjectOne() {
                 </div>
               ) : (
                 <div className={styles.projectInfo}>
-                  <ProjectForm handleSubmit={editPost} btn="Concluir edição" projectData={project} />
+                  <div className={showProjectForm ? styles.form : styles.otherComponent}>
+                    <ProjectForm handleSubmit={editPost} btn="Concluir edição" projectData={project} />
+                  </div>
                 </div>
               )}
             </div>
