@@ -117,12 +117,7 @@ function ProjectOne() {
                 </div>
               ) : (
                 <div className={styles.projectInfo}>
-                 <ProjectForm 
-      handleSubmit={editPost} 
-      btn="Concluir edição" 
-      projectData={project} 
-      isForm={showProjectForm}  // Passando a prop isForm
-    />
+                  <ProjectForm handleSubmit={editPost} btn="Concluir edição" projectData={project} />
                 </div>
               )}
             </div>
