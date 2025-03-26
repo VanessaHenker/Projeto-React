@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Container from '../components/layout/container';
 import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
-import { Project } from '../types'; 
+import { Project } from '../types';
 
 function ProjectOne() {
   const { id } = useParams();
@@ -17,47 +17,32 @@ function ProjectOne() {
     if (id) {
       fetch(`http://localhost:5000/projects/${id}`, {
         method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
-        },
+        headers: { 'Content-type': 'application/json' },
       })
         .then((resp) => resp.json())
-        .then((data) => {
-          setProject(data);
-        })
+        .then((data) => setProject(data))
         .catch((error) => console.error('Erro ao buscar o projeto:', error));
     }
 
-    fetch('http://localhost:5000/categories', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        setCategories(data);
+    Promise.all([
+      fetch('http://localhost:5000/categories', { method: 'GET', headers: { 'Content-type': 'application/json' } }),
+      fetch('http://localhost:5000/orcamentos', { method: 'GET', headers: { 'Content-type': 'application/json' } })
+    ])
+      .then(([categoriesResp, orcamentosResp]) =>
+        Promise.all([categoriesResp.json(), orcamentosResp.json()])
+      )
+      .then(([categoriesData, orcamentosData]) => {
+        setCategories(categoriesData);
+        setOrcamentos(orcamentosData);
       })
-      .catch((error) => console.error('Erro ao buscar categorias:', error));
-
-    fetch('http://localhost:5000/orcamentos', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json',
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        setOrcamentos(data);
-      })
-      .catch((error) => console.error('Erro ao buscar orçamentos:', error));
+      .catch((error) => console.error('Erro ao buscar categorias e orçamentos:', error));
   }, [id]);
 
   const projectCategory = categories.find((category) => category.id === project?.categoryId);
   const projectBudget = orcamentos.find((orcamento) => orcamento.id === project?.orcamento_id);
 
   if (!project) {
-    return <div className={styles.loadingMessage}>Carregando projeto...</div>;
+    return <div className={styles.loadingMessage}>Carregando dados...</div>;
   }
 
   const totalUtilizado = projectBudget?.used ? projectBudget.used : 'R$ 0,00';
@@ -65,15 +50,17 @@ function ProjectOne() {
   function editPost(project: Project) {
     fetch(`http://localhost:5000/projects/${project.id}`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(project),
     })
       .then((resp) => resp.json())
       .then((data) => {
-        setProject(data);
-        setShowProjectForm(false);
+        if (data) {
+          setProject(data);
+          setShowProjectForm(false);
+        } else {
+          console.error('Erro ao editar projeto: Dados inválidos');
+        }
       })
       .catch((error) => console.error('Erro ao editar o projeto:', error));
   }
@@ -97,7 +84,7 @@ function ProjectOne() {
               <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
 
               <button onClick={toggleProjectForm}>
-                {!showProjectForm ? 'Editar projeto' : 'Fechar projeto'}
+                {!showProjectForm ? 'Editar projeto' : 'Cancelar edição'}
               </button>
 
               {!showProjectForm ? (
@@ -122,6 +109,10 @@ function ProjectOne() {
               )}
             </div>
           </Container>
+
+          <div className={styles.serviceFormContainer}>
+            <h2>Adicione um serviço</h2>
+          </div>
         </div>
       ) : (
         <div className={styles.loadingMessage}>Projeto não encontrado</div>
