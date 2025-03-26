@@ -31,8 +31,22 @@ function ProjectOne() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showServiceForm, setShowServiceForm] = useState(false);
+  const [serviceName, setServiceName] = useState('');
+  const [serviceDescription, setServiceDescription] = useState('');
+  const [serviceAdded, setServiceAdded] = useState(false);
+  const [serviceError, setServiceError] = useState<string | null>(null);
 
   const toggleProjectForm = () => setShowProjectForm(prev => !prev);
+  const toggleServiceForm = () => setShowServiceForm(prev => !prev);
+
+  const handleServiceNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setServiceName(event.target.value);
+  };
+
+  const handleServiceDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setServiceDescription(event.target.value);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,6 +107,38 @@ function ProjectOne() {
       .catch(error => console.error('Erro ao editar o projeto:', error));
   };
 
+  const addService = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!serviceName || !serviceDescription) {
+      setServiceError('Todos os campos são obrigatórios');
+      return;
+    }
+
+    const serviceData = { name: serviceName, description: serviceDescription };
+
+    try {
+      const response = await fetch('http://localhost:5000/services', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(serviceData),
+      });
+      const data = await response.json();
+      if (response.ok && data) {
+        setServiceAdded(true);
+        setServiceName('');
+        setServiceDescription('');
+        setServiceError(null);
+      } else {
+        throw new Error('Erro ao adicionar serviço');
+      }
+    } catch (error) {
+      setServiceError('Erro ao adicionar serviço');
+      console.error('Erro ao adicionar serviço:', error);
+    }
+  };
+
   if (loading) {
     return <div className={styles.loadingMessage}>Carregando projeto...</div>;
   }
@@ -145,9 +191,33 @@ function ProjectOne() {
 
         <div className={styles.serviceFormContainer}>
           <h2>Adicione um serviço:</h2>
-          <button>
-            Adicionar serviço
+          <button onClick={toggleServiceForm}>
+            {showServiceForm ? 'Cancelar' : 'Adicionar serviço'}
           </button>
+
+          {showServiceForm && (
+            <form onSubmit={addService}>
+              <label>Nome do serviço:</label>
+              <input
+                type="text"
+                name="serviceName"
+                value={serviceName}
+                onChange={handleServiceNameChange}
+                required
+              />
+              <label>Descrição:</label>
+              <textarea
+                name="serviceDescription"
+                value={serviceDescription}
+                onChange={handleServiceDescriptionChange}
+                required
+              />
+              <button type="submit">Adicionar serviço</button>
+            </form>
+          )}
+
+          {serviceError && <p className={styles.errorMessage}>{serviceError}</p>}
+          {serviceAdded && <p className={styles.successMessage}>Serviço adicionado com sucesso!</p>}
         </div>
       </Container>
     </div>
