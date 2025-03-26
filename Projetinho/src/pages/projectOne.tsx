@@ -1,10 +1,17 @@
-import styles from './projectOne.module.css';
-import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import styles from './projectOne.module.css';
 import Container from '../components/layout/container';
 import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
-import { Project } from '../types';
+
+interface Project {
+  id: number;
+  name: string;
+  description: string;
+  categoryId: number;
+  orcamento_id: number;
+}
 
 function ProjectOne() {
   const { id } = useParams();
@@ -26,7 +33,7 @@ function ProjectOne() {
 
     Promise.all([
       fetch('http://localhost:5000/categories', { method: 'GET', headers: { 'Content-type': 'application/json' } }),
-      fetch('http://localhost:5000/orcamentos', { method: 'GET', headers: { 'Content-type': 'application/json' } })
+      fetch('http://localhost:5000/orcamentos', { method: 'GET', headers: { 'Content-type': 'application/json' } }),
     ])
       .then(([categoriesResp, orcamentosResp]) =>
         Promise.all([categoriesResp.json(), orcamentosResp.json()])
@@ -40,10 +47,6 @@ function ProjectOne() {
 
   const projectCategory = categories.find((category) => category.id === project?.categoryId);
   const projectBudget = orcamentos.find((orcamento) => orcamento.id === project?.orcamento_id);
-
-  if (!project) {
-    return <div className={styles.loadingMessage}>Carregando dados...</div>;
-  }
 
   const totalUtilizado = projectBudget?.used ? projectBudget.used : 'R$ 0,00';
 
@@ -65,13 +68,9 @@ function ProjectOne() {
       .catch((error) => console.error('Erro ao editar o projeto:', error));
   }
 
-  function toggleProjectForm() {
-    setShowProjectForm(!showProjectForm);
-  }
-
   return (
     <>
-      {project.name ? (
+      {project ? (
         <div className={styles.projectContainer}>
           <div className={styles.circle}></div>
           <div className={styles.circle}></div>
@@ -83,7 +82,7 @@ function ProjectOne() {
             <div className={styles.mainContent}>
               <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
 
-              <button onClick={toggleProjectForm}>
+              <button onClick={() => setShowProjectForm(!showProjectForm)}>
                 {!showProjectForm ? 'Editar projeto' : 'Cancelar edição'}
               </button>
 
@@ -104,15 +103,15 @@ function ProjectOne() {
                 </div>
               ) : (
                 <div className={styles.projectInfo}>
-                  <ProjectForm handleSubmit={editPost} btn="Concluir edição" projectData={project} />
+                  <ProjectForm
+                    handleSubmit={editPost}
+                    btn="Concluir edição"
+                    projectData={project}
+                  />
                 </div>
               )}
             </div>
           </Container>
-
-          <div className={styles.serviceFormContainer}>
-            <h2>Adicione um serviço</h2>
-          </div>
         </div>
       ) : (
         <div className={styles.loadingMessage}>Projeto não encontrado</div>
