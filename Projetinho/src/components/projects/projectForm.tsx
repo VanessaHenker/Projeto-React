@@ -72,17 +72,8 @@ function ProjectForm() {
     let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-    // Validação dos campos
-    if (!formData.name.trim()) {
-      newErrors.name = "Nome do projeto é obrigatório.";
-      valid = false;
-    }
-    if (!formData.orcamento_id.trim()) {
-      newErrors.orcamento_id = "Orçamento é obrigatório.";
-      valid = false;
-    }
-    if (!formData.categoryId.trim()) {
-      newErrors.categoryId = "Categoria é obrigatória.";
+    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
       valid = false;
     }
 

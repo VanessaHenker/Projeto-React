@@ -40,6 +40,14 @@ function ProjectOne() {
   const toggleProjectForm = () => setShowProjectForm(prev => !prev);
   const toggleServiceForm = () => setShowServiceForm(prev => !prev);
 
+  const handleServiceNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setServiceName(event.target.value);
+  };
+
+  const handleServiceDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setServiceDescription(event.target.value);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,6 +64,10 @@ function ProjectOne() {
         const projectData = await projectRes.json();
         const categoriesData = await categoriesRes.json();
         const orcamentosData = await orcamentosRes.json();
+
+        if (!projectData || !categoriesData || !orcamentosData) {
+          throw new Error('Dados inválidos recebidos');
+        }
 
         setProject(projectData);
         setCategories(categoriesData);
@@ -74,7 +86,26 @@ function ProjectOne() {
 
   const projectCategory = categories.find(category => category.id === project?.categoryId);
   const projectBudget = orcamentos.find(orcamento => orcamento.id === project?.orcamento_id);
+
   const totalUtilizado = projectBudget?.used ? `R$ ${projectBudget.used.toFixed(2)}` : 'R$ 0,00';
+
+  const editPost = (updatedProject: Project) => {
+    fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedProject),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data) {
+          setProject(data);
+          setShowProjectForm(false);
+        } else {
+          console.error('Erro ao editar projeto: Dados inválidos');
+        }
+      })
+      .catch(error => console.error('Erro ao editar o projeto:', error));
+  };
 
   const addService = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -118,6 +149,12 @@ function ProjectOne() {
 
   return (
     <div className={styles.projectContainer}>
+      <div className={styles.circle}></div>
+      <div className={styles.circle}></div>
+      <div className={styles.circle}></div>
+      <div className={styles.circle}></div>
+      <div className={styles.circle}></div>
+
       <Container>
         <div className={styles.mainContent}>
           <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
@@ -142,11 +179,13 @@ function ProjectOne() {
               </p>
             </div>
           ) : (
-            <ProjectForm
-              handleSubmit={() => {}}
-              btn="Concluir edição"
-              projectData={project}
-            />
+            <div className={styles.projectInfo}>
+              <ProjectForm
+                handleSubmit={editPost}
+                btn="Concluir edição"
+                projectData={project}
+              />
+            </div>
           )}
         </div>
 
@@ -163,14 +202,14 @@ function ProjectOne() {
                 type="text"
                 name="serviceName"
                 value={serviceName}
-                onChange={(e) => setServiceName(e.target.value)}
+                onChange={handleServiceNameChange}
                 required
               />
               <label>Descrição:</label>
               <textarea
                 name="serviceDescription"
                 value={serviceDescription}
-                onChange={(e) => setServiceDescription(e.target.value)}
+                onChange={handleServiceDescriptionChange}
                 required
               />
               <button type="submit">Adicionar serviço</button>
@@ -179,6 +218,9 @@ function ProjectOne() {
 
           {serviceError && <p className={styles.errorMessage}>{serviceError}</p>}
           {serviceAdded && <p className={styles.successMessage}>Serviço adicionado com sucesso!</p>}
+          <Container customClass='start'>
+            <p>Itenis de serviço::</p>
+          </Container>
         </div>
       </Container>
     </div>
