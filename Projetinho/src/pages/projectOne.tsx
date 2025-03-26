@@ -218,6 +218,9 @@ function ProjectOne() {
 
           {serviceError && <p className={styles.errorMessage}>{serviceError}</p>}
           {serviceAdded && <p className={styles.successMessage}>Serviço adicionado com sucesso!</p>}
+          <Container customClass='start'>
+            <p>Itens de serviço:</p>
+          </Container>
         </div>
       </Container>
     </div>
