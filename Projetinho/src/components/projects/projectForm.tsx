@@ -18,36 +18,31 @@ interface OrcamentoType {
   name: string;
 }
 
-interface Project {
-  id: string;
-  name: string;
-  orcamento_id: string;
-  categoryId: string;
-}
 
 function ProjectForm() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>(); // Recebe o ID do projeto a ser editado
+  const { id } = useParams<{ id: string }>(); 
 
-  // Estado inicial do formulário
+
   const [formData, setFormData] = useState({
     name: "",
     orcamento_id: "",
     categoryId: "",
   });
 
-  // Estado para erros do formulário
+
   const [errors, setErrors] = useState({
     name: "",
     orcamento_id: "",
     categoryId: "",
   });
 
-  // Estados para categorias e orçamentos
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
+  
 
-  // Buscar os dados de categorias e orçamentos
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,7 +54,7 @@ function ProjectForm() {
         setCategories(categoriesData || []);
         setOrcamentos(orcamentosData || []);
 
-        // Se estamos editando um projeto, vamos carregar os dados do projeto
+       
         if (id) {
           const projectResponse = await fetch(`http://localhost:5000/projects/${id}`);
           const projectData = await projectResponse.json();
@@ -77,16 +72,16 @@ function ProjectForm() {
     fetchData();
   }, [id]);
 
-  // Função para lidar com mudanças nos campos do formulário
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // Limpa o erro para o campo alterado
+
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  // Função de validação do formulário
+
   const validateForm = () => {
     let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
@@ -107,7 +102,7 @@ function ProjectForm() {
     if (!validateForm()) return;
 
     try {
-      const method = id ? "PATCH" : "POST"; // Se tem um ID, é uma edição, então usamos PATCH
+      const method = id ? "PATCH" : "POST"; 
       const url = id ? `http://localhost:5000/projects/${id}` : "http://localhost:5000/projects"; // URL para edição ou criação
 
       const response = await fetch(url, {
