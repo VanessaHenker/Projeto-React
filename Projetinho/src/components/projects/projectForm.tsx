@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Input from "../form/input";
 import Select from "../form/select";
@@ -18,8 +18,16 @@ interface OrcamentoType {
   name: string;
 }
 
+interface Project {
+  id: string;
+  name: string;
+  orcamento_id: string;
+  categoryId: string;
+}
+
 function ProjectForm() {
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>(); // Recebe o ID do projeto a ser editado
 
   // Estado inicial do formulário
   const [formData, setFormData] = useState({
@@ -39,7 +47,7 @@ function ProjectForm() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
 
-  // Função para buscar dados de categorias e orçamentos
+  // Buscar os dados de categorias e orçamentos
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,13 +58,24 @@ function ProjectForm() {
 
         setCategories(categoriesData || []);
         setOrcamentos(orcamentosData || []);
+
+        // Se estamos editando um projeto, vamos carregar os dados do projeto
+        if (id) {
+          const projectResponse = await fetch(`http://localhost:5000/projects/${id}`);
+          const projectData = await projectResponse.json();
+          setFormData({
+            name: projectData.name,
+            orcamento_id: projectData.orcamento_id,
+            categoryId: projectData.categoryId,
+          });
+        }
       } catch (err) {
         console.error("Erro ao buscar dados:", err);
       }
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   // Função para lidar com mudanças nos campos do formulário
   const handleInputChange = (
@@ -87,21 +106,22 @@ function ProjectForm() {
 
     if (!validateForm()) return;
 
-    console.log("Dados enviados:", formData);
-
     try {
-      const response = await fetch("http://localhost:5000/projects", {
-        method: "POST",
+      const method = id ? "PATCH" : "POST"; // Se tem um ID, é uma edição, então usamos PATCH
+      const url = id ? `http://localhost:5000/projects/${id}` : "http://localhost:5000/projects"; // URL para edição ou criação
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         navigate("/projects", {
-          state: { message: "Projeto criado com sucesso!" },
+          state: { message: id ? "Projeto atualizado com sucesso!" : "Projeto criado com sucesso!" },
         });
       } else {
-        console.error("Erro ao criar projeto");
+        console.error("Erro ao salvar o projeto");
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
@@ -156,7 +176,7 @@ function ProjectForm() {
         <span className={styles.error}>{errors.categoryId}</span>
       )}
 
-      <SubmitButton text="Criar projeto" />
+      <SubmitButton text={id ? "Atualizar projeto" : "Criar projeto"} />
     </form>
   );
 }
