@@ -36,6 +36,7 @@ function ProjectOne() {
   const [serviceDescription, setServiceDescription] = useState('');
   const [serviceAdded, setServiceAdded] = useState(false);
   const [serviceError, setServiceError] = useState<string | null>(null);
+  const [editSuccess, setEditSuccess] = useState(false); // Adicionado estado de sucesso da edição
 
   const toggleProjectForm = () => setShowProjectForm(prev => !prev);
   const toggleServiceForm = () => setShowServiceForm(prev => !prev);
@@ -89,22 +90,28 @@ function ProjectOne() {
 
   const totalUtilizado = projectBudget?.used ? `R$ ${projectBudget.used.toFixed(2)}` : 'R$ 0,00';
 
-  const editPost = (updatedProject: Project) => {
-    fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedProject),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data) {
-          setProject(data);
-          setShowProjectForm(false);
-        } else {
-          console.error('Erro ao editar projeto: Dados inválidos');
-        }
-      })
-      .catch(error => console.error('Erro ao editar o projeto:', error));
+  const editPost = async (updatedProject: Project) => {
+    try {
+      const response = await fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedProject),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data) {
+        setProject(data); // Atualiza o estado do projeto com os novos dados
+        setEditSuccess(true); // Marca como sucesso
+        setShowProjectForm(false); // Fecha o formulário de edição
+      } else {
+        console.error('Erro ao editar projeto: Dados inválidos');
+        setEditSuccess(false); // Marca como erro
+      }
+    } catch (error) {
+      console.error('Erro ao editar o projeto:', error);
+      setEditSuccess(false); // Marca como erro
+    }
   };
 
   const addService = async (event: React.FormEvent) => {
@@ -187,6 +194,19 @@ function ProjectOne() {
               />
             </div>
           )}
+
+          {/* Adiciona feedback de sucesso ou erro na edição */}
+          {editSuccess && !showProjectForm && (
+            <div className={styles.successMessage}>
+              Projeto atualizado com sucesso!
+            </div>
+          )}
+
+          {!editSuccess && !showProjectForm && (
+            <div className={styles.errorMessage}>
+              Ocorreu um erro ao atualizar o projeto.
+            </div>
+          )}
         </div>
 
         <div className={styles.serviceFormContainer}>
@@ -219,7 +239,7 @@ function ProjectOne() {
           {serviceError && <p className={styles.errorMessage}>{serviceError}</p>}
           {serviceAdded && <p className={styles.successMessage}>Serviço adicionado com sucesso!</p>}
           <Container customClass='start'>
-            <p>Itenis de serviço::</p>
+            <p>Itens de serviço::</p>
           </Container>
         </div>
       </Container>
