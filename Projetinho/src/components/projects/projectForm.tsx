@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './projectOne.module.css';
-import Container from '../components/layout/container';
+import Container from '../layout/container';
 import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
-import ProjectForm from '../components/projects/projectForm';
-import SubmitButton from '../components/form/submitButton';
-
+import ProjectForm from '../projects/projectForm';
+import SubmitButton from '../form/submitButton';  
 interface Project {
   id: number;
   name: string;
