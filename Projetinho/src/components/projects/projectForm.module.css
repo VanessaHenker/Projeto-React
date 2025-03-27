@@ -30,7 +30,7 @@ label {
 
 button {
   padding: 2rem;
-  font-size: 1.1rem;
+  font-size: 20px;
   max-width: 200px;
   margin: auto;
   background-color: #3498db;
@@ -44,7 +44,6 @@ button {
 }
 
 
-/* Responsividade para telas pequenas */
 @media (max-width: 768px) {
   .form {
     padding: 1rem;
