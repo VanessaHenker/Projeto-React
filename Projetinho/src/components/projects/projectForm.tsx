@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import Input from "../form/input";
 import Select from "../form/select";
 import SubmitButton from "../form/submitButton";
 import Orcamento from "../form/orcamento";
+
 import styles from "./projectForm.module.css";
 
 interface Category {
@@ -15,30 +18,30 @@ interface OrcamentoType {
   name: string;
 }
 
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  categoryId: number;
-  orcamento_id: number;
-}
 
-interface ProjectFormProps {
-  handleSubmit: (updatedProject: Project) => void;
-  btn: string;
-  projectData: Project;
-}
+function ProjectForm() {
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>(); 
 
-const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectData }) => {
+
   const [formData, setFormData] = useState({
-    name: projectData.name || "",
-    orcamento_id: projectData.orcamento_id || "",
-    categoryId: projectData.categoryId || "",
+    name: "",
+    orcamento_id: "",
+    categoryId: "",
   });
+
+
+  const [errors, setErrors] = useState({
+    name: "",
+    orcamento_id: "",
+    categoryId: "",
+  });
+
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
-  const [loading, setLoading] = useState(true);
+  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,38 +53,78 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
 
         setCategories(categoriesData || []);
         setOrcamentos(orcamentosData || []);
+
+       
+        if (id) {
+          const projectResponse = await fetch(`http://localhost:5000/projects/${id}`);
+          const projectData = await projectResponse.json();
+          setFormData({
+            name: projectData.name,
+            orcamento_id: projectData.orcamento_id,
+            categoryId: projectData.categoryId,
+          });
+        }
       } catch (err) {
         console.error("Erro ao buscar dados:", err);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { name: "", orcamento_id: "", categoryId: "" };
+
+    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  // Função para enviar o formulário
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Garantir que os valores de 'orcamento_id' e 'categoryId' sejam números
-    const updatedProject: Project = {
-      ...formData,
-      orcamento_id: Number(formData.orcamento_id),
-      categoryId: Number(formData.categoryId),
-    };
-    handleSubmit(updatedProject);
-  };
 
-  if (loading) {
-    return <div>Carregando...</div>;
-  }
+    if (!validateForm()) return;
+
+    try {
+      const method = id ? "PATCH" : "POST"; 
+      const url = id ? `http://localhost:5000/projects/${id}` : "http://localhost:5000/projects"; // URL para edição ou criação
+
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        navigate("/projects", {
+          state: { message: id ? "Projeto atualizado com sucesso!" : "Projeto criado com sucesso!" },
+        });
+      } else {
+        console.error("Erro ao salvar o projeto");
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
+  };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmitForm} autoComplete="on">
+    <form className={styles.form} onSubmit={handleSubmit}>
       <Input
         type="text"
         text="Nome do projeto:"
@@ -89,8 +132,9 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
         placeholder="Insira o nome do projeto"
         handleOnChange={handleInputChange}
         value={formData.name}
-        autoComplete="off"  // or "name" if it's relevant to your case
       />
+      {errors.name && <span className={styles.error}>{errors.name}</span>}
+
       <Orcamento
         type="select"
         text="Selecione o orçamento:"
@@ -104,8 +148,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
             label: orcamento.name,
           })),
         ]}
-        autoComplete="off"  // or "off" if not needed
       />
+      {errors.orcamento_id && (
+        <span className={styles.error}>{errors.orcamento_id}</span>
+      )}
+
       <Select
         type="select"
         text="Selecione a categoria:"
@@ -119,11 +166,14 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
             label: category.name,
           })),
         ]}
-        autoComplete="off"  // or set a value like "organization" if applicable
       />
-      <SubmitButton text={btn} />
+      {errors.categoryId && (
+        <span className={styles.error}>{errors.categoryId}</span>
+      )}
+
+      <SubmitButton text={id ? "Atualizar projeto" : "Criar projeto"} />
     </form>
   );
-};
+}
 
 export default ProjectForm;
