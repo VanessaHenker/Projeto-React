@@ -36,7 +36,7 @@ function ProjectOne() {
   const [serviceDescription, setServiceDescription] = useState('');
   const [serviceAdded, setServiceAdded] = useState(false);
   const [serviceError, setServiceError] = useState<string | null>(null);
-  const [editSuccess, setEditSuccess] = useState(false); 
+  const [editSuccess, setEditSuccess] = useState(false); // Adicionado estado de sucesso da edição
 
   const toggleProjectForm = () => setShowProjectForm(prev => !prev);
   const toggleServiceForm = () => setShowServiceForm(prev => !prev);
@@ -101,16 +101,16 @@ function ProjectOne() {
       const data = await response.json();
 
       if (response.ok && data) {
-        setProject(data); 
-        setEditSuccess(true); 
-        setShowProjectForm(false); 
+        setProject(data); // Atualiza o estado do projeto com os novos dados
+        setEditSuccess(true); // Marca como sucesso
+        setShowProjectForm(false); // Fecha o formulário de edição
       } else {
         console.error('Erro ao editar projeto: Dados inválidos');
-        setEditSuccess(false); 
+        setEditSuccess(false); // Marca como erro
       }
     } catch (error) {
       console.error('Erro ao editar o projeto:', error);
-      setEditSuccess(false); 
+      setEditSuccess(false); // Marca como erro
     }
   };
 
@@ -195,7 +195,7 @@ function ProjectOne() {
             </div>
           )}
 
-
+          {/* Adiciona feedback de sucesso ou erro na edição */}
           {editSuccess && !showProjectForm && (
             <div className={styles.successMessage}>
               Projeto atualizado com sucesso!
