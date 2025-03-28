@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Input from "../form/input";
 import Select from "../form/select";
+import SubmitButton from "../form/submitButton";
 import Orcamento from "../form/orcamento";
 import styles from "./projectForm.module.css";
 
@@ -15,7 +16,7 @@ interface OrcamentoType {
 }
 
 interface Project {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   categoryId: number;
@@ -25,21 +26,29 @@ interface Project {
 interface ProjectFormProps {
   handleSubmit: (updatedProject: Project) => void;
   btn: string;
-  projectData: Project;
+  projectData?: Project;
 }
 
 const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectData }) => {
   const [formData, setFormData] = useState({
-    id: projectData.id || 0,
-    name: projectData.name || "",
-    description: projectData.description || "",
-    orcamento_id: projectData.orcamento_id || "",
-    categoryId: projectData.categoryId || "",
+    name: projectData?.name || "",
+    orcamento_id: projectData?.orcamento_id || "",
+    categoryId: projectData?.categoryId || "",
   });
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (projectData) {
+      setFormData({
+        name: projectData.name,
+        orcamento_id: projectData.orcamento_id,
+        categoryId: projectData.categoryId,
+      });
+    }
+  }, [projectData]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,15 +94,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
         value={formData.name}
         autoComplete="off"
       />
-      <Input
-        type="text"
-        text="Descrição do projeto:"
-        name="description"
-        placeholder="Insira a descrição do projeto"
-        handleOnChange={handleInputChange}
-        value={formData.description}
-        autoComplete="off"
-      />
       <Orcamento
         type="select"
         text="Selecione o orçamento:"
@@ -122,10 +122,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
           })),
         ]}
       />
-      {/* Botão de envio agora é um botão HTML simples */}
-      <button type="submit" className={styles.submitButton}>
-        {btn}
-      </button>
+      <SubmitButton text={btn} />
     </form>
   );
 };
