@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Input from "../form/input";
 import Select from "../form/select";
-import SubmitButton from "../form/submitButton";
 import Orcamento from "../form/orcamento";
 import styles from "./projectForm.module.css";
 
@@ -31,7 +30,9 @@ interface ProjectFormProps {
 
 const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectData }) => {
   const [formData, setFormData] = useState({
+    id: projectData.id || 0,
     name: projectData.name || "",
+    description: projectData.description || "",
     orcamento_id: projectData.orcamento_id || "",
     categoryId: projectData.categoryId || "",
   });
@@ -61,19 +62,12 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Garantir que os valores de 'orcamento_id' e 'categoryId' sejam números
-    const updatedProject: Project = {
-      ...formData,
-      orcamento_id: Number(formData.orcamento_id),
-      categoryId: Number(formData.categoryId),
-    };
-    handleSubmit(updatedProject);
+    handleSubmit(formData as Project);
   };
 
   if (loading) {
@@ -81,7 +75,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmitForm} autoComplete="on">
+    <form className={styles.form} onSubmit={handleSubmitForm}>
       <Input
         type="text"
         text="Nome do projeto:"
@@ -89,7 +83,16 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
         placeholder="Insira o nome do projeto"
         handleOnChange={handleInputChange}
         value={formData.name}
-        autoComplete="off"  // or "name" if it's relevant to your case
+        autoComplete="off"
+      />
+      <Input
+        type="text"
+        text="Descrição do projeto:"
+        name="description"
+        placeholder="Insira a descrição do projeto"
+        handleOnChange={handleInputChange}
+        value={formData.description}
+        autoComplete="off"
       />
       <Orcamento
         type="select"
@@ -104,7 +107,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
             label: orcamento.name,
           })),
         ]}
-        autoComplete="off"  // or "off" if not needed
       />
       <Select
         type="select"
@@ -119,9 +121,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
             label: category.name,
           })),
         ]}
-        autoComplete="off"  // or set a value like "organization" if applicable
       />
-      <SubmitButton text={btn} />
+      {/* Botão de envio agora é um botão HTML simples */}
+      <button type="submit" className={styles.submitButton}>
+        {btn}
+      </button>
     </form>
   );
 };
