@@ -38,6 +38,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +52,8 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
         setOrcamentos(orcamentosData || []);
       } catch (err) {
         console.error("Erro ao buscar dados:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -58,16 +61,27 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSubmit(formData as Project);
+    // Garantir que os valores de 'orcamento_id' e 'categoryId' sejam números
+    const updatedProject: Project = {
+      ...formData,
+      orcamento_id: Number(formData.orcamento_id),
+      categoryId: Number(formData.categoryId),
+    };
+    handleSubmit(updatedProject);
   };
 
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
   return (
-    <form className={styles.form} onSubmit={handleSubmitForm}>
+    <form className={styles.form} onSubmit={handleSubmitForm} autoComplete="on">
       <Input
         type="text"
         text="Nome do projeto:"
@@ -75,6 +89,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
         placeholder="Insira o nome do projeto"
         handleOnChange={handleInputChange}
         value={formData.name}
+        autoComplete="off"  // or "name" if it's relevant to your case
       />
       <Orcamento
         type="select"
@@ -89,6 +104,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
             label: orcamento.name,
           })),
         ]}
+        autoComplete="off"  // or "off" if not needed
       />
       <Select
         type="select"
@@ -103,6 +119,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, btn, projectDat
             label: category.name,
           })),
         ]}
+        autoComplete="off"  // or set a value like "organization" if applicable
       />
       <SubmitButton text={btn} />
     </form>

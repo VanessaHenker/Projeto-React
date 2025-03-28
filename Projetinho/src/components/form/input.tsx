@@ -13,9 +13,19 @@ interface InputProps {
   handleOnChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   value?: string | number;
   options?: Option[]; 
+  autoComplete?: string;  // Adicionando a propriedade autoComplete
 }
 
-function Input({ type, text, name, placeholder, handleOnChange, value, options }: InputProps) {
+function Input({
+  type, 
+  text, 
+  name, 
+  placeholder, 
+  handleOnChange, 
+  value, 
+  options, 
+  autoComplete  // Recebendo a propriedade autoComplete
+}: InputProps) {
   return (
     <div className={styles.formControl}>
       <label htmlFor={name}>{text}</label>
@@ -35,6 +45,7 @@ function Input({ type, text, name, placeholder, handleOnChange, value, options }
           placeholder={placeholder}
           onChange={handleOnChange}
           value={value}
+          autoComplete={autoComplete}  // Passando a propriedade autoComplete para o input
         />
       )}
     </div>
