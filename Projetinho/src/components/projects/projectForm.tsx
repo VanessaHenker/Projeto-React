@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import Input from "../form/input";
 import Select from "../form/select";
 import SubmitButton from "../form/submitButton";
@@ -19,23 +18,27 @@ interface OrcamentoType {
 }
 
 interface Project {
-  id: string;
+  id: number;
   name: string;
   description: string;
-  categoryId: string;
-  orcamento_id: string;
+  orcamento_id: number;
+  categoryId: number;
 }
 
-function ProjectForm() {
+interface ProjectFormProps {
+  handleSubmit: (updatedProject: Project) => Promise<void>;
+  btn: string;
+  projectData: Project;
+}
+
+function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
-  const [formData, setFormData] = useState<Project>({
-    id: "",
-    name: "",
-    description: "",
-    orcamento_id: "",
-    categoryId: "",
+  const [formData, setFormData] = useState({
+    name: projectData.name,
+    orcamento_id: projectData.orcamento_id,
+    categoryId: projectData.categoryId,
   });
 
   const [errors, setErrors] = useState({
@@ -62,9 +65,7 @@ function ProjectForm() {
           const projectResponse = await fetch(`http://localhost:5000/projects/${id}`);
           const projectData = await projectResponse.json();
           setFormData({
-            id: projectData.id,
             name: projectData.name,
-            description: projectData.description,
             orcamento_id: projectData.orcamento_id,
             categoryId: projectData.categoryId,
           });
@@ -77,9 +78,7 @@ function ProjectForm() {
     fetchData();
   }, [id]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" });
   };
@@ -88,11 +87,7 @@ function ProjectForm() {
     let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-    if (
-      !formData.name.trim() ||
-      !String(formData.orcamento_id).trim() ||
-      !String(formData.categoryId).trim()
-    ) {
+    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       valid = false;
     }
@@ -101,37 +96,20 @@ function ProjectForm() {
     return valid;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     try {
-      const method = id ? "PATCH" : "POST";
-      const url = id
-        ? `http://localhost:5000/projects/${id}`
-        : "http://localhost:5000/projects";
-
-      const response = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        navigate("/projects", {
-          state: { message: id ? "Projeto atualizado com sucesso!" : "Projeto criado com sucesso!" },
-        });
-      } else {
-        console.error("Erro ao salvar o projeto");
-      }
+      await handleSubmit(formData);
     } catch (error) {
       console.error("Erro na requisição:", error);
     }
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleFormSubmit}>
       <Input
         type="text"
         text="Nome do projeto:"
@@ -156,9 +134,7 @@ function ProjectForm() {
           })),
         ]}
       />
-      {errors.orcamento_id && (
-        <span className={styles.error}>{errors.orcamento_id}</span>
-      )}
+      {errors.orcamento_id && <span className={styles.error}>{errors.orcamento_id}</span>}
 
       <Select
         type="select"
@@ -174,11 +150,9 @@ function ProjectForm() {
           })),
         ]}
       />
-      {errors.categoryId && (
-        <span className={styles.error}>{errors.categoryId}</span>
-      )}
+      {errors.categoryId && <span className={styles.error}>{errors.categoryId}</span>}
 
-      <SubmitButton text={id ? "Atualizar projeto" : "Criar projeto"} />
+      <SubmitButton text={btn} />
     </form>
   );
 }
