@@ -18,12 +18,6 @@ interface OrcamentoType {
   name: string;
 }
 
-interface ProjectFormProps {
-  handleSubmit: (updatedProject: Project) => Promise<void>;
-  btn: string;
-  projectData: Project;
-}
-
 interface Project {
   id: number;
   name: string;
@@ -32,12 +26,20 @@ interface Project {
   orcamento_id: number;
 }
 
+interface ProjectFormProps {
+  handleSubmit: (updatedProject: Project) => Promise<void>;
+  btn: string;
+  projectData: Project;
+}
+
 function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Project>({
+    id: projectData.id,
     name: projectData.name,
+    description: projectData.description,
     orcamento_id: projectData.orcamento_id,
     categoryId: projectData.categoryId,
   });
@@ -46,6 +48,7 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
     name: "",
     orcamento_id: "",
     categoryId: "",
+    description: "",
   });
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -66,7 +69,9 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
           const projectResponse = await fetch(`http://localhost:5000/projects/${id}`);
           const projectData = await projectResponse.json();
           setFormData({
+            id: projectData.id,
             name: projectData.name,
+            description: projectData.description,
             orcamento_id: projectData.orcamento_id,
             categoryId: projectData.categoryId,
           });
@@ -89,10 +94,25 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
 
   const validateForm = () => {
     let valid = true;
-    const newErrors = { name: "", orcamento_id: "", categoryId: "" };
+    const newErrors = { name: "", orcamento_id: "", categoryId: "", description: "" };
 
-    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
+    if (!formData.name.trim()) {
+      newErrors.name = "Nome do projeto é obrigatório";
+      valid = false;
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = "Descrição do projeto é obrigatória";
+      valid = false;
+    }
+
+    if (!formData.orcamento_id.trim()) {
+      newErrors.orcamento_id = "Orçamento é obrigatório";
+      valid = false;
+    }
+
+    if (!formData.categoryId.trim()) {
+      newErrors.categoryId = "Categoria é obrigatória";
       valid = false;
     }
 
@@ -123,6 +143,16 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
         value={formData.name}
       />
       {errors.name && <span className={styles.error}>{errors.name}</span>}
+
+      <Input
+        type="text"
+        text="Descrição do projeto:"
+        name="description"
+        placeholder="Insira a descrição do projeto"
+        handleOnChange={handleInputChange}
+        value={formData.description}
+      />
+      {errors.description && <span className={styles.error}>{errors.description}</span>}
 
       <Orcamento
         type="select"
