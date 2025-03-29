@@ -195,7 +195,6 @@ function ProjectOne() {
             </div>
           )}
 
-          {/* Adiciona feedback de sucesso ou erro na edição */}
           {editSuccess && !showProjectForm && (
             <div className={styles.successMessage}>
               Projeto atualizado com sucesso!
