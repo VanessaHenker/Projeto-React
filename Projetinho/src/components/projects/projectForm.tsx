@@ -19,36 +19,29 @@ interface OrcamentoType {
 }
 
 interface Project {
-  id: number;
+  id: string;
   name: string;
   description: string;
-  categoryId: number;
-  orcamento_id: number;
+  categoryId: string;
+  orcamento_id: string;
 }
 
-interface ProjectFormProps {
-  handleSubmit: (updatedProject: Project) => Promise<void>;
-  btn: string;
-  projectData: Project;
-}
-
-function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
+function ProjectForm() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
   const [formData, setFormData] = useState<Project>({
-    id: projectData.id,
-    name: projectData.name,
-    description: projectData.description,
-    orcamento_id: projectData.orcamento_id,
-    categoryId: projectData.categoryId,
+    id: "",
+    name: "",
+    description: "",
+    orcamento_id: "",
+    categoryId: "",
   });
 
   const [errors, setErrors] = useState({
     name: "",
     orcamento_id: "",
     categoryId: "",
-    description: "",
   });
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -88,31 +81,19 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const validateForm = () => {
     let valid = true;
-    const newErrors = { name: "", orcamento_id: "", categoryId: "", description: "" };
+    const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Nome do projeto é obrigatório";
-      valid = false;
-    }
-
-    if (!formData.description.trim()) {
-      newErrors.description = "Descrição do projeto é obrigatória";
-      valid = false;
-    }
-
-    if (!formData.orcamento_id.trim()) {
-      newErrors.orcamento_id = "Orçamento é obrigatório";
-      valid = false;
-    }
-
-    if (!formData.categoryId.trim()) {
-      newErrors.categoryId = "Categoria é obrigatória";
+    if (
+      !formData.name.trim() ||
+      !String(formData.orcamento_id).trim() ||
+      !String(formData.categoryId).trim()
+    ) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
       valid = false;
     }
 
@@ -120,20 +101,37 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
     return valid;
   };
 
-  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     try {
-      await handleSubmit(formData);
+      const method = id ? "PATCH" : "POST";
+      const url = id
+        ? `http://localhost:5000/projects/${id}`
+        : "http://localhost:5000/projects";
+
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        navigate("/projects", {
+          state: { message: id ? "Projeto atualizado com sucesso!" : "Projeto criado com sucesso!" },
+        });
+      } else {
+        console.error("Erro ao salvar o projeto");
+      }
     } catch (error) {
-      console.error("Erro ao enviar formulário:", error);
+      console.error("Erro na requisição:", error);
     }
   };
 
   return (
-    <form className={styles.form} onSubmit={submitForm}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <Input
         type="text"
         text="Nome do projeto:"
@@ -143,16 +141,6 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
         value={formData.name}
       />
       {errors.name && <span className={styles.error}>{errors.name}</span>}
-
-      <Input
-        type="text"
-        text="Descrição do projeto:"
-        name="description"
-        placeholder="Insira a descrição do projeto"
-        handleOnChange={handleInputChange}
-        value={formData.description}
-      />
-      {errors.description && <span className={styles.error}>{errors.description}</span>}
 
       <Orcamento
         type="select"
@@ -190,7 +178,7 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
         <span className={styles.error}>{errors.categoryId}</span>
       )}
 
-      <SubmitButton text={btn} />
+      <SubmitButton text={id ? "Atualizar projeto" : "Criar projeto"} />
     </form>
   );
 }
