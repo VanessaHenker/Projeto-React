@@ -86,6 +86,8 @@ function ProjectOne() {
       ...formData,
       id: project.id, // Manter o id atual
       description: project.description, // Manter a descrição atual
+      orcamento_id: Number(formData.orcamento_id), // Garantir que orcamento_id seja number
+      categoryId: Number(formData.categoryId), // Garantir que categoryId seja number
     };
 
     try {
@@ -154,7 +156,11 @@ function ProjectOne() {
               <ProjectForm
                 handleSubmit={editPost} // Passando a função de edição
                 btn="Concluir edição"
-                projectData={project} // Passando os dados do projeto
+                projectData={{
+                  name: project.name,
+                  orcamento_id: String(project.orcamento_id), // Convertendo para string
+                  categoryId: String(project.categoryId), // Convertendo para string
+                }} // Passando os dados do projeto convertidos para string
               />
             </div>
           )}
