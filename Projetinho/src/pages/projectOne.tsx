@@ -6,7 +6,6 @@ const ProjectOne = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  // Definindo o tipo Project diretamente aqui
   interface Project {
     id: string;
     name: string;
@@ -16,17 +15,26 @@ const ProjectOne = () => {
   }
 
   const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProject = async () => {
+      if (!id) return;
+
       try {
-        if (id) {
-          const response = await fetch(`http://localhost:5000/projects/${id}`);
-          const projectData = await response.json();
-          setProject(projectData);
+        const response = await fetch(`http://localhost:5000/projects/${id}`);
+
+        if (!response.ok) {
+          throw new Error("Erro ao buscar projeto");
         }
-      } catch (error) {
-        console.error("Erro ao buscar projeto:", error);
+
+        const projectData = await response.json();
+        setProject(projectData);
+      } catch (err) {
+        setError("Falha ao carregar projeto. Tente novamente mais tarde.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,37 +42,32 @@ const ProjectOne = () => {
   }, [id]);
 
   const editPost = async (formData: { name: string; orcamento_id: string; categoryId: string }) => {
-    try {
-      if (id) {
-        const response = await fetch(`http://localhost:5000/projects/${id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+    if (!id) return;
 
-        if (response.ok) {
-          navigate("/projects");
-        } else {
-          console.error("Erro ao editar o projeto");
-        }
+    try {
+      const response = await fetch(`http://localhost:5000/projects/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao editar o projeto");
       }
+
+      navigate("/projects");
     } catch (error) {
       console.error("Erro ao editar o projeto:", error);
     }
   };
 
-  if (!project) {
-    return <div>Carregando projeto...</div>;
-  }
+  if (loading) return <div>Carregando projeto...</div>;
+  if (error) return <div className="error">{error}</div>;
 
   return (
     <div>
       <h1>Editar Projeto</h1>
-      <ProjectForm
-        handleSubmit={editPost}
-        btn="Concluir edição"
-        projectData={project}
-      />
+      <ProjectForm handleSubmit={editPost} btn="Concluir edição" projectData={project} />
     </div>
   );
 };
