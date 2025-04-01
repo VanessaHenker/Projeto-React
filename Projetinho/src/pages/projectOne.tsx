@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProjectForm from "../components/projects/projectForm";
 
-
 const ProjectOne = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate(); // Aqui, estamos utilizando o 'navigate' para redirecionar
+  const navigate = useNavigate();
+
+  // Definindo o tipo Project diretamente aqui
+  interface Project {
+    id: string;
+    name: string;
+    orcamento_id: string;
+    categoryId: string;
+    description?: string;
+  }
 
   const [project, setProject] = useState<Project | null>(null);
 
@@ -25,7 +33,6 @@ const ProjectOne = () => {
     fetchProject();
   }, [id]);
 
-  // Função para editar o projeto
   const editPost = async (formData: { name: string; orcamento_id: string; categoryId: string }) => {
     try {
       if (id) {
@@ -36,7 +43,7 @@ const ProjectOne = () => {
         });
 
         if (response.ok) {
-          navigate("/projects"); // Redireciona para a página de projetos após edição
+          navigate("/projects");
         } else {
           console.error("Erro ao editar o projeto");
         }
@@ -54,9 +61,9 @@ const ProjectOne = () => {
     <div>
       <h1>Editar Projeto</h1>
       <ProjectForm
-        handleSubmit={editPost} // Passando a função handleSubmit corretamente
-        btn="Concluir edição"  // Texto do botão
-        projectData={project}  // Passando os dados do projeto para o formulário
+        handleSubmit={editPost}
+        btn="Concluir edição"
+        projectData={project}
       />
     </div>
   );
