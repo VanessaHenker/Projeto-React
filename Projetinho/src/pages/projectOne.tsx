@@ -14,9 +14,9 @@ const ProjectOne = () => {
     description?: string;
   }
 
-  const [project, setProject] = useState<Project | null>(null);
+  const [project, setProject] = useState<Project>({ id: '', name: '', orcamento_id: '', categoryId: '' });
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -61,7 +61,7 @@ const ProjectOne = () => {
     }
   };
 
-  if (loading) return <div>Carregando projeto...</div>;
+  if (loading) return <div className="loading-spinner">Carregando projeto...</div>;
   if (error) return <div className="error">{error}</div>;
 
   return (
