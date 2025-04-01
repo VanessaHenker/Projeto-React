@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import styles from './projectOne.module.css';
-import Container from '../components/layout/container';
-import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
-import ProjectForm from '../components/projects/projectForm';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import styles from "./projectOne.module.css";
+import Container from "../components/layout/container";
+import { FaTags, FaMoneyBillAlt, FaClipboardList } from "react-icons/fa";
+import ProjectForm from "../components/projects/projectForm";
 
 interface Project {
   id: number;
@@ -26,55 +26,37 @@ interface Orcamento {
 
 function ProjectOne() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
   const [project, setProject] = useState<Project | null>(null);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showServiceForm, setShowServiceForm] = useState(false);
-  const [serviceName, setServiceName] = useState('');
-  const [serviceDescription, setServiceDescription] = useState('');
-  const [serviceAdded, setServiceAdded] = useState(false);
-  const [serviceError, setServiceError] = useState<string | null>(null);
-  const [editSuccess, setEditSuccess] = useState(false); // Adicionado estado de sucesso da edição
-
-  const toggleProjectForm = () => setShowProjectForm(prev => !prev);
-  const toggleServiceForm = () => setShowServiceForm(prev => !prev);
-
-  const handleServiceNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setServiceName(event.target.value);
-  };
-
-  const handleServiceDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setServiceDescription(event.target.value);
-  };
+  const [editSuccess, setEditSuccess] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [projectRes, categoriesRes, orcamentosRes] = await Promise.all([
           fetch(`http://localhost:5000/projects/${id}`),
-          fetch('http://localhost:5000/categories'),
-          fetch('http://localhost:5000/orcamentos')
+          fetch("http://localhost:5000/categories"),
+          fetch("http://localhost:5000/orcamentos"),
         ]);
 
         if (!projectRes.ok || !categoriesRes.ok || !orcamentosRes.ok) {
-          throw new Error('Erro ao carregar dados');
+          throw new Error("Erro ao carregar dados");
         }
 
         const projectData = await projectRes.json();
         const categoriesData = await categoriesRes.json();
         const orcamentosData = await orcamentosRes.json();
 
-        if (!projectData || !categoriesData || !orcamentosData) {
-          throw new Error('Dados inválidos recebidos');
-        }
-
         setProject(projectData);
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
       } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error("Erro ao carregar dados:", error);
       } finally {
         setLoading(false);
       }
@@ -85,64 +67,46 @@ function ProjectOne() {
     }
   }, [id]);
 
-  const projectCategory = categories.find(category => category.id === project?.categoryId);
-  const projectBudget = orcamentos.find(orcamento => orcamento.id === project?.orcamento_id);
+  const projectCategory = categories.find(
+    (category) => category.id === project?.categoryId
+  );
+  const projectBudget = orcamentos.find(
+    (orcamento) => orcamento.id === project?.orcamento_id
+  );
 
-  const totalUtilizado = projectBudget?.used ? `R$ ${projectBudget.used.toFixed(2)}` : 'R$ 0,00';
+  const totalUtilizado = projectBudget?.used
+    ? `R$ ${projectBudget.used.toFixed(2)}`
+    : "R$ 0,00";
 
-  const editPost = async (updatedProject: Project) => {
+  // Função para editar o projeto
+  const editPost = async (formData: { name: string; orcamento_id: string; categoryId: string }) => {
+    if (!project) return;
+
+    const updatedProject = {
+      ...formData,
+      id: project.id, // Manter o id atual
+      description: project.description, // Manter a descrição atual
+    };
+
     try {
       const response = await fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedProject),
       });
 
       const data = await response.json();
 
       if (response.ok && data) {
-        setProject(data); // Atualiza o estado do projeto com os novos dados
-        setEditSuccess(true); // Marca como sucesso
-        setShowProjectForm(false); // Fecha o formulário de edição
+        setProject(data);
+        setEditSuccess(true);
+        setShowProjectForm(false); // Fecha o formulário
       } else {
-        console.error('Erro ao editar projeto: Dados inválidos');
-        setEditSuccess(false); // Marca como erro
+        setEditSuccess(false);
       }
     } catch (error) {
-      console.error('Erro ao editar o projeto:', error);
-      setEditSuccess(false); // Marca como erro
-    }
-  };
-
-  const addService = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!serviceName || !serviceDescription) {
-      setServiceError('Todos os campos são obrigatórios');
-      return;
-    }
-
-    const serviceData = { name: serviceName, description: serviceDescription };
-
-    try {
-      const response = await fetch('http://localhost:5000/services', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(serviceData),
-      });
-      const data = await response.json();
-      if (response.ok && data) {
-        setServiceAdded(true);
-        setServiceName('');
-        setServiceDescription('');
-        setServiceError(null);
-      } else {
-        throw new Error('Erro ao adicionar serviço');
-      }
-    } catch (error) {
-      setServiceError('Erro ao adicionar serviço');
-      console.error('Erro ao adicionar serviço:', error);
+      console.error("Erro ao editar o projeto:", error);
+      setEditSuccess(false);
     }
   };
 
@@ -166,19 +130,19 @@ function ProjectOne() {
         <div className={styles.mainContent}>
           <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
 
-          <button onClick={toggleProjectForm}>
-            {showProjectForm ? 'Cancelar edição' : 'Editar projeto'}
+          <button onClick={() => setShowProjectForm((prev) => !prev)}>
+            {showProjectForm ? "Cancelar edição" : "Editar projeto"}
           </button>
 
           {!showProjectForm ? (
             <div>
               <p className={styles.projectDescription}>
                 <FaTags className={styles.icon} />
-                <span>Categoria:</span> {projectCategory?.name || 'Categoria desconhecida'}
+                <span>Categoria:</span> {projectCategory?.name || "Categoria desconhecida"}
               </p>
               <p className={styles.projectDescription}>
                 <FaMoneyBillAlt className={styles.icon} />
-                <span>Total de Orçamento:</span> {projectBudget?.name || 'Orçamento não disponível'}
+                <span>Total de Orçamento:</span> {projectBudget?.name || "Orçamento não disponível"}
               </p>
               <p className={styles.projectDescription}>
                 <FaClipboardList className={styles.icon} />
@@ -188,58 +152,20 @@ function ProjectOne() {
           ) : (
             <div className={styles.projectInfo}>
               <ProjectForm
-                handleSubmit={editPost}
+                handleSubmit={editPost} // Passando a função de edição
                 btn="Concluir edição"
-                projectData={project}
+                projectData={project} // Passando os dados do projeto
               />
             </div>
           )}
 
           {editSuccess && !showProjectForm && (
-            <div className={styles.successMessage}>
-              Projeto atualizado com sucesso!
-            </div>
+            <div className={styles.successMessage}>Projeto atualizado com sucesso!</div>
           )}
 
           {!editSuccess && !showProjectForm && (
-            <div className={styles.errorMessage}>
-              Ocorreu um erro ao atualizar o projeto.
-            </div>
+            <div className={styles.errorMessage}>Ocorreu um erro ao atualizar o projeto.</div>
           )}
-        </div>
-
-        <div className={styles.serviceFormContainer}>
-          <h2>Adicione um serviço:</h2>
-          <button onClick={toggleServiceForm}>
-            {showServiceForm ? 'Cancelar' : 'Adicionar serviço'}
-          </button>
-
-          {showServiceForm && (
-            <form onSubmit={addService}>
-              <label>Nome do serviço:</label>
-              <input
-                type="text"
-                name="serviceName"
-                value={serviceName}
-                onChange={handleServiceNameChange}
-                required
-              />
-              <label>Descrição:</label>
-              <textarea
-                name="serviceDescription"
-                value={serviceDescription}
-                onChange={handleServiceDescriptionChange}
-                required
-              />
-              <button type="submit">Adicionar serviço</button>
-            </form>
-          )}
-
-          {serviceError && <p className={styles.errorMessage}>{serviceError}</p>}
-          {serviceAdded && <p className={styles.successMessage}>Serviço adicionado com sucesso!</p>}
-          <Container customClass='start'>
-            <p>Itens de serviço::</p>
-          </Container>
         </div>
       </Container>
     </div>
