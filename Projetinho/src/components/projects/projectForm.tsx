@@ -16,37 +16,40 @@ interface ProjectFormProps {
 }
 
 const ProjectForm = ({ handleSubmit, btn, projectData }: ProjectFormProps) => {
-  const [formData, setFormData] = useState({
-    name: projectData.name,
-    orcamento_id: projectData.orcamento_id,
-    categoryId: projectData.categoryId,
-  });
+  const [formData, setFormData] = useState({ ...projectData });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<{ name: string; orcamento_id: string; categoryId: string }>({
     name: "",
     orcamento_id: "",
     categoryId: "",
   });
 
   useEffect(() => {
-    setFormData({
-      name: projectData.name,
-      orcamento_id: projectData.orcamento_id,
-      categoryId: projectData.categoryId,
-    });
+    setFormData({ ...projectData });
   }, [projectData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const validateForm = () => {
-    let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
+    let valid = true;
 
-    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
+    if (!formData.name.trim()) {
+      newErrors.name = "O nome do projeto é obrigatório.";
+      valid = false;
+    }
+
+    if (!formData.orcamento_id.trim()) {
+      newErrors.orcamento_id = "O orçamento é obrigatório.";
+      valid = false;
+    }
+
+    if (!formData.categoryId.trim()) {
+      newErrors.categoryId = "A categoria é obrigatória.";
       valid = false;
     }
 
