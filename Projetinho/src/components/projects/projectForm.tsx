@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Input from "../form/input";
 import Select from "../form/select";
@@ -18,14 +18,23 @@ interface OrcamentoType {
   name: string;
 }
 
-function ProjectForm() {
+interface ProjectFormProps {
+  handleSubmit: (formData: { name: string; orcamento_id: string; categoryId: string }) => void;
+  btn: string;
+  projectData: {
+    name: string;
+    orcamento_id: string;
+    categoryId: string;
+  };
+}
+
+function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
 
   const [formData, setFormData] = useState({
-    name: "",
-    orcamento_id: "",
-    categoryId: "",
+    name: projectData.name,
+    orcamento_id: projectData.orcamento_id,
+    categoryId: projectData.categoryId,
   });
 
   const [errors, setErrors] = useState({
@@ -47,29 +56,19 @@ function ProjectForm() {
 
         setCategories(categoriesData || []);
         setOrcamentos(orcamentosData || []);
-
-        if (id) {
-          const projectResponse = await fetch(`http://localhost:5000/projects/${id}`);
-          const projectData = await projectResponse.json();
-          setFormData({
-            name: projectData.name,
-            orcamento_id: projectData.orcamento_id,
-            categoryId: projectData.categoryId,
-          });
-        }
       } catch (err) {
         console.error("Erro ao buscar dados:", err);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" }); // Limpar erro ao alterar o valor
+    setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const validateForm = () => {
@@ -89,39 +88,19 @@ function ProjectForm() {
       valid = false;
     }
 
-    setErrors(newErrors); // Atualiza os erros no estado
+    setErrors(newErrors);
     return valid;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
-    try {
-      const method = id ? "PATCH" : "POST";
-      const url = id ? `http://localhost:5000/projects/${id}` : "http://localhost:5000/projects";
-
-      const response = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        navigate("/projects", {
-          state: { message: id ? "Projeto atualizado com sucesso!" : "Projeto criado com sucesso!" },
-        });
-      } else {
-        console.error("Erro ao salvar o projeto");
-      }
-    } catch (error) {
-      console.error("Erro na requisição:", error);
-    }
+    handleSubmit(formData); // Passa o formData para o handleSubmit
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <Input
         type="text"
         text="Nome do projeto:"
@@ -164,7 +143,7 @@ function ProjectForm() {
       />
       {errors.categoryId && <span className={styles.error}>{errors.categoryId}</span>}
 
-      <SubmitButton text={id ? "Atualizar projeto" : "Criar projeto"} />
+      <SubmitButton text={btn} />
     </form>
   );
 }
