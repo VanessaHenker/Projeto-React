@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 import Input from "../form/input";
 import Select from "../form/select";
 import SubmitButton from "../form/submitButton";
 import Orcamento from "../form/orcamento";
-
 import styles from "./projectForm.module.css";
 
 interface Category {
@@ -29,8 +26,6 @@ interface ProjectFormProps {
 }
 
 function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     name: projectData.name,
     orcamento_id: projectData.orcamento_id,
@@ -68,6 +63,7 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
@@ -75,16 +71,8 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
     let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Nome do projeto é obrigatório";
-      valid = false;
-    }
-    if (!formData.orcamento_id.trim()) {
-      newErrors.orcamento_id = "Orçamento é obrigatório";
-      valid = false;
-    }
-    if (!formData.categoryId.trim()) {
-      newErrors.categoryId = "Categoria é obrigatória";
+    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
       valid = false;
     }
 
@@ -94,9 +82,9 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!validateForm()) return;
-
-    handleSubmit(formData); // Passa o formData para o handleSubmit
+    if (validateForm()) {
+      handleSubmit(formData); // Passando os dados para o componente pai
+    }
   };
 
   return (
