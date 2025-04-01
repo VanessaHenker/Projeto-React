@@ -1,181 +1,152 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import styles from "./projectOne.module.css";
-import Container from "../components/layout/container";
-import { FaTags, FaMoneyBillAlt, FaClipboardList } from "react-icons/fa";
-import ProjectForm from "../components/projects/projectForm";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  categoryId: number;
-  orcamento_id: number;
-}
+import Input from "../form/input";
+import Select from "../form/select";
+import SubmitButton from "../form/submitButton";
+import Orcamento from "../form/orcamento";
+
+import styles from "./projectForm.module.css";
 
 interface Category {
-  id: number;
+  id: string;
   name: string;
 }
 
-interface Orcamento {
-  id: number;
+interface OrcamentoType {
+  id: string;
   name: string;
-  used: number;
 }
 
-function ProjectOne() {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+function ProjectForm() {
+  const navigate = useNavigate(); // Usando o hook useNavigate corretamente
+  const { id } = useParams<{ id: string }>(); 
 
-  const [project, setProject] = useState<Project | null>(null);
-  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    orcamento_id: "",
+    categoryId: "",
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    orcamento_id: "",
+    categoryId: "",
+  });
+
   const [categories, setCategories] = useState<Category[]>([]);
-  const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [editSuccess, setEditSuccess] = useState(false);
+  const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [projectRes, categoriesRes, orcamentosRes] = await Promise.all([
-          fetch(`http://localhost:5000/projects/${id}`),
-          fetch("http://localhost:5000/categories"),
-          fetch("http://localhost:5000/orcamentos"),
+        const [categoriesData, orcamentosData] = await Promise.all([
+          fetch("http://localhost:5000/categories").then((resp) => resp.json()),
+          fetch("http://localhost:5000/orcamentos").then((resp) => resp.json()),
         ]);
 
-        if (!projectRes.ok || !categoriesRes.ok || !orcamentosRes.ok) {
-          throw new Error("Erro ao carregar dados");
+        setCategories(categoriesData || []);
+        setOrcamentos(orcamentosData || []);
+
+        if (id) {
+          const projectResponse = await fetch(`http://localhost:5000/projects/${id}`);
+          const projectData = await projectResponse.json();
+          setFormData({
+            name: projectData.name,
+            orcamento_id: projectData.orcamento_id,
+            categoryId: projectData.categoryId,
+          });
         }
-
-        const projectData = await projectRes.json();
-        const categoriesData = await categoriesRes.json();
-        const orcamentosData = await orcamentosRes.json();
-
-        setProject(projectData);
-        setCategories(categoriesData);
-        setOrcamentos(orcamentosData);
-      } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-      } finally {
-        setLoading(false);
+      } catch (err) {
+        console.error("Erro ao buscar dados:", err);
       }
     };
 
-    if (id) {
-      fetchData();
-    }
+    fetchData();
   }, [id]);
 
-  const projectCategory = categories.find(
-    (category) => category.id === project?.categoryId
-  );
-  const projectBudget = orcamentos.find(
-    (orcamento) => orcamento.id === project?.orcamento_id
-  );
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
 
-  const totalUtilizado = projectBudget?.used
-    ? `R$ ${projectBudget.used.toFixed(2)}`
-    : "R$ 0,00";
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-  // Função para editar o projeto
-  const editPost = async (formData: { name: string; orcamento_id: string; categoryId: string }) => {
-    if (!project) return;
+    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      valid = false;
+    }
 
-    const updatedProject = {
-      ...formData,
-      id: project.id, // Manter o id atual
-      description: project.description, // Manter a descrição atual
-      orcamento_id: Number(formData.orcamento_id), // Garantir que orcamento_id seja number
-      categoryId: Number(formData.categoryId), // Garantir que categoryId seja number
-    };
+    setErrors(newErrors);
+    return valid;
+  };
+
+  // Função para enviar o formulário
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
-        method: "PATCH",
+      const method = id ? "PATCH" : "POST"; 
+      const url = id ? `http://localhost:5000/projects/${id}` : "http://localhost:5000/projects"; // URL para edição ou criação
+
+      const response = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedProject),
+        body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-
-      if (response.ok && data) {
-        setProject(data);
-        setEditSuccess(true);
-        setShowProjectForm(false); // Fecha o formulário
+      if (response.ok) {
+        // Usando o navigate para redirecionar após sucesso
+        navigate("/projects", { state: { message: id ? "Projeto atualizado com sucesso!" : "Projeto criado com sucesso!" } });
       } else {
-        setEditSuccess(false);
+        console.error("Erro ao salvar o projeto");
       }
     } catch (error) {
-      console.error("Erro ao editar o projeto:", error);
-      setEditSuccess(false);
+      console.error("Erro na requisição:", error);
     }
   };
 
-  if (loading) {
-    return <div className={styles.loadingMessage}>Carregando projeto...</div>;
-  }
-
-  if (!project) {
-    return <div className={styles.loadingMessage}>Projeto não encontrado</div>;
-  }
-
   return (
-    <div className={styles.projectContainer}>
-      <div className={styles.circle}></div>
-      <div className={styles.circle}></div>
-      <div className={styles.circle}></div>
-      <div className={styles.circle}></div>
-      <div className={styles.circle}></div>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <Input
+        type="text"
+        text="Nome do projeto:"
+        name="name"
+        placeholder="Insira o nome do projeto"
+        handleOnChange={handleInputChange}
+        value={formData.name}
+      />
+      {errors.name && <span className={styles.error}>{errors.name}</span>}
 
-      <Container>
-        <div className={styles.mainContent}>
-          <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
+      <Orcamento
+        type="select"
+        text="Selecione o orçamento:"
+        name="orcamento_id"
+        handleOnChange={handleInputChange}
+        value={formData.orcamento_id}
+        options={[{ value: "", label: "Selecione um orçamento" }, ...orcamentos.map((orcamento) => ({ value: String(orcamento.id), label: orcamento.name }))]}
+      />
+      {errors.orcamento_id && <span className={styles.error}>{errors.orcamento_id}</span>}
 
-          <button onClick={() => setShowProjectForm((prev) => !prev)}>
-            {showProjectForm ? "Cancelar edição" : "Editar projeto"}
-          </button>
+      <Select
+        type="select"
+        text="Selecione a categoria:"
+        name="categoryId"
+        handleOnChange={handleInputChange}
+        value={formData.categoryId}
+        options={[{ value: "", label: "Selecione uma categoria" }, ...categories.map((category) => ({ value: String(category.id), label: category.name }))]}
+      />
+      {errors.categoryId && <span className={styles.error}>{errors.categoryId}</span>}
 
-          {!showProjectForm ? (
-            <div>
-              <p className={styles.projectDescription}>
-                <FaTags className={styles.icon} />
-                <span>Categoria:</span> {projectCategory?.name || "Categoria desconhecida"}
-              </p>
-              <p className={styles.projectDescription}>
-                <FaMoneyBillAlt className={styles.icon} />
-                <span>Total de Orçamento:</span> {projectBudget?.name || "Orçamento não disponível"}
-              </p>
-              <p className={styles.projectDescription}>
-                <FaClipboardList className={styles.icon} />
-                <span>Total Utilizado:</span> {totalUtilizado}
-              </p>
-            </div>
-          ) : (
-            <div className={styles.projectInfo}>
-              <ProjectForm
-                handleSubmit={editPost} // Passando a função de edição
-                btn="Concluir edição"
-                projectData={{
-                  name: project.name,
-                  orcamento_id: String(project.orcamento_id), // Convertendo para string
-                  categoryId: String(project.categoryId), // Convertendo para string
-                }} // Passando os dados do projeto convertidos para string
-              />
-            </div>
-          )}
-
-          {editSuccess && !showProjectForm && (
-            <div className={styles.successMessage}>Projeto atualizado com sucesso!</div>
-          )}
-
-          {!editSuccess && !showProjectForm && (
-            <div className={styles.errorMessage}>Ocorreu um erro ao atualizar o projeto.</div>
-          )}
-        </div>
-      </Container>
-    </div>
+      <SubmitButton text={id ? "Atualizar projeto" : "Criar projeto"} />
+    </form>
   );
 }
 
-export default ProjectOne;
+export default ProjectForm;
