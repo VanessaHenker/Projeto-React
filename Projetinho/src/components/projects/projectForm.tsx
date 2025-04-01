@@ -5,16 +5,6 @@ import SubmitButton from "../form/submitButton";
 import Orcamento from "../form/orcamento";
 import styles from "./projectForm.module.css";
 
-interface Category {
-  id: string;
-  name: string;
-}
-
-interface OrcamentoType {
-  id: string;
-  name: string;
-}
-
 interface ProjectFormProps {
   handleSubmit: (formData: { name: string; orcamento_id: string; categoryId: string }) => void;
   btn: string;
@@ -25,7 +15,7 @@ interface ProjectFormProps {
   };
 }
 
-function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
+const ProjectForm = ({ handleSubmit, btn, projectData }: ProjectFormProps) => {
   const [formData, setFormData] = useState({
     name: projectData.name,
     orcamento_id: projectData.orcamento_id,
@@ -38,32 +28,16 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
     categoryId: "",
   });
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [categoriesData, orcamentosData] = await Promise.all([
-          fetch("http://localhost:5000/categories").then((resp) => resp.json()),
-          fetch("http://localhost:5000/orcamentos").then((resp) => resp.json()),
-        ]);
+    setFormData({
+      name: projectData.name,
+      orcamento_id: projectData.orcamento_id,
+      categoryId: projectData.categoryId,
+    });
+  }, [projectData]);
 
-        setCategories(categoriesData || []);
-        setOrcamentos(orcamentosData || []);
-      } catch (err) {
-        console.error("Erro ao buscar dados:", err);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
@@ -80,10 +54,10 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
     return valid;
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      handleSubmit(formData); // Passando os dados para o componente pai
+      handleSubmit(formData);
     }
   };
 
@@ -105,13 +79,7 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
         name="orcamento_id"
         handleOnChange={handleInputChange}
         value={formData.orcamento_id}
-        options={[
-          { value: "", label: "Selecione um orçamento" },
-          ...orcamentos.map((orcamento) => ({
-            value: String(orcamento.id),
-            label: orcamento.name,
-          })),
-        ]}
+        options={[{ value: "", label: "Selecione um orçamento" }]}
       />
       {errors.orcamento_id && <span className={styles.error}>{errors.orcamento_id}</span>}
 
@@ -121,19 +89,13 @@ function ProjectForm({ handleSubmit, btn, projectData }: ProjectFormProps) {
         name="categoryId"
         handleOnChange={handleInputChange}
         value={formData.categoryId}
-        options={[
-          { value: "", label: "Selecione uma categoria" },
-          ...categories.map((category) => ({
-            value: String(category.id),
-            label: category.name,
-          })),
-        ]}
+        options={[{ value: "", label: "Selecione uma categoria" }]}
       />
       {errors.categoryId && <span className={styles.error}>{errors.categoryId}</span>}
 
       <SubmitButton text={btn} />
     </form>
   );
-}
+};
 
 export default ProjectForm;
