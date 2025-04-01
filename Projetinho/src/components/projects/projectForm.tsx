@@ -18,11 +18,9 @@ interface OrcamentoType {
   name: string;
 }
 
-
 function ProjectForm() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>(); 
-
+  const { id } = useParams<{ id: string }>();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -30,18 +28,14 @@ function ProjectForm() {
     categoryId: "",
   });
 
-
   const [errors, setErrors] = useState({
     name: "",
     orcamento_id: "",
     categoryId: "",
   });
 
-
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
-  
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +48,6 @@ function ProjectForm() {
         setCategories(categoriesData || []);
         setOrcamentos(orcamentosData || []);
 
-       
         if (id) {
           const projectResponse = await fetch(`http://localhost:5000/projects/${id}`);
           const projectData = await projectResponse.json();
@@ -72,38 +65,42 @@ function ProjectForm() {
     fetchData();
   }, [id]);
 
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    setErrors({ ...errors, [e.target.name]: "" });
+    setErrors({ ...errors, [e.target.name]: "" }); // Limpar erro ao alterar o valor
   };
-
 
   const validateForm = () => {
     let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
+    if (!formData.name.trim()) {
+      newErrors.name = "Nome do projeto é obrigatório";
+      valid = false;
+    }
+    if (!formData.orcamento_id.trim()) {
+      newErrors.orcamento_id = "Orçamento é obrigatório";
+      valid = false;
+    }
+    if (!formData.categoryId.trim()) {
+      newErrors.categoryId = "Categoria é obrigatória";
       valid = false;
     }
 
-    setErrors(newErrors);
+    setErrors(newErrors); // Atualiza os erros no estado
     return valid;
   };
 
-  // Função para enviar o formulário
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     try {
-      const method = id ? "PATCH" : "POST"; 
-      const url = id ? `http://localhost:5000/projects/${id}` : "http://localhost:5000/projects"; // URL para edição ou criação
+      const method = id ? "PATCH" : "POST";
+      const url = id ? `http://localhost:5000/projects/${id}` : "http://localhost:5000/projects";
 
       const response = await fetch(url, {
         method,
@@ -149,9 +146,7 @@ function ProjectForm() {
           })),
         ]}
       />
-      {errors.orcamento_id && (
-        <span className={styles.error}>{errors.orcamento_id}</span>
-      )}
+      {errors.orcamento_id && <span className={styles.error}>{errors.orcamento_id}</span>}
 
       <Select
         type="select"
@@ -167,9 +162,7 @@ function ProjectForm() {
           })),
         ]}
       />
-      {errors.categoryId && (
-        <span className={styles.error}>{errors.categoryId}</span>
-      )}
+      {errors.categoryId && <span className={styles.error}>{errors.categoryId}</span>}
 
       <SubmitButton text={id ? "Atualizar projeto" : "Criar projeto"} />
     </form>
