@@ -6,31 +6,52 @@ interface Option {
 }
 
 interface SelectProps {
+  type?: string;
   text: string;
   name: string;
-  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  placeholder?: string;
+  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void;
   value?: string | number;
-  options: Option[];
+  options?: Option[];
 }
 
 function Select({
+  type = 'text',
   text,
   name,
+  placeholder,
   handleOnChange,
-  value,
-  options,
+  value = '',
+  options = [],
 }: SelectProps) {
   return (
     <div className={styles.formControl}>
       <label htmlFor={name}>{text}</label>
-      <select id={name} name={name} onChange={handleOnChange} value={value || ''}>
-        <option value="" disabled>Selecione uma opção</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      {type === 'select' ? (
+        <select id={name} name={name} onChange={handleOnChange} value={String(value)}>
+          {options.length > 0 ? (
+            options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))
+          ) : (
+            <option value="" disabled>
+              Nenhuma opção disponível
+            </option>
+          )}
+        </select>
+      ) : (
+        <input
+          type={type}
+          name={name}
+          id={name}
+          placeholder={placeholder}
+          onChange={handleOnChange}
+          value={value}
+          aria-placeholder={placeholder} // Melhorando a acessibilidade do campo
+        />
+      )}
     </div>
   );
 }
