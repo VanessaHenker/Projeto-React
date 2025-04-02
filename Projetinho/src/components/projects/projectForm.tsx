@@ -1,17 +1,12 @@
-import { useState } from "react"; // Importando hook useState
-import { useNavigate } from "react-router-dom"; // Importando hook useNavigate para navegação
-import Input from "../form/input"; // Componente de input
-import Select from "../form/select"; // Componente de select
-import SubmitButton from "../form/submitButton"; // Componente de botão de submissão
-import Orcamento from "../form/orcamento"; // Componente de Orcamento
-import styles from "./projectForm.module.css"; // Importando o CSS
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-// Definindo o tipo 'Project'
-interface Project {
-  name: string;
-  orcamento_id: string;
-  categoryId: string;
-}
+import Input from "../form/input";
+import Select from "../form/select";
+import SubmitButton from "../form/submitButton";
+import Orcamento from "../form/orcamento";
+
+import styles from "./projectForm.module.css";
 
 interface Category {
   id: string;
@@ -23,37 +18,52 @@ interface OrcamentoType {
   name: string;
 }
 
-interface ProjectFormProps {
-  handleSubmit: (updatedProject: Project) => void;
-  projectData?: Project;
-  btn: string;
-  categories: Category[]; // Recebendo categorias como prop
-  orcamentos: Orcamento[]; // Recebendo orçamentos como prop
-}
-
-function ProjectForm({ handleSubmit, projectData, btn, categories, orcamentos }: ProjectFormProps) {
+function ProjectForm() {
   const navigate = useNavigate();
 
-  // Inicializando o estado do formulário com os dados do projeto
+  // Estado inicial do formulário
   const [formData, setFormData] = useState({
-    name: projectData?.name || "",
-    orcamento_id: projectData?.orcamento_id || "",  // Inicializando com número
-    categoryId: projectData?.categoryId || "",  // Inicializando com número
+    name: "",
+    orcamento_id: "",
+    categoryId: "",
   });
 
-  // Estado para erros no formulário
+  // Estado para erros do formulário
   const [errors, setErrors] = useState({
     name: "",
     orcamento_id: "",
     categoryId: "",
   });
 
+  // Estados para categorias e orçamentos
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [orcamentos, setOrcamentos] = useState<OrcamentoType[]>([]);
+
+  // Função para buscar dados de categorias e orçamentos
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [categoriesData, orcamentosData] = await Promise.all([
+          fetch("http://localhost:5000/categories").then((resp) => resp.json()),
+          fetch("http://localhost:5000/orcamentos").then((resp) => resp.json()),
+        ]);
+
+        setCategories(categoriesData || []);
+        setOrcamentos(orcamentosData || []);
+      } catch (err) {
+        console.error("Erro ao buscar dados:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   // Função para lidar com mudanças nos campos do formulário
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // Limpando os erros para o campo alterado
+    // Limpa o erro para o campo alterado
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
@@ -62,16 +72,8 @@ function ProjectForm({ handleSubmit, projectData, btn, categories, orcamentos }:
     let valid = true;
     const newErrors = { name: "", orcamento_id: "", categoryId: "" };
 
-    if (!formData.name.trim()) {
-      newErrors.name = "O nome do projeto é obrigatório.";
-      valid = false;
-    }
-    if (!formData.orcamento_id.trim()) {
-      newErrors.orcamento_id = "Selecione um orçamento.";
-      valid = false;
-    }
-    if (!formData.categoryId.trim()) {
-      newErrors.categoryId = "Selecione uma categoria.";
+    if (!formData.name.trim() || !formData.orcamento_id.trim() || !formData.categoryId.trim()) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
       valid = false;
     }
 
@@ -80,24 +82,26 @@ function ProjectForm({ handleSubmit, projectData, btn, categories, orcamentos }:
   };
 
   // Função para enviar o formulário
-  const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
+    console.log("Dados enviados:", formData);
+
     try {
       const response = await fetch("http://localhost:5000/projects", {
-        method: projectData ? "PATCH" : "POST",  // Se for um projeto existente, usa "PATCH"
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         navigate("/projects", {
-          state: { message: "Projeto salvo com sucesso!" },
+          state: { message: "Projeto criado com sucesso!" },
         });
       } else {
-        console.error("Erro ao salvar projeto");
+        console.error("Erro ao criar projeto");
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
@@ -105,7 +109,7 @@ function ProjectForm({ handleSubmit, projectData, btn, categories, orcamentos }:
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmitForm}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <Input
         type="text"
         text="Nome do projeto:"
@@ -130,7 +134,9 @@ function ProjectForm({ handleSubmit, projectData, btn, categories, orcamentos }:
           })),
         ]}
       />
-      {errors.orcamento_id && <span className={styles.error}>{errors.orcamento_id}</span>}
+      {errors.orcamento_id && (
+        <span className={styles.error}>{errors.orcamento_id}</span>
+      )}
 
       <Select
         type="select"
@@ -146,9 +152,11 @@ function ProjectForm({ handleSubmit, projectData, btn, categories, orcamentos }:
           })),
         ]}
       />
-      {errors.categoryId && <span className={styles.error}>{errors.categoryId}</span>}
+      {errors.categoryId && (
+        <span className={styles.error}>{errors.categoryId}</span>
+      )}
 
-      <SubmitButton text={btn} />
+      <SubmitButton text="Criar projeto" />
     </form>
   );
 }
