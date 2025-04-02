@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import styles from './projectOne.module.css';
-import Container from '../components/layout/container';
-import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
-import ProjectForm from '../components/projects/projectForm';
+import { useState, useEffect } from "react"; // Importando hooks do React
+import { useParams } from "react-router-dom"; // Importando hook para capturar parâmetros da URL
+import styles from "./projectOne.module.css"; // Importando o CSS
+import Container from "../components/layout/container"; // Componente Container
+import { FaTags, FaMoneyBillAlt, FaClipboardList } from "react-icons/fa"; // Ícones para exibir no projeto
+import ProjectForm from "../components/projects/projectForm"; // Componente de formulário para editar
 
+// Definindo os tipos dos dados que vamos usar
 interface Project {
   id: number;
   name: string;
@@ -25,153 +26,116 @@ interface Orcamento {
 }
 
 function ProjectOne() {
+  // Pegando o parâmetro 'id' da URL
   const { id } = useParams<{ id: string }>();
+  
+  // Definindo os estados
   const [project, setProject] = useState<Project | null>(null);
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showServiceForm, setShowServiceForm] = useState(false);
-  const [serviceName, setServiceName] = useState('');
-  const [serviceDescription, setServiceDescription] = useState('');
-  const [serviceAdded, setServiceAdded] = useState(false);
-  const [serviceError, setServiceError] = useState<string | null>(null);
 
-  const toggleProjectForm = () => setShowProjectForm(prev => !prev);
-  const toggleServiceForm = () => setShowServiceForm(prev => !prev);
+  // Função para alternar a exibição do formulário de edição
+  const toggleProjectForm = () => setShowProjectForm((prev) => !prev);
 
-  const handleServiceNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setServiceName(event.target.value);
-  };
-
-  const handleServiceDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setServiceDescription(event.target.value);
-  };
-
+  // Fazendo a requisição para carregar os dados
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Carregando os dados do projeto, categorias e orçamentos
         const [projectRes, categoriesRes, orcamentosRes] = await Promise.all([
           fetch(`http://localhost:5000/projects/${id}`),
-          fetch('http://localhost:5000/categories'),
-          fetch('http://localhost:5000/orcamentos')
+          fetch("http://localhost:5000/categories"),
+          fetch("http://localhost:5000/orcamentos"),
         ]);
 
+        // Verificando se todas as requisições deram certo
         if (!projectRes.ok || !categoriesRes.ok || !orcamentosRes.ok) {
-          throw new Error('Erro ao carregar dados');
+          throw new Error("Erro ao carregar dados");
         }
 
+        // Convertendo os dados para o formato JSON
         const projectData = await projectRes.json();
         const categoriesData = await categoriesRes.json();
         const orcamentosData = await orcamentosRes.json();
 
+        // Verificando se os dados recebidos são válidos
         if (!projectData || !categoriesData || !orcamentosData) {
-          throw new Error('Dados inválidos recebidos');
+          throw new Error("Dados inválidos recebidos");
         }
 
+        // Armazenando os dados no estado
         setProject(projectData);
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
       } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error("Erro ao carregar dados:", error);
       } finally {
-        setLoading(false);
+        setLoading(false); // Indica que o carregamento foi concluído
       }
     };
 
     if (id) {
-      fetchData();
+      fetchData(); // Carregar os dados se o id estiver disponível
     }
   }, [id]);
 
-  const projectCategory = categories.find(category => category.id === project?.categoryId);
-  const projectBudget = orcamentos.find(orcamento => orcamento.id === project?.orcamento_id);
+  // Encontrando a categoria e o orçamento do projeto
+  const projectCategory = categories.find((category) => category.id === project?.categoryId);
+  const projectBudget = orcamentos.find((orcamento) => orcamento.id === project?.orcamento_id);
 
-  const totalUtilizado = projectBudget?.used ? `R$ ${projectBudget.used.toFixed(2)}` : 'R$ 0,00';
+  // Calculando o total utilizado, ou R$ 0,00 se não houver valor
+  const totalUtilizado = projectBudget?.used ? `R$ ${projectBudget.used.toFixed(2)}` : "R$ 0,00";
 
+  // Função para editar o projeto
   const editPost = (updatedProject: Project) => {
     fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedProject),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data) {
-          setProject(data);
-          setShowProjectForm(false);
+          setProject(data); // Atualiza o projeto com os novos dados
+          setShowProjectForm(false); // Fecha o formulário
         } else {
-          console.error('Erro ao editar projeto: Dados inválidos');
+          console.error("Erro ao editar projeto: Dados inválidos");
         }
       })
-      .catch(error => console.error('Erro ao editar o projeto:', error));
+      .catch((error) => console.error("Erro ao editar o projeto:", error));
   };
 
-  const addService = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!serviceName || !serviceDescription) {
-      setServiceError('Todos os campos são obrigatórios');
-      return;
-    }
-
-    const serviceData = { name: serviceName, description: serviceDescription };
-
-    try {
-      const response = await fetch('http://localhost:5000/services', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(serviceData),
-      });
-      const data = await response.json();
-      if (response.ok && data) {
-        setServiceAdded(true);
-        setServiceName('');
-        setServiceDescription('');
-        setServiceError(null);
-      } else {
-        throw new Error('Erro ao adicionar serviço');
-      }
-    } catch (error) {
-      setServiceError('Erro ao adicionar serviço');
-      console.error('Erro ao adicionar serviço:', error);
-    }
-  };
-
+  // Exibindo mensagem enquanto carrega
   if (loading) {
     return <div className={styles.loadingMessage}>Carregando projeto...</div>;
   }
 
+  // Exibindo mensagem caso o projeto não seja encontrado
   if (!project) {
     return <div className={styles.loadingMessage}>Projeto não encontrado</div>;
   }
 
   return (
     <div className={styles.projectContainer}>
-      <div className={styles.circle}></div>
-      <div className={styles.circle}></div>
-      <div className={styles.circle}></div>
-      <div className={styles.circle}></div>
-      <div className={styles.circle}></div>
-
       <Container>
         <div className={styles.mainContent}>
           <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
 
           <button onClick={toggleProjectForm}>
-            {showProjectForm ? 'Cancelar edição' : 'Editar projeto'}
+            {showProjectForm ? "Cancelar edição" : "Editar projeto"}
           </button>
 
           {!showProjectForm ? (
             <div>
               <p className={styles.projectDescription}>
                 <FaTags className={styles.icon} />
-                <span>Categoria:</span> {projectCategory?.name || 'Categoria desconhecida'}
+                <span>Categoria:</span> {projectCategory?.name || "Categoria desconhecida"}
               </p>
               <p className={styles.projectDescription}>
                 <FaMoneyBillAlt className={styles.icon} />
-                <span>Total de Orçamento:</span> {projectBudget?.name || 'Orçamento não disponível'}
+                <span>Total de Orçamento:</span> {projectBudget?.name || "Orçamento não disponível"}
               </p>
               <p className={styles.projectDescription}>
                 <FaClipboardList className={styles.icon} />
@@ -184,47 +148,13 @@ function ProjectOne() {
                 handleSubmit={editPost}
                 btn="Concluir edição"
                 projectData={project}
+                categories={categories}  // Passando categorias
+                orcamentos={orcamentos}  // Passando orçamentos
               />
             </div>
           )}
-        </div>
-
-        <div className={styles.serviceFormContainer}>
-          <h2>Adicione um serviço:</h2>
-          <button onClick={toggleServiceForm}>
-            {showServiceForm ? 'Cancelar' : 'Adicionar serviço'}
-          </button>
-
-          {showServiceForm && (
-            <form onSubmit={addService}>
-              <label>Nome do serviço:</label>
-              <input
-                type="text"
-                name="serviceName"
-                value={serviceName}
-                onChange={handleServiceNameChange}
-                required
-              />
-              <label>Descrição:</label>
-              <textarea
-                name="serviceDescription"
-                value={serviceDescription}
-                onChange={handleServiceDescriptionChange}
-                required
-              />
-              <button type="submit">Adicionar serviço</button>
-            </form>
-          )}
-
-          {serviceError && <p className={styles.errorMessage}>{serviceError}</p>}
-          {serviceAdded && <p className={styles.successMessage}>Serviço adicionado com sucesso!</p>}
-          <Container customClass='start'>
-            <p>Itens de serviço:</p>
-          </Container>
         </div>
       </Container>
     </div>
   );
 }
-
-export default ProjectOne;
