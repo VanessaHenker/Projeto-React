@@ -1,75 +1,111 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import styles from './projectOne.module.css';
+import Container from '../components/layout/container';
+import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
+import ProjectForm from '../components/projects/projectForm';
 
 interface Project {
-  id?: string;
+  id: string;
   name: string;
-  category: string;
-  budget: number;
+  description?: string;
+  categoryId: string;
+  orcamento_id: string;
 }
 
-interface ProjectFormProps {
-  handleSubmit: (project: Project) => void;
-  projectData?: Project;
+interface Category {
+  id: string;
+  name: string;
 }
 
-const ProjectForm: React.FC<ProjectFormProps> = ({ handleSubmit, projectData }) => {
-  // Estado inicial seguro, evitando undefined
-  const [project, setProject] = useState<Project>({
-    name: "",
-    category: "",
-    budget: 0,
-  });
+interface Orcamento {
+  id: string;
+  name: string;
+  used?: number;
+}
 
-  // Atualiza o estado se projectData mudar
+function ProjectOne() {
+  const { id } = useParams<{ id: string }>();
+  const [project, setProject] = useState<Project | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showProjectForm, setShowProjectForm] = useState(false);
+
   useEffect(() => {
-    if (projectData) {
-      setProject(projectData);
+    const fetchData = async () => {
+      try {
+        const [projectRes, categoriesRes, orcamentosRes] = await Promise.all([
+          fetch(`http://localhost:5000/projects/${id}`),
+          fetch('http://localhost:5000/categories'),
+          fetch('http://localhost:5000/orcamentos')
+        ]);
+
+        if (!projectRes.ok || !categoriesRes.ok || !orcamentosRes.ok) {
+          throw new Error('Erro ao carregar dados');
+        }
+
+        const projectData: Project = await projectRes.json();
+        const categoriesData: Category[] = await categoriesRes.json();
+        const orcamentosData: Orcamento[] = await orcamentosRes.json();
+
+        setProject(projectData);
+        setCategories(categoriesData);
+        setOrcamentos(orcamentosData);
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchData();
     }
-  }, [projectData]);
+  }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setProject((prevProject) => ({
-      ...prevProject,
-      [name]: value,
-    }));
+  const editPost = (updatedProject: Project) => {
+    if (!updatedProject.id) {
+      console.error('Erro: Projeto sem ID.');
+      return;
+    }
+
+    fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedProject),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setProject(data);
+        setShowProjectForm(false);
+      })
+      .catch(error => console.error('Erro ao editar o projeto:', error));
   };
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    handleSubmit(project);
-  };
+  if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
+  if (!project) return <div className={styles.loadingMessage}>Projeto não encontrado</div>;
 
   return (
-    <form onSubmit={submit}>
-      <label>Nome do Projeto:</label>
-      <input
-        type="text"
-        name="name"
-        value={project.name}
-        onChange={handleChange}
-        required
-      />
+    <div className={styles.projectContainer}>
+      <Container>
+        <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
 
-      <label>Categoria:</label>
-      <select name="category" value={project.category} onChange={handleChange} required>
-        <option value="">Selecione</option>
-        <option value="Web">Web</option>
-        <option value="Mobile">Mobile</option>
-      </select>
+        <button className={styles.editButton} onClick={() => setShowProjectForm(prev => !prev)}>
+          {showProjectForm ? 'Cancelar edição' : 'Editar projeto'}
+        </button>
 
-      <label>Orçamento:</label>
-      <input
-        type="number"
-        name="budget"
-        value={project.budget}
-        onChange={handleChange}
-        required
-      />
-
-      <button type="submit">Criar Projeto</button>
-    </form>
+        {showProjectForm ? (
+          <ProjectForm handleSubmit={editPost} projectData={project} btnText="Concluir edição" />
+        ) : (
+          <div>
+            <p><FaTags /> Categoria: {categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</p>
+            <p><FaMoneyBillAlt /> Orçamento: {orcamentos.find(orc => orc.id === project.orcamento_id)?.name || 'N/A'}</p>
+          </div>
+        )}
+      </Container>
+    </div>
   );
-};
+}
 
-export default ProjectForm;
+export default ProjectOne;
