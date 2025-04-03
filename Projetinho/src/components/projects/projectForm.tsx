@@ -1,7 +1,14 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
-import { useState } from 'react';
+import SubmitButton from '../form/submitButton';
+import { useState, useEffect } from 'react';
+
+interface Project {
+  name: string;
+  budget: number; // Mudando para number
+  category: string;
+}
 
 interface ProjectFormProps {
   handleSubmit: (project: Project) => void;
@@ -9,16 +16,22 @@ interface ProjectFormProps {
   projectData?: Project;
 }
 
-interface Project {
-  name: string;
-  budget: string;
-  category: string;
-}
-
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
-  const [project, setProject] = useState<Project>(
-    projectData || { name: '', budget: '', category: '' }
-  );
+  const [project, setProject] = useState<Project>({
+    name: '',
+    budget: 0, // Garantindo que seja um número
+    category: ''
+  });
+
+  useEffect(() => {
+    if (projectData) {
+      setProject({
+        name: projectData.name,
+        budget: Number(projectData.budget), // Convertendo para número
+        category: projectData.category
+      });
+    }
+  }, [projectData]);
 
   const categories = [
     { value: 'infra', label: 'Infraestrutura' },
@@ -28,11 +41,19 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   ];
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    setProject({ ...project, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setProject(prev => ({
+      ...prev,
+      [name]: name === 'budget' ? Number(value) : value // Convertendo apenas budget para número
+    }));
   }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (!project.name || !project.category || project.budget <= 0) {
+      alert("Preencha todos os campos corretamente.");
+      return;
+    }
     handleSubmit(project);
   }
 
@@ -53,11 +74,10 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         name="budget"
         placeholder="Insira o orçamento total"
         handleOnChange={handleChange}
-        value={project.budget}
+        value={project.budget.toString()} // Convertendo para string
       />
 
       <Select
-        type="select"
         text="Selecione uma categoria"
         name="category"
         handleOnChange={handleChange}
@@ -65,7 +85,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         options={categories}
       />
 
-      <button type="submit" className={styles.btn}>{btnText}</button>
+      <SubmitButton text={btnText} type="submit" />
     </form>
   );
 }
