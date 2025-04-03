@@ -13,21 +13,26 @@ import Newproject from './pages/newProject';
 import ProjectOne from './pages/projectOne';
 
 function App() {
+  // Função de handleSubmit genérica para correção do erro
+  const handleSubmit = (project: any) => {
+    console.log('Projeto submetido:', project);
+  };
+
   return (
     <Router>
       <NavBar />
       <Container customClass='min-height'>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path = "/projects" element = {<Projects/>}/>
+          <Route path="/projects" element={<Projects />} />
           <Route path="/company" element={<Company />} />
-          <Route path="/contact" element={<Contact/>} />
-          <Route path="/newproject" element={<Newproject/>} />
-          <Route path="/projectOne/:id" element={<ProjectOne />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/newproject" element={<Newproject />} />
+          <Route path="/projectOne/:id" element={<ProjectOne handleSubmit={handleSubmit} />} />
         </Routes>
       </Container>
 
-      <Footer/>
+      <Footer />
     </Router>
   );
 }
