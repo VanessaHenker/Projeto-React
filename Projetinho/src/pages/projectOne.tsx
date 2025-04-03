@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './projectOne.module.css';
 import Container from '../components/layout/container';
-import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
+import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
 
 interface Project {
@@ -11,6 +11,8 @@ interface Project {
   description?: string;
   categoryId: string;
   orcamento_id: string;
+  budget: number;
+  category: string;
 }
 
 interface Category {
@@ -45,9 +47,9 @@ function ProjectOne() {
           throw new Error('Erro ao carregar dados');
         }
 
-        const projectData: Project = await projectRes.json();
-        const categoriesData: Category[] = await categoriesRes.json();
-        const orcamentosData: Orcamento[] = await orcamentosRes.json();
+        const projectData = await projectRes.json();
+        const categoriesData = await categoriesRes.json();
+        const orcamentosData = await orcamentosRes.json();
 
         setProject(projectData);
         setCategories(categoriesData);
@@ -65,8 +67,8 @@ function ProjectOne() {
   }, [id]);
 
   const editPost = (updatedProject: Project) => {
-    if (!updatedProject.id) {
-      console.error('Erro: Projeto sem ID.');
+    if (!updatedProject.budget || !updatedProject.category) {
+      console.error("Erro: Orçamento e Categoria são obrigatórios.");
       return;
     }
 
@@ -90,17 +92,16 @@ function ProjectOne() {
     <div className={styles.projectContainer}>
       <Container>
         <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
-
-        <button className={styles.editButton} onClick={() => setShowProjectForm(prev => !prev)}>
+        <button onClick={() => setShowProjectForm(prev => !prev)}>
           {showProjectForm ? 'Cancelar edição' : 'Editar projeto'}
         </button>
-
         {showProjectForm ? (
-          <ProjectForm handleSubmit={editPost} projectData={project} btnText="Concluir edição" />
+          <ProjectForm handleSubmit={editPost} projectData={project} btnText='Concluir edição' />
         ) : (
           <div>
             <p><FaTags /> Categoria: {categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</p>
             <p><FaMoneyBillAlt /> Orçamento: {orcamentos.find(orc => orc.id === project.orcamento_id)?.name || 'N/A'}</p>
+            <p><FaClipboardList /> Orçamento Usado: {orcamentos.find(orc => orc.id === project.orcamento_id)?.used || 0}</p>
           </div>
         )}
       </Container>
