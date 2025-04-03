@@ -6,12 +6,11 @@ import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
 
 interface Project {
-  id: string;
+  id?: string;
   name: string;
-  description?: string;
-  categoryId: string;
-  orcamento_id: string;
   budget: number;
+  categoryId?: string;
+  orcamento_id?: string;
 }
 
 interface Category {
@@ -19,91 +18,91 @@ interface Category {
   name: string;
 }
 
-interface Orcamento {
-  id: string;
-  name: string;
-  used?: number;
-}
-
 function ProjectOne() {
   const { id } = useParams<{ id: string }>();
   const [project, setProject] = useState<Project | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showProjectForm, setShowProjectForm] = useState(false);
-
+  const [showForm, setShowForm] = useState(false);
+  const [isNewProject, setIsNewProject] = useState(false);
+  
   useEffect(() => {
+    if (!id) return;
+
     const fetchData = async () => {
       try {
-        const [projectRes, categoriesRes, orcamentosRes] = await Promise.all([
+        const [projectRes, categoriesRes] = await Promise.all([
           fetch(`http://localhost:5000/projects/${id}`),
-          fetch('http://localhost:5000/categories'),
-          fetch('http://localhost:5000/orcamentos')
+          fetch('http://localhost:5000/categories')
         ]);
 
-        if (!projectRes.ok || !categoriesRes.ok || !orcamentosRes.ok) {
+        if (!projectRes.ok || !categoriesRes.ok) {
           throw new Error('Erro ao carregar dados');
         }
 
         const projectData = await projectRes.json();
         const categoriesData = await categoriesRes.json();
-        const orcamentosData = await orcamentosRes.json();
 
-        setProject({ ...projectData, budget: Number(projectData.budget) });
+        setProject({
+          ...projectData,
+          id: String(projectData.id),
+          budget: Number(projectData.budget)
+        });
         setCategories(categoriesData);
-        setOrcamentos(orcamentosData);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
       } finally {
         setLoading(false);
       }
     };
-
-    if (id) {
-      fetchData();
-    }
+    
+    fetchData();
   }, [id]);
 
-  const editPost = (updatedProject: Project) => {
-    const updatedData = {
-      ...updatedProject,
-      id: updatedProject.id ? String(updatedProject.id) : '',
-      categoryId: updatedProject.categoryId,
-      orcamento_id: updatedProject.orcamento_id,
-      budget: Number(updatedProject.budget)
-    };
+  const saveProject = async (updatedProject: Project) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/projects/${isNewProject ? '' : updatedProject.id}`,
+        {
+          method: isNewProject ? 'POST' : 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedProject),
+        }
+      );
 
-    fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setProject(data);
-        setShowProjectForm(false);
-      })
-      .catch(error => console.error('Erro ao editar o projeto:', error));
+      if (!response.ok) throw new Error('Erro ao salvar o projeto');
+
+      const data = await response.json();
+      setProject(data);
+      setShowForm(false);
+      setIsNewProject(false);
+    } catch (error) {
+      console.error('Erro ao salvar projeto:', error);
+    }
   };
 
   if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
-  if (!project) return <div className={styles.loadingMessage}>Projeto não encontrado</div>;
 
   return (
     <div className={styles.projectContainer}>
       <Container>
-        <h1 className={styles.projectTitle}>Projeto: {project.name}</h1>
-        <button onClick={() => setShowProjectForm(prev => !prev)}>
-          {showProjectForm ? 'Cancelar edição' : 'Editar projeto'}
+        <h1 className={styles.projectTitle}>{isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project?.name}`}</h1>
+        <button onClick={() => { setIsNewProject(false); setShowForm(prev => !prev); }}>
+          {showForm ? 'Cancelar' : 'Editar Projeto'}
         </button>
-        {showProjectForm ? (
-          <ProjectForm handleSubmit={editPost} projectData={project} btnText='Concluir edição' />
+        <button onClick={() => { setIsNewProject(true); setShowForm(true); setProject(null); }}>
+          Criar Novo Projeto
+        </button>
+
+        {showForm ? (
+          <ProjectForm handleSubmit={saveProject} projectData={isNewProject ? undefined : project!} btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'} />
         ) : (
-          <div>
-            <p><FaTags /> Categoria: {categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</p>
-            <p><FaMoneyBillAlt /> Orçamento: R$ {project.budget}</p>
-          </div>
+          project && (
+            <div>
+              <p><FaTags /> Categoria: {categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</p>
+              <p><FaMoneyBillAlt /> Orçamento: R$ {project.budget}</p>
+            </div>
+          )
         )}
       </Container>
     </div>

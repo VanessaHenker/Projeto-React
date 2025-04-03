@@ -5,12 +5,16 @@ import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
 interface Project {
-  id?: number;
+  id?: string;
   name: string;
   budget: number;
-  category: string;
-  categoryId?: number;
-  orcamento_id?: number;
+  categoryId?: string;
+  orcamento_id?: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
 }
 
 interface ProjectFormProps {
@@ -24,10 +28,17 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     id: projectData?.id || undefined,
     name: projectData?.name || '',
     budget: projectData?.budget || 0,
-    category: projectData?.category || '',
     categoryId: projectData?.categoryId || undefined,
     orcamento_id: projectData?.orcamento_id || undefined,
   });
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/categories')
+      .then(response => response.json())
+      .then(data => setCategories(data))
+      .catch(error => console.error('Erro ao carregar categorias:', error));
+  }, []);
 
   useEffect(() => {
     if (projectData) {
@@ -35,19 +46,11 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         id: projectData.id,
         name: projectData.name,
         budget: Number(projectData.budget),
-        category: projectData.category,
         categoryId: projectData.categoryId,
         orcamento_id: projectData.orcamento_id,
       });
     }
   }, [projectData]);
-
-  const categories = [
-    { value: 'infra', label: 'Infraestrutura' },
-    { value: 'dev', label: 'Desenvolvimento' },
-    { value: 'design', label: 'Design' },
-    { value: 'planning', label: 'Planejamento' }
-  ];
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
@@ -59,7 +62,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!project.name || !project.category || project.budget <= 0) {
+    if (!project.name || !project.categoryId || project.budget <= 0) {
       alert('Preencha todos os campos corretamente.');
       return;
     }
@@ -88,10 +91,10 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
       <Select
         text='Selecione uma categoria'
-        name='category'
+        name='categoryId'
         handleOnChange={handleChange}
-        value={project.category}
-        options={categories}
+        value={project.categoryId || ''}
+        options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
       <SubmitButton text={btnText} type='submit' />
