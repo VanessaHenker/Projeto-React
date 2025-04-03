@@ -5,9 +5,12 @@ import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
 interface Project {
+  id?: number;
   name: string;
-  budget: number; // Mudando para number
+  budget: number;
   category: string;
+  categoryId?: number;
+  orcamento_id?: number;
 }
 
 interface ProjectFormProps {
@@ -18,17 +21,23 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    name: '',
-    budget: 0, // Garantindo que seja um número
-    category: ''
+    id: projectData?.id || undefined,
+    name: projectData?.name || '',
+    budget: projectData?.budget || 0,
+    category: projectData?.category || '',
+    categoryId: projectData?.categoryId || undefined,
+    orcamento_id: projectData?.orcamento_id || undefined,
   });
 
   useEffect(() => {
     if (projectData) {
       setProject({
+        id: projectData.id,
         name: projectData.name,
-        budget: Number(projectData.budget), // Convertendo para número
-        category: projectData.category
+        budget: Number(projectData.budget),
+        category: projectData.category,
+        categoryId: projectData.categoryId,
+        orcamento_id: projectData.orcamento_id,
       });
     }
   }, [projectData]);
@@ -44,14 +53,14 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     const { name, value } = e.target;
     setProject(prev => ({
       ...prev,
-      [name]: name === 'budget' ? Number(value) : value // Convertendo apenas budget para número
+      [name]: name === 'budget' ? Number(value) : value,
     }));
   }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!project.name || !project.category || project.budget <= 0) {
-      alert("Preencha todos os campos corretamente.");
+      alert('Preencha todos os campos corretamente.');
       return;
     }
     handleSubmit(project);
@@ -60,32 +69,32 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   return (
     <form onSubmit={submit} className={styles.form}>
       <Input
-        type="text"
-        text="Nome do projeto"
-        name="name"
-        placeholder="Insira o nome do projeto"
+        type='text'
+        text='Nome do projeto'
+        name='name'
+        placeholder='Insira o nome do projeto'
         handleOnChange={handleChange}
         value={project.name}
       />
 
       <Input
-        type="number"
-        text="Orçamento do projeto"
-        name="budget"
-        placeholder="Insira o orçamento total"
+        type='number'
+        text='Orçamento do projeto'
+        name='budget'
+        placeholder='Insira o orçamento total'
         handleOnChange={handleChange}
-        value={project.budget.toString()} // Convertendo para string
+        value={project.budget.toString()}
       />
 
       <Select
-        text="Selecione uma categoria"
-        name="category"
+        text='Selecione uma categoria'
+        name='category'
         handleOnChange={handleChange}
         value={project.category}
         options={categories}
       />
 
-      <SubmitButton text={btnText} type="submit" />
+      <SubmitButton text={btnText} type='submit' />
     </form>
   );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './projectOne.module.css';
 import Container from '../components/layout/container';
-import { FaTags, FaMoneyBillAlt, FaClipboardList } from 'react-icons/fa';
+import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
 
 interface Project {
@@ -12,7 +12,6 @@ interface Project {
   categoryId: string;
   orcamento_id: string;
   budget: number;
-  category: string;
 }
 
 interface Category {
@@ -51,7 +50,7 @@ function ProjectOne() {
         const categoriesData = await categoriesRes.json();
         const orcamentosData = await orcamentosRes.json();
 
-        setProject(projectData);
+        setProject({ ...projectData, budget: Number(projectData.budget) });
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
       } catch (error) {
@@ -67,15 +66,18 @@ function ProjectOne() {
   }, [id]);
 
   const editPost = (updatedProject: Project) => {
-    if (!updatedProject.budget || !updatedProject.category) {
-      console.error("Erro: Orçamento e Categoria são obrigatórios.");
-      return;
-    }
+    const updatedData = {
+      ...updatedProject,
+      id: updatedProject.id ? String(updatedProject.id) : '',
+      categoryId: updatedProject.categoryId,
+      orcamento_id: updatedProject.orcamento_id,
+      budget: Number(updatedProject.budget)
+    };
 
     fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedProject),
+      body: JSON.stringify(updatedData),
     })
       .then(response => response.json())
       .then(data => {
@@ -100,8 +102,7 @@ function ProjectOne() {
         ) : (
           <div>
             <p><FaTags /> Categoria: {categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</p>
-            <p><FaMoneyBillAlt /> Orçamento: {orcamentos.find(orc => orc.id === project.orcamento_id)?.name || 'N/A'}</p>
-            <p><FaClipboardList /> Orçamento Usado: {orcamentos.find(orc => orc.id === project.orcamento_id)?.used || 0}</p>
+            <p><FaMoneyBillAlt /> Orçamento: R$ {project.budget}</p>
           </div>
         )}
       </Container>
