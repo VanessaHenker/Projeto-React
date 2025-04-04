@@ -24,8 +24,6 @@ interface ProjectFormProps {
 }
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
-  btnText = "Criar Projeto";
-
   const [project, setProject] = useState<Project>({
     id: projectData?.id || undefined,
     name: projectData?.name || '',
@@ -68,6 +66,8 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       alert('Preencha todos os campos corretamente.');
       return;
     }
+
+    console.log("Enviando projeto:", project);
     handleSubmit(project);
   }
 
@@ -99,8 +99,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
-      <SubmitButton text={btnText} type="submit" />
-
+      <SubmitButton text={btnText || "Criar Projeto"} type="submit" />
     </form>
   );
 }
