@@ -165,7 +165,7 @@
 }
 
 button {
-  font-family: "Times New Roman", serif;
+  font-family: 'Open Sans', sans-serif;
   background: linear-gradient(45deg, #ffbb33, #ff7f50);
   color: #fff;
   padding: 10px 10px;
@@ -174,7 +174,6 @@ button {
   cursor: pointer;
   border: none;
   transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 1px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
