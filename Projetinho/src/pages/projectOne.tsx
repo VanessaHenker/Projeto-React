@@ -61,14 +61,17 @@ function ProjectOne() {
 
   const saveProject = async (updatedProject: Project) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/projects/${isNewProject ? '' : updatedProject.id}`,
-        {
-          method: isNewProject ? 'POST' : 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedProject),
-        }
-      );
+      const url = isNewProject
+        ? 'http://localhost:5000/projects'
+        : `http://localhost:5000/projects/${updatedProject.id}`;
+
+      const method = isNewProject ? 'POST' : 'PATCH';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedProject),
+      });
 
       if (!response.ok) throw new Error('Erro ao salvar o projeto');
 
@@ -86,16 +89,24 @@ function ProjectOne() {
   return (
     <div className={styles.projectContainer}>
       <Container>
-        <h1 className={styles.projectTitle}>{isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project?.name}`}</h1>
+        <h1 className={styles.projectTitle}>
+          {isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project?.name}`}
+        </h1>
+        
         <button onClick={() => { setIsNewProject(false); setShowForm(prev => !prev); }}>
           {showForm ? 'Cancelar' : 'Editar Projeto'}
         </button>
+        
         <button onClick={() => { setIsNewProject(true); setShowForm(true); setProject(null); }}>
           Criar Novo Projeto
         </button>
 
         {showForm ? (
-          <ProjectForm handleSubmit={saveProject} projectData={isNewProject ? undefined : project!} btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'} />
+          <ProjectForm 
+            handleSubmit={saveProject} 
+            projectData={isNewProject ? undefined : project!} 
+            btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'} 
+          />
         ) : (
           project && (
             <div>

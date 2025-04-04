@@ -24,12 +24,10 @@ interface ProjectFormProps {
 }
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
-  const [project, setProject] = useState<Project>({
-    id: projectData?.id || undefined,
-    name: projectData?.name || '',
-    budget: projectData?.budget || 0,
-    categoryId: projectData?.categoryId || undefined,
-    orcamento_id: projectData?.orcamento_id || undefined,
+  const [project, setProject] = useState<Project>(projectData || {
+    name: '',
+    budget: 0,
+    categoryId: '',
   });
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -39,18 +37,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       .then(data => setCategories(data))
       .catch(error => console.error('Erro ao carregar categorias:', error));
   }, []);
-
-  useEffect(() => {
-    if (projectData) {
-      setProject({
-        id: projectData.id,
-        name: projectData.name,
-        budget: Number(projectData.budget),
-        categoryId: projectData.categoryId,
-        orcamento_id: projectData.orcamento_id,
-      });
-    }
-  }, [projectData]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
