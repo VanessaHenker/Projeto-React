@@ -9,7 +9,6 @@ interface Project {
   name: string;
   budget: number;
   categoryId?: string;
-  orcamento_id?: string;
 }
 
 interface Category {
@@ -24,10 +23,11 @@ interface ProjectFormProps {
 }
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
-  const [project, setProject] = useState<Project>(projectData || {
-    name: '',
-    budget: 0,
-    categoryId: '',
+  const [project, setProject] = useState<Project>({
+    id: projectData?.id || undefined,
+    name: projectData?.name || '',
+    budget: projectData?.budget || 0,
+    categoryId: projectData?.categoryId || undefined,
   });
   const [categories, setCategories] = useState<Category[]>([]);
 
@@ -53,7 +53,10 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       return;
     }
 
-    console.log("Enviando projeto:", project);
+    if (!project.id) {
+      project.id = Math.random().toString(36).substr(2, 9); // Gera um ID aleatório
+    }
+
     handleSubmit(project);
   }
 
@@ -85,7 +88,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
-      <SubmitButton text={btnText || "Criar Projeto"} type="submit" />
+      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' />
     </form>
   );
 }

@@ -10,7 +10,6 @@ interface Project {
   name: string;
   budget: number;
   categoryId?: string;
-  orcamento_id?: string;
 }
 
 interface Category {
