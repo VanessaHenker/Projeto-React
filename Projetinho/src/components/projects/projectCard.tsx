@@ -35,9 +35,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         const response = await fetch("http://localhost:5000/orcamentos");
         const data = await response.json();
         // Mapeando para criar as opções de orçamentos
-        const options = data.map((orcamento: { id: string; name: string }): Option => ({
-          value: orcamento.id,
-          label: orcamento.name,
+        const options = data.map((opt: { id: string; name: string }) => ({
+          value: opt.id,
+          label: opt.name,
         }));
         setOrcamentoOptions(options);
       } catch (error) {
@@ -49,28 +49,31 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   }, []);
 
   // Função para lidar com a mudança do orçamento
-  const handleBudgetChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+  const handleBudgetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newBudgetId = e.target.value;
+    updateBudgetAsync(newBudgetId);
+  };
 
-    // Enviar requisição PATCH para o backend
-    fetch(`http://localhost:5000/projects/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        orcamento_id: newBudgetId,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro ao atualizar o orçamento.");
-        }
-        updateBudget(id, newBudgetId);
-      })
-      .catch((error) => {
-        console.error("Erro ao atualizar orçamento:", error);
+  const updateBudgetAsync = async (newBudgetId: string) => {
+    try {
+      const response = await fetch(`http://localhost:5000/projects/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orcamento_id: newBudgetId,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error("Erro ao atualizar o orçamento.");
+      }
+
+      updateBudget(id, newBudgetId);
+    } catch (error) {
+      console.error("Erro ao atualizar orçamento:", error);
+    }
   };
 
   // Função para determinar a classe da categoria

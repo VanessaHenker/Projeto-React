@@ -12,7 +12,6 @@ interface Project {
 function NewProject() {
   const navigate = useNavigate();
 
-
   const createProject = async (project: Omit<Project, 'id'>) => {
     try {
       const newProject: Project = {
@@ -38,7 +37,7 @@ function NewProject() {
     <div className={styles.newProjectContainer}>
       <h1>Criar Projeto</h1>
       <p>Crie seu projeto para depois adicionar os serviços</p>
-      <ProjectForm handleSubmit={createProject} btnText="Criar Projeto" />
+      <ProjectForm handleSubmit={createProject as (project: any) => void} btnText="Criar Projeto" />
     </div>
   );
 }
