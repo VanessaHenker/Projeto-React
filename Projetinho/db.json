@@ -4,13 +4,15 @@
       "id": "467a",
       "name": "Projeto 1",
       "orcamento_id": "2",
-      "categoryId": "2"
+      "categoryId": "2",
+      "budget": 300
     },
     {
       "id": "d5guumop6",
       "name": "ola",
       "budget": 199,
-      "categoryId": "2"
+      "categoryId": "2",
+      "orcamento_id": "4"
     }
   ],
   "categories": [
