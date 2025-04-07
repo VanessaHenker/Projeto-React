@@ -24,7 +24,7 @@ function ProjectOne() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [isNewProject, setIsNewProject] = useState(false);
-  
+
   useEffect(() => {
     if (!id) return;
 
@@ -54,7 +54,7 @@ function ProjectOne() {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [id]);
 
@@ -91,26 +91,26 @@ function ProjectOne() {
         <h1 className={styles.projectTitle}>
           {isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project?.name}`}
         </h1>
-        
+
         <button onClick={() => { setIsNewProject(false); setShowForm(prev => !prev); }}>
           {showForm ? 'Cancelar' : 'Editar Projeto'}
         </button>
-        
+
         <button onClick={() => { setIsNewProject(true); setShowForm(true); setProject(null); }}>
           Criar Novo Projeto
         </button>
 
         {showForm ? (
-          <ProjectForm 
-            handleSubmit={saveProject} 
-            projectData={isNewProject ? undefined : project!} 
-            btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'} 
+          <ProjectForm
+            handleSubmit={saveProject}
+            projectData={isNewProject ? undefined : project!}
+            btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'}
           />
         ) : (
           project && (
             <div>
               <p><FaTags /> Categoria: {categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</p>
-              <p><FaMoneyBillAlt /> Orçamento: R$ {project.budget}</p>
+              <p><FaMoneyBillAlt /> Orçamento: {project.budget.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
             </div>
           )
         )}
