@@ -3,7 +3,6 @@ import styles from "./projectCard.module.css";
 import Orcamento from "../form/orcamento";
 import ActionButton from "../layout/actionButton";
 
-// Definindo o tipo de opção
 interface Option {
   value: string;
   label: string;
@@ -28,13 +27,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const [orcamentoOptions, setOrcamentoOptions] = useState<Option[]>([]);
 
-  // Função para carregar as opções de orçamentos dinamicamente do backend
   useEffect(() => {
     const fetchOrcamentos = async () => {
       try {
         const response = await fetch("http://localhost:5000/orcamentos");
         const data = await response.json();
-        // Mapeando para criar as opções de orçamentos
         const options = data.map((opt: { id: string; name: string }) => ({
           value: opt.id,
           label: opt.name,
@@ -48,9 +45,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     fetchOrcamentos();
   }, []);
 
-  // Função para lidar com a mudança do orçamento
-  const handleBudgetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newBudgetId = e.target.value;
+  const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const target = e.target as HTMLSelectElement;
+    const newBudgetId = target.value;
     updateBudgetAsync(newBudgetId);
   };
 
@@ -76,7 +73,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     }
   };
 
-  // Função para determinar a classe da categoria
   const getCategoryClass = (category: string) => {
     switch (category.toLowerCase()) {
       case "development":
@@ -110,7 +106,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <span className={styles.categoryDot}></span> {category}
       </p>
 
-      <div className={`${styles.contentButtons}`}>
+      <div className={styles.contentButtons}>
         <ActionButton
           type="edit"
           label="Editar"
