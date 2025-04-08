@@ -1,15 +1,17 @@
-import styles from './submitButton.module.css';
+
 
 interface SubmitButtonProps {
   text: string;
-  onClick?: () => void;
-  type?: 'submit' | 'button';
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
-export default function SubmitButton({ text, onClick, type = 'button' }: SubmitButtonProps) {
+function SubmitButton({ text, type = 'button', disabled = false }: SubmitButtonProps) {
   return (
-    <button className={styles.btn} onClick={onClick} type={type}>
+    <button type={type} disabled={disabled}>
       {text}
     </button>
   );
 }
+
+export default SubmitButton;
