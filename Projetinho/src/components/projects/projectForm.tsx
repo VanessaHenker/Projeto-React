@@ -1,70 +1,94 @@
-import { useState, FormEvent } from 'react';
+import styles from './projectForm.module.css';
+import Input from '../form/input';
+import Select from '../form/select';
+import SubmitButton from '../form/submitButton';
+import { useState, useEffect } from 'react';
 
 interface Project {
+  id?: string;
   name: string;
+  budget: number;
   categoryId?: string;
-  orcamento_id: string; // ID do orçamento selecionado
+}
+
+interface Category {
+  id: string;
+  name: string;
 }
 
 interface ProjectFormProps {
-  handleSubmit: (project: Project) => Promise<void>;
+  handleSubmit: (project: Project) => void;
   btnText: string;
   projectData?: Project;
 }
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
-  const [project, setProject] = useState<Project>(
-    projectData || { name: '', categoryId: '', orcamento_id: '' }
-  );
+  const [project, setProject] = useState<Project>({
+    id: projectData?.id || undefined,
+    name: projectData?.name || '',
+    budget: projectData?.budget || 0,
+    categoryId: projectData?.categoryId || undefined,
+  });
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const submit = (e: FormEvent) => {
+  useEffect(() => {
+    fetch('http://localhost:5000/categories')
+      .then(response => response.json())
+      .then(data => setCategories(data))
+      .catch(error => console.error('Erro ao carregar categorias:', error));
+  }, []);
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const { name, value } = e.target;
+    setProject(prev => ({
+      ...prev,
+      [name]: name === 'budget' ? Number(value) : value,
+    }));
+  }
+
+  function submit(e: React.FormEvent) {
     e.preventDefault();
-    handleSubmit(project);
-  };
+    if (!project.name || !project.categoryId || project.budget <= 0) {
+      alert('Preencha todos os campos corretamente.');
+      return;
+    }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setProject({ ...project, [e.target.name]: e.target.value });
-  };
+    if (!project.id) {
+      project.id = Math.random().toString(36).substr(2, 9); // Gera um ID aleatório
+    }
+
+    handleSubmit(project);
+  }
 
   return (
-    <form onSubmit={submit}>
-      <div>
-        <label>Nome do Projeto</label>
-        <input
-          type="text"
-          name="name"
-          value={project.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
+    <form onSubmit={submit} className={styles.form}>
+      <Input
+        type='text'
+        text='Nome do projeto'
+        name='name'
+        placeholder='Insira o nome do projeto'
+        handleOnChange={handleChange}
+        value={project.name}
+      />
 
-      <div>
-        <label>Categoria</label>
-        <input
-          type="text"
-          name="categoryId"
-          value={project.categoryId}
-          onChange={handleChange}
-        />
-      </div>
+      <Input
+        type='number'
+        text='Orçamento do projeto'
+        name='budget'
+        placeholder='Insira o orçamento total'
+        handleOnChange={handleChange}
+        value={project.budget.toString()}
+      />
 
-      <div>
-        <label>Orçamento</label>
-        <select
-          name="orcamento_id"
-          value={project.orcamento_id}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Selecione um orçamento</option>
-          <option value="1000">Orçamento A - R$1000</option>
-          <option value="2000">Orçamento B - R$2000</option>
-          <option value="3000">Orçamento C - R$3000</option>
-        </select>
-      </div>
+      <Select
+        text='Selecione uma categoria'
+        name='categoryId'
+        handleOnChange={handleChange}
+        value={project.categoryId || ''}
+        options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
+      />
 
-      <button type="submit">{btnText}</button>
+      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' />
     </form>
   );
 }

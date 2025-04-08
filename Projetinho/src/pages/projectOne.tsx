@@ -10,7 +10,6 @@ interface Project {
   name: string;
   budget: number;
   categoryId?: string;
-  orcamento_id?: string;
 }
 
 interface Category {
@@ -25,7 +24,7 @@ function ProjectOne() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [isNewProject, setIsNewProject] = useState(false);
-
+  
   useEffect(() => {
     if (!id) return;
 
@@ -36,7 +35,9 @@ function ProjectOne() {
           fetch('http://localhost:5000/categories')
         ]);
 
-        if (!projectRes.ok || !categoriesRes.ok) throw new Error('Erro ao carregar dados');
+        if (!projectRes.ok || !categoriesRes.ok) {
+          throw new Error('Erro ao carregar dados');
+        }
 
         const projectData = await projectRes.json();
         const categoriesData = await categoriesRes.json();
@@ -46,7 +47,6 @@ function ProjectOne() {
           id: String(projectData.id),
           budget: Number(projectData.budget)
         });
-
         setCategories(categoriesData);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
@@ -54,27 +54,12 @@ function ProjectOne() {
         setLoading(false);
       }
     };
-
+    
     fetchData();
   }, [id]);
 
   const saveProject = async (updatedProject: Project) => {
     try {
-      let numericBudget = 0;
-
-      if (updatedProject.orcamento_id) {
-        const res = await fetch(`http://localhost:5000/orcamentos/${updatedProject.orcamento_id}`);
-        if (!res.ok) throw new Error('Erro ao buscar orçamento');
-
-        const orcamento = await res.json();
-        numericBudget = parseFloat(orcamento.name.replace(/[^\d,]/g, '').replace(',', '.'));
-      }
-
-      const fullProject: Project = {
-        ...updatedProject,
-        budget: numericBudget
-      };
-
       const url = isNewProject
         ? 'http://localhost:5000/projects'
         : `http://localhost:5000/projects/${updatedProject.id}`;
@@ -84,7 +69,7 @@ function ProjectOne() {
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(fullProject),
+        body: JSON.stringify(updatedProject),
       });
 
       if (!response.ok) throw new Error('Erro ao salvar o projeto');
@@ -95,7 +80,6 @@ function ProjectOne() {
       setIsNewProject(false);
     } catch (error) {
       console.error('Erro ao salvar projeto:', error);
-      alert('Erro ao salvar projeto. Verifique os dados.');
     }
   };
 
@@ -107,30 +91,26 @@ function ProjectOne() {
         <h1 className={styles.projectTitle}>
           {isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project?.name}`}
         </h1>
-
+        
         <button onClick={() => { setIsNewProject(false); setShowForm(prev => !prev); }}>
           {showForm ? 'Cancelar' : 'Editar Projeto'}
         </button>
-
-        <button onClick={() => {
-          setIsNewProject(true);
-          setShowForm(true);
-          setProject(null);
-        }}>
+        
+        <button onClick={() => { setIsNewProject(true); setShowForm(true); setProject(null); }}>
           Criar Novo Projeto
         </button>
 
         {showForm ? (
-          <ProjectForm
-            handleSubmit={saveProject}
-            projectData={isNewProject ? undefined : project!}
-            btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'}
+          <ProjectForm 
+            handleSubmit={saveProject} 
+            projectData={isNewProject ? undefined : project!} 
+            btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'} 
           />
         ) : (
           project && (
             <div>
               <p><FaTags /> Categoria: {categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</p>
-              <p><FaMoneyBillAlt /> Orçamento: {project.budget.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+              <p><FaMoneyBillAlt /> Orçamento: R$ {project.budget}</p>
             </div>
           )
         )}
