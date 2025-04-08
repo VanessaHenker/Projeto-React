@@ -25,11 +25,13 @@ function Orcamento({
   value,
   options,
 }: OrcamentoProps) {
+  const inputType = type?.toLowerCase();
+
   return (
     <div className={styles.formControl}>
       <label htmlFor={name}>{text}</label>
 
-      {type === 'select' && options && (
+      {inputType === 'select' && options && (
         <select id={name} name={name} onChange={handleOnChange} value={value || ''}>
           <option value='' disabled>
             Selecione...
@@ -42,7 +44,7 @@ function Orcamento({
         </select>
       )}
 
-      {type !== 'select' && (
+      {inputType !== 'select' && (
         <input
           id={name}
           name={name}

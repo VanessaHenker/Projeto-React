@@ -100,23 +100,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         value={project.name}
       />
 
-      <Input
-        type='number'
-        text='Orçamento do projeto'
-        name='budget'
-        placeholder='Insira o orçamento total'
-        handleOnChange={handleChange}
-        value={project.budget.toString()}
-      />
-
-      <Select
-        text='Selecione uma categoria'
-        name='categoryId'
-        handleOnChange={handleChange}
-        value={project.categoryId || ''}
-        options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
-      />
-
       <Orcamento
         type='select'
         text='Selecione um orçamento'
@@ -125,6 +108,14 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
         placeholder='Escolha um orçamento'
+      />
+
+      <Select
+        text='Selecione uma categoria'
+        name='categoryId'
+        handleOnChange={handleChange}
+        value={project.categoryId || ''}
+        options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
       <SubmitButton
