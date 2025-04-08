@@ -1,7 +1,7 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
-import Orcamento from '../form/orcamentoCard'; 
+import Orcamento from '../form/orcamentoCard';
 import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
@@ -31,39 +31,54 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    id: projectData?.id || undefined,
-    name: projectData?.name || '',
-    budget: projectData?.budget || 0,
-    categoryId: projectData?.categoryId || '',
-    orcamento_id: projectData?.orcamento_id || '',
+    id: '',
+    name: '',
+    budget: 0,
+    categoryId: '',
+    orcamento_id: '',
   });
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
 
+  // Atualiza projeto caso receba dados prontos para edição
+  useEffect(() => {
+    if (projectData) {
+      setProject({
+        id: projectData.id || '',
+        name: projectData.name || '',
+        budget: projectData.budget || 0,
+        categoryId: projectData.categoryId || '',
+        orcamento_id: projectData.orcamento_id || '',
+      });
+    }
+  }, [projectData]);
+
+  // Carrega categorias e orçamentos do backend
   useEffect(() => {
     fetch('http://localhost:5000/categories')
-      .then(response => response.json())
-      .then(data => setCategories(data))
-      .catch(error => console.error('Erro ao carregar categorias:', error));
+      .then(res => res.json())
+      .then(setCategories)
+      .catch(err => console.error('Erro ao carregar categorias:', err));
 
     fetch('http://localhost:5000/orcamentos')
-      .then(response => response.json())
-      .then(data => setOrcamentos(data))
-      .catch(error => console.error('Erro ao carregar orçamentos:', error));
+      .then(res => res.json())
+      .then(setOrcamentos)
+      .catch(err => console.error('Erro ao carregar orçamentos:', err));
   }, []);
 
+  // Atualiza valores do formulário
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    const { name, value } = e.target;
+    const { name, value, type } = e.target;
     setProject(prev => ({
       ...prev,
-      [name]: name === 'budget' ? Number(value) : value,
+      [name]: type === 'number' ? Number(value) : value,
     }));
   }
 
+  // Envia o formulário
   function submit(e: React.FormEvent) {
     e.preventDefault();
-
     const { name, budget, categoryId, orcamento_id } = project;
 
     if (!name || !categoryId || !orcamento_id || budget <= 0) {
@@ -71,8 +86,9 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       return;
     }
 
+    // Gera um ID aleatório se for novo projeto
     if (!project.id) {
-      project.id = Math.random().toString(36).substr(2, 9); // Gera um ID aleatório
+      project.id = Math.random().toString(36).substr(2, 9);
     }
 
     handleSubmit(project);
@@ -115,7 +131,11 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
       />
 
-      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' />
+      <SubmitButton
+        text={btnText || 'Criar Projeto'}
+        type='submit'
+        disabled={!project.name || !project.categoryId || !project.orcamento_id || project.budget <= 0}
+      />
     </form>
   );
 }
