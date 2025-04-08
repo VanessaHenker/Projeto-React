@@ -10,6 +10,7 @@ interface Project {
   name: string;
   budget: number;
   categoryId?: string;
+  orcamento_id?: string;
 }
 
 interface Category {
@@ -45,7 +46,8 @@ function ProjectOne() {
         setProject({
           ...projectData,
           id: String(projectData.id),
-          budget: Number(projectData.budget)
+          budget: Number(projectData.budget),
+          orcamento_id: projectData.orcamento_id || '',
         });
         setCategories(categoriesData);
       } catch (error) {
@@ -60,16 +62,28 @@ function ProjectOne() {
 
   const saveProject = async (updatedProject: Project) => {
     try {
+      // Buscar valor do orçamento
+      const orcamentoRes = await fetch(`http://localhost:5000/orcamentos/${updatedProject.orcamento_id}`);
+      const orcamentoData = await orcamentoRes.json();
+
+      const numericValue = parseFloat(
+        orcamentoData.name.replace(/[^\d,]/g, '').replace(',', '.')
+      );
+
+      const fullProject = {
+        ...updatedProject,
+        budget: numericValue,
+      };
+
       const url = isNewProject
         ? 'http://localhost:5000/projects'
         : `http://localhost:5000/projects/${updatedProject.id}`;
-
       const method = isNewProject ? 'POST' : 'PATCH';
 
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedProject),
+        body: JSON.stringify(fullProject),
       });
 
       if (!response.ok) throw new Error('Erro ao salvar o projeto');

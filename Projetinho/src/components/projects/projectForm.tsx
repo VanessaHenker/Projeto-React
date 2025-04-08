@@ -32,8 +32,8 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
     id: projectData?.id || undefined,
     name: projectData?.name || '',
-    categoryId: projectData?.categoryId || undefined,
-    orcamento_id: projectData?.orcamento_id || undefined,
+    categoryId: projectData?.categoryId || '',
+    orcamento_id: projectData?.orcamento_id || '',
   });
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -67,6 +67,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
+
     if (!project.name || !project.categoryId || !project.orcamento_id) {
       alert('Preencha todos os campos corretamente.');
       return;
@@ -90,16 +91,14 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         value={project.name}
       />
 
-      
       <Orcamento
         type="select"
         text="Selecione o orçamento"
         name="orcamento_id"
         handleOnChange={handleChange}
         value={project.orcamento_id || ''}
-        options={orcamentos}
+        options={[{ value: '', label: 'Selecione' }, ...orcamentos]}
       />
-
 
       <Select
         text='Selecione uma categoria'
