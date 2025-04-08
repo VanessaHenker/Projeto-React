@@ -1,114 +1,70 @@
-import styles from './projectForm.module.css';
-import Input from '../form/input';
-import Select from '../form/select';
-import SubmitButton from '../form/submitButton';
-import Orcamento from '../form/orcamento';
-import { useState, useEffect } from 'react';
+import { useState, FormEvent } from 'react';
 
 interface Project {
-  id?: string;
   name: string;
   categoryId?: string;
-  orcamento_id?: string;
-}
-
-interface Category {
-  id: string;
-  name: string;
-}
-
-interface OrcamentoOption {
-  value: string;
-  label: string;
+  orcamento_id: string; // ID do orçamento selecionado
 }
 
 interface ProjectFormProps {
-  handleSubmit: (project: Project) => void;
+  handleSubmit: (project: Project) => Promise<void>;
   btnText: string;
   projectData?: Project;
 }
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
-  const [project, setProject] = useState<Project>({
-    id: projectData?.id || undefined,
-    name: projectData?.name || '',
-    categoryId: projectData?.categoryId || '',
-    orcamento_id: projectData?.orcamento_id || '',
-  });
+  const [project, setProject] = useState<Project>(
+    projectData || { name: '', categoryId: '', orcamento_id: '' }
+  );
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/categories')
-      .then(response => response.json())
-      .then(data => setCategories(data))
-      .catch(error => console.error('Erro ao carregar categorias:', error));
-
-    fetch('http://localhost:5000/orcamentos')
-      .then(res => res.json())
-      .then(data => {
-        const options = data.map((o: { id: string, name: string }) => ({
-          value: o.id,
-          label: o.name,
-        }));
-        setOrcamentos(options);
-      })
-      .catch(err => console.error('Erro ao carregar orçamentos:', err));
-  }, []);
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
-    const { name, value } = e.target;
-    setProject(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
-  function submit(e: React.FormEvent) {
+  const submit = (e: FormEvent) => {
     e.preventDefault();
-
-    if (!project.name || !project.categoryId || !project.orcamento_id) {
-      alert('Preencha todos os campos corretamente.');
-      return;
-    }
-
-    if (!project.id) {
-      project.id = Math.random().toString(36).substr(2, 9);
-    }
-
     handleSubmit(project);
-  }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setProject({ ...project, [e.target.name]: e.target.value });
+  };
 
   return (
-    <form onSubmit={submit} className={styles.form}>
-      <Input
-        type='text'
-        text='Nome do projeto'
-        name='name'
-        placeholder='Insira o nome do projeto'
-        handleOnChange={handleChange}
-        value={project.name}
-      />
+    <form onSubmit={submit}>
+      <div>
+        <label>Nome do Projeto</label>
+        <input
+          type="text"
+          name="name"
+          value={project.name}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
-      <Orcamento
-        type="select"
-        text="Selecione o orçamento"
-        name="orcamento_id"
-        handleOnChange={handleChange}
-        value={project.orcamento_id || ''}
-        options={[{ value: '', label: 'Selecione' }, ...orcamentos]}
-      />
+      <div>
+        <label>Categoria</label>
+        <input
+          type="text"
+          name="categoryId"
+          value={project.categoryId}
+          onChange={handleChange}
+        />
+      </div>
 
-      <Select
-        text='Selecione uma categoria'
-        name='categoryId'
-        handleOnChange={handleChange}
-        value={project.categoryId || ''}
-        options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
-      />
+      <div>
+        <label>Orçamento</label>
+        <select
+          name="orcamento_id"
+          value={project.orcamento_id}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Selecione um orçamento</option>
+          <option value="1000">Orçamento A - R$1000</option>
+          <option value="2000">Orçamento B - R$2000</option>
+          <option value="3000">Orçamento C - R$3000</option>
+        </select>
+      </div>
 
-      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' />
+      <button type="submit">{btnText}</button>
     </form>
   );
 }

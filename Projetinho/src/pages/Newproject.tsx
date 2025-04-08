@@ -2,7 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import ProjectForm from '../components/projects/projectForm';
 import styles from './NewProject.module.css';
 
-interface Project {
+interface RawProject {
+  name: string;
+  categoryId?: string;
+  orcamento_id: string;
+}
+
+interface FinalProject {
   id: string;
   name: string;
   budget: number;
@@ -12,11 +18,13 @@ interface Project {
 function NewProject() {
   const navigate = useNavigate();
 
-  const createProject = async (project: Omit<Project, 'id'>) => {
+  const createProject = async (project: RawProject) => {
     try {
-      const newProject: Project = {
-        ...project,
-        id: Math.random().toString(36).substr(2, 9), 
+      const newProject: FinalProject = {
+        id: Math.random().toString(36).substr(2, 9),
+        name: project.name,
+        categoryId: project.categoryId,
+        budget: parseFloat(project.orcamento_id), // transforma orcamento_id (string) em number
       };
 
       const response = await fetch('http://localhost:5000/projects', {
@@ -27,7 +35,7 @@ function NewProject() {
 
       if (!response.ok) throw new Error('Erro ao criar o projeto');
 
-      navigate('/projects'); 
+      navigate('/projects');
     } catch (error) {
       console.error('Erro ao salvar projeto:', error);
     }
@@ -37,7 +45,7 @@ function NewProject() {
     <div className={styles.newProjectContainer}>
       <h1>Criar Projeto</h1>
       <p>Crie seu projeto para depois adicionar os serviços</p>
-      <ProjectForm handleSubmit={createProject as (project: any) => void} btnText="Criar Projeto" />
+      <ProjectForm handleSubmit={createProject} btnText="Criar Projeto" />
     </div>
   );
 }
