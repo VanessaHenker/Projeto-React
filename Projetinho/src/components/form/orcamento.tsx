@@ -27,14 +27,29 @@ function Orcamento({
   return (
     <div className={styles.formControl}>
       <label htmlFor={name}>{text}</label>
+
       {type === 'select' && options && (
         <select id={name} name={name} onChange={handleOnChange} value={value || ''}>
+          <option value='' disabled>
+            Selecione...
+          </option>
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </select>
+      )}
+
+      {type !== 'select' && (
+        <input
+          id={name}
+          name={name}
+          type={type}
+          onChange={handleOnChange}
+          value={value}
+          placeholder={placeholder}
+        />
       )}
     </div>
   );
