@@ -1,7 +1,7 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
-import Orcamento from '../form/orcamentoCard';
+import Orcamento from '../form/orcamento';
 import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
@@ -41,7 +41,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
 
-  // Atualiza projeto caso receba dados prontos para edição
   useEffect(() => {
     if (projectData) {
       setProject({
@@ -54,7 +53,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     }
   }, [projectData]);
 
-  // Carrega categorias e orçamentos do backend
   useEffect(() => {
     fetch('http://localhost:5000/categories')
       .then(res => res.json())
@@ -67,7 +65,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       .catch(err => console.error('Erro ao carregar orçamentos:', err));
   }, []);
 
-  // Atualiza valores do formulário
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value, type } = e.target;
     setProject(prev => ({
@@ -76,7 +73,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     }));
   }
 
-  // Envia o formulário
   function submit(e: React.FormEvent) {
     e.preventDefault();
     const { name, budget, categoryId, orcamento_id } = project;
@@ -86,7 +82,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       return;
     }
 
-    // Gera um ID aleatório se for novo projeto
     if (!project.id) {
       project.id = Math.random().toString(36).substr(2, 9);
     }
@@ -129,6 +124,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         handleOnChange={handleChange}
         value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
+        placeholder='Escolha um orçamento'
       />
 
       <SubmitButton
