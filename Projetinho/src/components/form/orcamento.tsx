@@ -20,6 +20,7 @@ function Orcamento({
   type,
   text,
   name,
+  placeholder,
   handleOnChange,
   value,
   options,
