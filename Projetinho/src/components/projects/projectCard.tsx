@@ -28,13 +28,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const [orcamentoOptions, setOrcamentoOptions] = useState<Option[]>([]);
 
-  // Função para carregar as opções de orçamentos dinamicamente do backend
+  // Carrega as opções de orçamento
   useEffect(() => {
     const fetchOrcamentos = async () => {
       try {
         const response = await fetch("http://localhost:5000/orcamentos");
         const data = await response.json();
-        // Mapeando para criar as opções de orçamentos
         const options = data.map((orcamento: { id: string, name: string }) => ({
           value: orcamento.id,
           label: orcamento.name,
@@ -48,34 +47,29 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     fetchOrcamentos();
   }, []);
 
-  // Função para lidar com a mudança do orçamento
-  const handleBudgetChange = async (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+  // Atualiza orçamento via API
+  const handleBudgetChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newBudgetId = e.target.value;
 
-    // Enviar requisição PUT ou PATCH para o backend
     try {
       const response = await fetch(`http://localhost:5000/projects/${id}`, {
-        method: "PATCH", 
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          orcamento_id: newBudgetId, 
+          orcamento_id: newBudgetId,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Erro ao atualizar o orçamento.");
-      }
+      if (!response.ok) throw new Error("Erro ao atualizar o orçamento.");
 
-      // Se a requisição for bem-sucedida, chamamos a função `updateBudget` do pai
       updateBudget(id, newBudgetId);
     } catch (error) {
       console.error("Erro ao atualizar orçamento:", error);
     }
   };
 
-  // Função para determinar a classe da categoria
   const getCategoryClass = (category: string) => {
     switch (category.toLowerCase()) {
       case "development":
@@ -94,14 +88,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className={styles.header}>
         <h4>{name}</h4>
       </div>
+
       <div className={styles.budgetSection}>
         <Orcamento
-          type="select"
           text="Orçamento:"
-          name={`orcamento-${id}`}
+          name="orcamento_id"
           value={orcamento_id}
           handleOnChange={handleBudgetChange}
-          options={orcamentoOptions} 
+          options={orcamentoOptions}
         />
       </div>
 
@@ -109,7 +103,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <span className={styles.categoryDot}></span> {category}
       </p>
 
-      <div className={`${styles.contentButtons}`}>
+      <div className={styles.contentButtons}>
         <ActionButton
           type="edit"
           label="Editar"

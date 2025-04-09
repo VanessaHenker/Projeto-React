@@ -7,53 +7,42 @@ interface Option {
 }
 
 interface OrcamentoProps {
-  type: string;
   text: string;
   name: string;
-  placeholder?: string;
-  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => void;
+  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   value?: string | number;
   options?: Option[];
+  placeholder?: string;
 }
 
 function Orcamento({
-  type,
   text,
   name,
-  placeholder,
   handleOnChange,
   value,
   options,
+  placeholder = 'Selecione...',
 }: OrcamentoProps) {
-  const inputType = type?.toLowerCase();
-
   return (
     <div className={styles.formControl}>
       <label htmlFor={name}>{text}</label>
 
-      {inputType === 'select' && options && (
-        <select id={name} name={name} onChange={handleOnChange} value={value || ''}>
-          <option value='' disabled>
-            Selecione...
-          </option>
-          {options.map((option) => (
+      <select
+        id={name}
+        name={name}
+        onChange={handleOnChange}
+        value={value || ''}
+      >
+        <option value="" disabled>
+          {placeholder}
+        </option>
+        {options &&
+          options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
-        </select>
-      )}
-
-      {inputType !== 'select' && (
-        <input
-          id={name}
-          name={name}
-          type={type}
-          onChange={handleOnChange}
-          value={value}
-          placeholder={placeholder}
-        />
-      )}
+      </select>
     </div>
   );
 }

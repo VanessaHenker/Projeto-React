@@ -102,15 +102,13 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         handleOnChange={handleChange}
         value={project.name}
       />
-
       <Orcamento
-        type='select'
-        text='Selecione um orçamento'
-        name='orcamento_id'
+        text="Selecione um orçamento"
+        name="orcamento_id"
         handleOnChange={handleChange}
         value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
-        placeholder='Escolha um orçamento'
+        placeholder="Escolha um orçamento"
       />
 
       <Select
