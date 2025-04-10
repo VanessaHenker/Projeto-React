@@ -64,25 +64,27 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   function submit(e: React.FormEvent) {
     e.preventDefault();
 
-    const { name, budget, categoryId, orcamento_id } = project;
+    const { budget, orcamento_id } = project;
 
-    if (!name || !categoryId || !orcamento_id || budget <= 0) {
-      alert('Preencha todos os campos corretamente.');
+    if (!orcamento_id || budget <= 0) {
+      alert('Preencha os campos de orçamento corretamente.');
       return;
     }
 
-    if (!project.id) {
-      project.id = Math.random().toString(36).substr(2, 9);
+    const newProject = { ...project };
+
+    if (!newProject.id) {
+      newProject.id = Math.random().toString(36).substr(2, 9);
     }
 
-    console.log('Enviando projeto:', project);
+    console.log('Enviando projeto:', newProject);
 
     fetch('http://localhost:5000/projects', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(project),
+      body: JSON.stringify(newProject),
     })
       .then(resp => resp.json())
       .then(data => {
@@ -110,7 +112,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
         placeholder="Escolha um orçamento"
       />
-
       <Select
         text='Selecione uma categoria'
         name='categoryId'
@@ -118,7 +119,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         value={project.categoryId || ''}
         options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
-
       <SubmitButton
         text={btnText || 'Criar Projeto'}
         type='submit'
