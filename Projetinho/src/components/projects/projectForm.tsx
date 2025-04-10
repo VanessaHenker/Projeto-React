@@ -40,7 +40,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false); // 🆕
+  const [isSubmitting, setIsSubmitting] = useState(false); // evita envios duplicados
 
   useEffect(() => {
     fetch('http://localhost:5000/categories')
@@ -65,12 +65,12 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   function submit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (isSubmitting) return; // 🛑 bloqueia envio duplicado
+    if (isSubmitting) return;
 
     const { orcamento_id } = project;
 
     console.log('orcamento_id:', orcamento_id);
-    console.log('Dados do projeto:', project);
+    console.log('Dados completos do projeto:', project);
 
     if (!orcamento_id) {
       alert('Preencha o campo de orçamento corretamente.');
@@ -83,7 +83,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       newProject.id = Math.random().toString(36).substr(2, 9);
     }
 
-    setIsSubmitting(true); // ⏳ trava envio
+    setIsSubmitting(true);
 
     fetch('http://localhost:5000/projects', {
       method: 'POST',
@@ -98,7 +98,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         handleSubmit(data);
       })
       .catch(err => console.error('Erro ao criar projeto:', err))
-      .finally(() => setIsSubmitting(false)); // 🔓 libera envio
+      .finally(() => setIsSubmitting(false));
   }
 
   return (
@@ -130,7 +130,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       />
 
       <SubmitButton
-        text={isSubmitting ? 'Enviando...' : btnText || 'Criar Projeto'}
+        text={btnText || 'Criar Projeto'}
         type='submit'
       />
     </form>

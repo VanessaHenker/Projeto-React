@@ -1,4 +1,3 @@
-
 interface SubmitButtonProps {
   text: string;
   type?: 'button' | 'submit' | 'reset';
