@@ -120,7 +120,6 @@ function Projects() {
 
   return (
     <div className={styles.projectsContainer}>
-      {/* Título e Descrição */}
       <div className={styles.titleContainer}>
         <div className={styles.tittlesCenter}>
           <h1>Meus Projetos</h1>
@@ -132,7 +131,6 @@ function Projects() {
 
       {error && <div className={styles.error}>{error}</div>}
 
-      {/* Exibir a mensagem de sucesso ou erro usando o componente Message */}
       <Message type="success" msg={projectMessage} />
 
       <div className={styles.projectsCreate}>
