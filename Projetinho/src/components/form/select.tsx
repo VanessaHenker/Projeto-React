@@ -1,27 +1,43 @@
-import styles from './select.module.css';
+import React from "react";
 
-interface Option {
-  value: string;
-  label: string;
-}
-
-interface SelectProps {
-  text: string;
+type Option = {
+  id: number | string;
   name: string;
-  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  value?: string;
-  options: Option[];
-}
+};
 
-function Select({ text, name, handleOnChange, value, options }: SelectProps) {
+type SelectProps = {
+  name: string;
+  text: string;
+  options: Option[];
+  handleOnChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  value?: number | string;
+  required?: boolean;
+  className?: string;
+};
+
+function Select({
+  name,
+  text,
+  options,
+  handleOnChange,
+  value = "",
+  required = false,
+  className = "",
+}: SelectProps) {
   return (
-    <div className={styles.formControl}>
+    <div className={`input-container ${className}`}>
       <label htmlFor={name}>{text}</label>
-      <select id={name} name={name} onChange={handleOnChange} value={value || ''}>
+      <select
+        name={name}
+        id={name}
+        onChange={handleOnChange}
+        value={value}
+        required={required}
+      >
         <option value="">Selecione uma opção</option>
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
+          <option key={option.id} value={option.id}>
+            {option.name}
           </option>
         ))}
       </select>
