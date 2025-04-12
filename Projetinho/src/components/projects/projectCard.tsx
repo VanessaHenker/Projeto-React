@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { BsPencil, BsFillTrashFill } from "react-icons/bs";
-import { url } from "../../utils/url";
+import { url } from "../../utils/url";  // Verifique o caminho e a exportação correta
 
 type ProjectCardProps = {
   id: number;
@@ -8,7 +8,7 @@ type ProjectCardProps = {
   budget: number;
   category: string;
   orcamento: string;
-  onRemove?: (id: number) => void; // Nova prop opcional
+  onRemove?: (id: number) => void; // Ação de remoção opcional
 };
 
 function ProjectCard({
@@ -51,7 +51,7 @@ function ProjectCard({
         <span>Orçamento Escolhido:</span> {orcamento}
       </p>
       <div className="project-card-actions">
-        <Link to={`/project/${id}`}>
+        <Link to={`/project/${id}`} className="button-link">
           <BsPencil /> Editar
         </Link>
         <button onClick={handleRemove}>
