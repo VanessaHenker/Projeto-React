@@ -1,29 +1,53 @@
-type InputProps = {
+import styles from './input.module.css';
+
+interface Option {
+  value: string;
+  label: string;
+}
+
+interface InputProps {
+  type: 'text' | 'number' | 'email' | 'password' | 'select'; 
+  text: string;
   name: string;
-  type: string;
-  placeholder: string;
-  value: string | number;
-  handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+  placeholder?: string;
+  handleOnChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  value?: string | number;
+  options?: Option[];
+  autoComplete?: string;  
+}
 
 function Input({
-  name,
   type,
+  text,
+  name,
   placeholder,
-  value,
   handleOnChange,
+  value,
+  options,
+  autoComplete = 'off', 
 }: InputProps) {
   return (
-    <div className="input-container">
-      <label htmlFor={name}>{placeholder}</label>
-      <input
-        name={name}
-        type={type}
-        id={name}
-        placeholder={placeholder}
-        value={value}
-        onChange={handleOnChange}
-      />
+    <div className={styles.formControl}>
+      <label htmlFor={name}>{text}</label>
+      {type === 'select' && options ? (
+        <select id={name} name={name} onChange={handleOnChange} value={String(value || '')}>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          type={type}
+          name={name}
+          id={name}
+          placeholder={placeholder}
+          onChange={handleOnChange}
+          value={value || ''}
+          autoComplete={autoComplete}  
+        />
+      )}
     </div>
   );
 }
