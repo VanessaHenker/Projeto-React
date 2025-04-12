@@ -1,124 +1,132 @@
-import { useEffect, useState } from "react";
-import { Category, Orcamento, ProjectType } from "../../types/ProjectType";
+import styles from "./projectForm.module.css";
+import Input from "../form/input";
+import Select from "../form/select";
+import Orcamento from "../form/orcamento";
+import SubmitButton from "../form/submitButton";
+import { useState, useEffect } from "react";
 import { url } from "../../utils/url";
-import OrcamentoForm from "../orcamento/Orcamento";
 
-type ProjectFormProps = {
+interface Project {
+  id?: string;
+  name: string;
+  budget: number;
+  categoryId?: string;
+  orcamento_id?: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+}
+
+interface OrcamentoOption {
+  id: string;
+  name: string;
+}
+
+interface ProjectFormProps {
+  handleSubmit: (project: Project) => void;
   btnText: string;
-  handleSubmit: (project: ProjectType) => void;
-  projectData?: ProjectType;
-};
+  projectData?: Project;
+}
 
-function ProjectForm({ btnText, handleSubmit, projectData }: ProjectFormProps) {
+function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
+  const [project, setProject] = useState<Project>({
+    id: projectData?.id,
+    name: projectData?.name || "",
+    budget: projectData?.budget || 0,
+    categoryId: projectData?.categoryId || "",
+    orcamento_id: projectData?.orcamento_id || "",
+  });
+
   const [categories, setCategories] = useState<Category[]>([]);
-  const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
-  const [project, setProject] = useState<ProjectType>(projectData || {});
+  const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    fetch(`${url}/categories`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        setCategories(data);
-      })
-      .catch((err) => console.log(err));
-
-    fetch(`${url}/orcamentos`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        setOrcamentos(data);
-      })
-      .catch((err) => console.log(err));
+    async function loadData() {
+      try {
+        const [catResp, orcResp] = await Promise.all([
+          fetch(`${url}/categories`, {
+            headers: { "Content-Type": "application/json" },
+          }),
+          fetch(`${url}/orcamentos`, {
+            headers: { "Content-Type": "application/json" },
+          }),
+        ]);
+        const categoriesData = await catResp.json();
+        const orcamentosData = await orcResp.json();
+        setCategories(categoriesData);
+        setOrcamentos(orcamentosData);
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      }
+    }
+    loadData();
   }, []);
 
-  const submit = (e: React.FormEvent) => {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+    const { name, value } = e.target;
+    setProject((prev) => ({
+      ...prev,
+      [name]: name === "budget" ? Number(value) : value,
+    }));
+  }
+
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
-    handleSubmit(project);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProject({ ...project, [e.target.name]: e.target.value });
-  };
-
-  const handleCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCategory = categories.find(
-      (cat) => cat.id === Number(e.target.value)
-    );
-    setProject({
+    if (isSubmitting) return;
+    if (!project.orcamento_id) {
+      alert("Preencha o campo de orçamento corretamente.");
+      return;
+    }
+    const newProject: Project = {
       ...project,
-      category_id: Number(e.target.value),
-      category: selectedCategory?.name || "",
-    });
-  };
-
-  const handleOrcamento = (orcamento_id: number) => {
-    const selectedOrcamento = orcamentos.find((o) => o.id === orcamento_id);
-    setProject({
-      ...project,
-      orcamento_id,
-      orcamento: selectedOrcamento?.name || "",
-    });
-  };
+      id: project.id || Math.random().toString(36).substr(2, 9),
+    };
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${url}/projects`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newProject),
+      });
+      const data = await response.json();
+      console.log("Projeto criado com sucesso:", data);
+      handleSubmit(data);
+    } catch (error) {
+      console.error("Erro ao criar projeto:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
-    <form onSubmit={submit} className="form">
-      <div className="input-container">
-        <label htmlFor="name">Nome do Projeto:</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          placeholder="Insira o nome do projeto"
-          onChange={handleChange}
-          value={project.name || ""}
-        />
-      </div>
-
-      <div className="input-container">
-        <label htmlFor="budget">Orçamento:</label>
-        <input
-          type="number"
-          name="budget"
-          id="budget"
-          placeholder="Insira o orçamento total"
-          onChange={handleChange}
-          value={project.budget || ""}
-        />
-      </div>
-
-      <div className="input-container">
-        <label htmlFor="category">Categoria:</label>
-        <select
-          name="category_id"
-          id="category"
-          onChange={handleCategory}
-          value={project.category_id || ""}
-        >
-          <option value="">Selecione uma categoria</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <OrcamentoForm
-        orcamentos={orcamentos}
-        selectedOrcamento={project.orcamento_id}
-        onSelectOrcamento={handleOrcamento}
+    <form onSubmit={submit} className={styles.form}>
+      <Input
+        type="text"
+        text="Nome do projeto"
+        name="name"
+        placeholder="Insira o nome do projeto"
+        handleOnChange={handleChange}
+        value={project.name}
       />
-
-      <button type="submit">{btnText}</button>
+      <Orcamento
+        text="Selecione um orçamento"
+        name="orcamento_id"
+        handleOnChange={handleChange}
+        value={project.orcamento_id || ""}
+        options={orcamentos.map((o) => ({ value: o.id, label: o.name }))}
+        placeholder="Escolha um orçamento"
+      />
+      <Select
+        text="Selecione uma categoria"
+        name="categoryId"
+        handleOnChange={handleChange}
+        value={project.categoryId || ""}
+        options={categories.map((cat) => ({ value: cat.id, label: cat.name }))}
+      />
+      <SubmitButton text={btnText || "Criar Projeto"} type="submit" />
     </form>
   );
 }
