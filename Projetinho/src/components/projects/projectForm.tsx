@@ -1,7 +1,6 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
-import Orcamento from '../form/orcamento';
 import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
@@ -40,6 +39,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:5000/categories')
@@ -61,15 +61,37 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     }));
   }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (isSubmitting) return;
 
-    if (!project.name || !project.budget || !project.orcamento_id || !project.categoryId) {
-      alert('Preencha todos os campos.');
+    if (!project.orcamento_id) {
+      alert('Preencha o campo de orçamento corretamente.');
       return;
     }
 
-    handleSubmit(project); // 🔥 Envia os dados pro componente pai (ProjectOne)
+    setIsSubmitting(true);
+
+    const method = projectData ? 'PATCH' : 'POST';
+    const url = projectData
+      ? `http://localhost:5000/projects/${project.id}`
+      : 'http://localhost:5000/projects';
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project),
+      });
+
+      const data = await response.json();
+      console.log('Projeto salvo com sucesso:', data);
+      handleSubmit(data);
+    } catch (err) {
+      console.error('Erro ao salvar projeto:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -83,22 +105,12 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         value={project.name}
       />
 
-      <Input
-        type='number'
-        text='Orçamento'
-        name='budget'
-        placeholder='Insira o orçamento total'
-        handleOnChange={handleChange}
-        value={project.budget}
-      />
-
-      <Orcamento
-        text="Selecione um orçamento"
-        name="orcamento_id"
+      <Select
+        text='Selecione um orçamento'
+        name='orcamento_id'
         handleOnChange={handleChange}
         value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
-        placeholder="Escolha um orçamento"
       />
 
       <Select
