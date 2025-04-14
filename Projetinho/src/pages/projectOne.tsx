@@ -10,7 +10,7 @@ interface Project {
   name: string;
   budget: number;
   categoryId?: string;
-  orcamento_id?: string; // agora incluído
+  orcamento_id?: string;
 }
 
 interface Category {
@@ -93,6 +93,20 @@ function ProjectOne() {
     }
   };
 
+  const toggleForm = () => {
+    if (isNewProject) {
+      // Reset o estado do projeto para o formulário vazio ao criar um novo projeto
+      setProject(null); 
+    }
+    setShowForm(prev => !prev);
+  };
+
+  const createNewProject = () => {
+    setIsNewProject(true); // Marca que estamos criando um novo projeto
+    setProject(null); // Limpa o projeto atual para iniciar um novo
+    setShowForm(true); // Exibe o formulário
+  };
+
   if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
 
   return (
@@ -102,11 +116,11 @@ function ProjectOne() {
           {isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project?.name}`}
         </h1>
 
-        <button onClick={() => { setIsNewProject(false); setShowForm(prev => !prev); }}>
+        <button onClick={toggleForm}>
           {showForm ? 'Cancelar' : 'Editar Projeto'}
         </button>
 
-        <button onClick={() => { setIsNewProject(true); setShowForm(true); setProject(null); }}>
+        <button onClick={createNewProject}>
           Criar Novo Projeto
         </button>
 
