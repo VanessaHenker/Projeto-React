@@ -40,7 +40,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:5000/categories')
@@ -62,37 +61,15 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     }));
   }
 
-  async function submit(e: React.FormEvent) {
+  function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (isSubmitting) return;
 
-    if (!project.orcamento_id) {
-      alert('Preencha o campo de orçamento corretamente.');
+    if (!project.name || !project.budget || !project.orcamento_id || !project.categoryId) {
+      alert('Preencha todos os campos.');
       return;
     }
 
-    const newProject = {
-      ...project,
-      id: project.id || Math.random().toString(36).substr(2, 9),
-    };
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('http://localhost:5000/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newProject),
-      });
-
-      const data = await response.json();
-      console.log('Projeto criado com sucesso:', data);
-      handleSubmit(data); // Apenas redireciona ou atualiza estado
-    } catch (err) {
-      console.error('Erro ao criar projeto:', err);
-    } finally {
-      setIsSubmitting(false);
-    }
+    handleSubmit(project); // 🔥 Envia os dados pro componente pai (ProjectOne)
   }
 
   return (
@@ -104,6 +81,15 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         placeholder='Insira o nome do projeto'
         handleOnChange={handleChange}
         value={project.name}
+      />
+
+      <Input
+        type='number'
+        text='Orçamento'
+        name='budget'
+        placeholder='Insira o orçamento total'
+        handleOnChange={handleChange}
+        value={project.budget}
       />
 
       <Orcamento

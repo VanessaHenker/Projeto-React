@@ -1,5 +1,13 @@
 {
-  "projects": [],
+  "projects": [
+    {
+      "id": "utnml2r3g",
+      "name": "a",
+      "budget": 2,
+      "categoryId": "3",
+      "orcamento_id": "3"
+    }
+  ],
   "categories": [
     {
       "id": "1",
