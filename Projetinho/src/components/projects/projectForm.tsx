@@ -1,7 +1,6 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
-import Orcamento from '../form/orcamento';
 import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
@@ -31,7 +30,7 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    id: projectData?.id || '',
+    id: projectData?.id || undefined,
     name: projectData?.name || '',
     budget: projectData?.budget || 0,
     categoryId: projectData?.categoryId || '',
@@ -42,7 +41,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Carregar categorias e orçamentos
   useEffect(() => {
     fetch('http://localhost:5000/categories')
       .then(response => response.json())
@@ -65,80 +63,65 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (isSubmitting) return;
 
-    if (isSubmitting) return; // Evitar múltiplas submissões
-
-    // Verificar se todos os campos obrigatórios estão preenchidos
-    if (!project.orcamento_id || !project.categoryId || !project.name) {
-      alert('Preencha todos os campos corretamente!');
+    if (!project.orcamento_id) {
+      alert('Preencha o campo de orçamento corretamente.');
       return;
     }
 
-    setIsSubmitting(true); // Desabilitar o envio enquanto o projeto é criado
+    setIsSubmitting(true);
 
-    const newProject = { ...project };
+    const method = projectData ? 'PATCH' : 'POST';
+    const url = projectData
+      ? `http://localhost:5000/projects/${project.id}`
+      : 'http://localhost:5000/projects';
 
     try {
-      const response = await fetch('http://localhost:5000/projects', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newProject),
+        body: JSON.stringify(project),
       });
-
-      if (!response.ok) {
-        throw new Error('Erro ao criar projeto');
-      }
 
       const data = await response.json();
-      console.log('Projeto criado com sucesso:', data);
-
-      // Chama o handleSubmit (do componente pai) para atualizar a lista ou fazer o redirecionamento
+      console.log('Projeto salvo com sucesso:', data);
       handleSubmit(data);
-
-      // Resetar o formulário após a criação bem-sucedida
-      setProject({
-        id: '',
-        name: '',
-        budget: 0,
-        categoryId: '',
-        orcamento_id: '',
-      });
     } catch (err) {
-      console.error('Erro ao criar projeto:', err);
+      console.error('Erro ao salvar projeto:', err);
     } finally {
-      setIsSubmitting(false); // Reabilitar o botão de envio após a requisição
+      setIsSubmitting(false);
     }
   }
 
   return (
     <form onSubmit={submit} className={styles.form}>
       <Input
-        type="text"
-        text="Nome do projeto"
-        name="name"
-        placeholder="Insira o nome do projeto"
+        type='text'
+        text='Nome do projeto'
+        name='name'
+        placeholder='Insira o nome do projeto'
         handleOnChange={handleChange}
         value={project.name}
       />
 
-      <Orcamento
-        text="Selecione um orçamento"
-        name="orcamento_id"
+      <Select
+        text='Selecione um orçamento'
+        name='orcamento_id'
         handleOnChange={handleChange}
         value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
-        placeholder="Escolha um orçamento"
       />
 
       <Select
-        text="Selecione uma categoria"
-        name="categoryId"
+        text='Selecione uma categoria'
+        name='categoryId'
         handleOnChange={handleChange}
         value={project.categoryId || ''}
         options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
-      <SubmitButton text={btnText || 'Criar Projeto'} type="submit" disabled={isSubmitting} />
+      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' />
     </form>
   );
 }
