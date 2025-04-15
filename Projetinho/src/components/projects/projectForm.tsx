@@ -1,6 +1,7 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
+import Orcamento from '../form/orcamento';
 import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
@@ -30,7 +31,7 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    id: projectData?.id || undefined,
+    id: projectData?.id || '',
     name: projectData?.name || '',
     budget: projectData?.budget || 0,
     categoryId: projectData?.categoryId || '',
@@ -41,6 +42,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Carregar categorias e orçamentos
   useEffect(() => {
     fetch('http://localhost:5000/categories')
       .then(response => response.json())
@@ -63,65 +65,52 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (isSubmitting) return;
 
-    if (!project.orcamento_id) {
-      alert('Preencha o campo de orçamento corretamente.');
+    if (isSubmitting) return; // Evitar múltiplas submissões
+
+    // Verificar se todos os campos obrigatórios estão preenchidos
+    if (!project.orcamento_id || !project.categoryId || !project.name) {
+      alert('Preencha todos os campos corretamente!');
       return;
     }
 
-    setIsSubmitting(true);
+    setIsSubmitting(true); // Desabilitar o envio enquanto o projeto é criado
 
-    const method = projectData ? 'PATCH' : 'POST';
-    const url = projectData
-      ? `http://localhost:5000/projects/${project.id}`
-      : 'http://localhost:5000/projects';
+    // Passar os dados do projeto para o componente pai (ProjectOne)
+    handleSubmit(project);
 
-    try {
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(project),
-      });
-
-      const data = await response.json();
-      console.log('Projeto salvo com sucesso:', data);
-      handleSubmit(data);
-    } catch (err) {
-      console.error('Erro ao salvar projeto:', err);
-    } finally {
-      setIsSubmitting(false);
-    }
+    setIsSubmitting(false); // Reabilitar o botão de envio após a requisição
   }
 
   return (
     <form onSubmit={submit} className={styles.form}>
       <Input
-        type='text'
-        text='Nome do projeto'
-        name='name'
-        placeholder='Insira o nome do projeto'
+        type="text"
+        text="Nome do projeto"
+        name="name"
+        placeholder="Insira o nome do projeto"
         handleOnChange={handleChange}
         value={project.name}
       />
 
-      <Select
-        text='Selecione um orçamento'
-        name='orcamento_id'
+      <Orcamento
+        text="Selecione um orçamento"
+        name="orcamento_id"
         handleOnChange={handleChange}
         value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
+        placeholder="Escolha um orçamento"
       />
 
       <Select
-        text='Selecione uma categoria'
-        name='categoryId'
+        text="Selecione uma categoria"
+        name="categoryId"
         handleOnChange={handleChange}
         value={project.categoryId || ''}
         options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
-      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' />
+      <SubmitButton text={btnText || 'Criar Projeto'} type="submit" disabled={isSubmitting} />
     </form>
   );
 }
