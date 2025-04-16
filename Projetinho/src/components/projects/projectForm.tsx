@@ -31,7 +31,7 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    id: projectData?.id || '',
+    id: projectData?.id || undefined,
     name: projectData?.name || '',
     budget: projectData?.budget || 0,
     categoryId: projectData?.categoryId || '',
@@ -40,9 +40,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Carregar categorias e orçamentos
   useEffect(() => {
     fetch('http://localhost:5000/categories')
       .then(response => response.json())
@@ -63,34 +61,35 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     }));
   }
 
-  async function submit(e: React.FormEvent) {
+  function submit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (isSubmitting) return; // Evitar múltiplas submissões
-
-    // Verificar se todos os campos obrigatórios estão preenchidos
-    if (!project.orcamento_id || !project.categoryId || !project.name) {
-      alert('Preencha todos os campos corretamente!');
+    if (!project.name || !project.budget || !project.orcamento_id || !project.categoryId) {
+      alert('Preencha todos os campos.');
       return;
     }
 
-    setIsSubmitting(true); // Desabilitar o envio enquanto o projeto é criado
-
-    // Passar os dados do projeto para o componente pai (ProjectOne)
-    handleSubmit(project);
-
-    setIsSubmitting(false); // Reabilitar o botão de envio após a requisição
+    handleSubmit(project); // 🔥 Envia os dados pro componente pai (ProjectOne)
   }
 
   return (
     <form onSubmit={submit} className={styles.form}>
       <Input
-        type="text"
-        text="Nome do projeto"
-        name="name"
-        placeholder="Insira o nome do projeto"
+        type='text'
+        text='Nome do projeto'
+        name='name'
+        placeholder='Insira o nome do projeto'
         handleOnChange={handleChange}
         value={project.name}
+      />
+
+      <Input
+        type='number'
+        text='Orçamento'
+        name='budget'
+        placeholder='Insira o orçamento total'
+        handleOnChange={handleChange}
+        value={project.budget}
       />
 
       <Orcamento
@@ -103,14 +102,14 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       />
 
       <Select
-        text="Selecione uma categoria"
-        name="categoryId"
+        text='Selecione uma categoria'
+        name='categoryId'
         handleOnChange={handleChange}
         value={project.categoryId || ''}
         options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
-      <SubmitButton text={btnText || 'Criar Projeto'} type="submit" disabled={isSubmitting} />
+      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' />
     </form>
   );
 }
