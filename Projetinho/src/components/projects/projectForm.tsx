@@ -83,15 +83,6 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         value={project.name}
       />
 
-      <Input
-        type='number'
-        text='Orçamento'
-        name='budget'
-        placeholder='Insira o orçamento total'
-        handleOnChange={handleChange}
-        value={project.budget}
-      />
-
       <Orcamento
         text="Selecione um orçamento"
         name="orcamento_id"

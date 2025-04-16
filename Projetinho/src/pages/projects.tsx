@@ -6,15 +6,16 @@ import Container from "../components/layout/container";
 import Loading from "../components/layout/loading";
 import LinkButton from "../components/layout/linkButton";
 import ProjectCard from "../components/projects/projectCard";
-import Message from "../components/layout/message";  // Importando o componente Message
+import Message from "../components/layout/message";
 
 interface Project {
   id: string;
   name: string;
-  budget: string;
+  budget: number;
   categoryId: string;
   category?: string;
   orcamento_id: string;
+  orcamentoNome?: string;
 }
 
 interface Category {
@@ -33,12 +34,11 @@ function Projects() {
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [removeLoading, setRemoveLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [projectMessage, setProjectMessage] = useState<string>(''); // Corrigir nome da variável de estado
+  const [projectMessage, setProjectMessage] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
   const message = location.state?.message || "";
 
-  // Função para buscar categorias e orçamentos
   const fetchCategoriesAndOrcamentos = async () => {
     try {
       const [categoriesData, orcamentosData] = await Promise.all([
@@ -55,9 +55,10 @@ function Projects() {
 
   useEffect(() => {
     if (message) {
+      setProjectMessage(message);
+      setTimeout(() => setProjectMessage(""), 3000);
       navigate(".", { replace: true });
     }
-
     fetchCategoriesAndOrcamentos();
   }, [message, navigate]);
 
@@ -66,42 +67,44 @@ function Projects() {
       fetchProjects();
     }
   }, [categories, orcamentos]);
-  
+
   const fetchProjects = async () => {
     try {
       const response = await fetch("http://localhost:5000/projects");
       const data: Project[] = await response.json();
+
       const updatedProjects = data.map((project) => {
         const category = categories.find((cat) => cat.id === project.categoryId);
         const orcamento = orcamentos.find((orc) => orc.id === project.orcamento_id);
         return {
           ...project,
           category: category ? category.name : "Categoria Desconhecida",
-          budget: orcamento ? orcamento.name : "R$ 0,00",
+          orcamentoNome: orcamento ? orcamento.name : "Orçamento Desconhecido"
         };
       });
+
       setProjects(updatedProjects);
     } catch (err) {
       console.error("Erro na requisição dos projetos:", err);
       setError("Falha ao carregar projetos. Tente novamente.");
     }
   };
-  
 
   const handleRemove = async (id: string) => {
     try {
       setRemoveLoading(true);
       await fetch(`http://localhost:5000/projects/${id}`, { method: "DELETE" });
-      setProjects((prevProjects) => prevProjects.filter((p) => p.id !== id));
-      setRemoveLoading(false);
-      setProjectMessage('Projeto removido com sucesso!'); // Mensagem de sucesso
+      setProjects((prev) => prev.filter((p) => p.id !== id));
+      setProjectMessage("Projeto removido com sucesso!");
+      setTimeout(() => setProjectMessage(""), 3000);
     } catch (error) {
+      setProjectMessage("Erro ao remover projeto!");
+      setTimeout(() => setProjectMessage(""), 3000);
+    } finally {
       setRemoveLoading(false);
-      setProjectMessage('Erro ao remover projeto!'); // Mensagem de erro
     }
   };
 
-  // Função para atualizar o orçamento de um projeto
   const updateProjectBudget = (projectId: string, newBudgetId: string) => {
     setProjects((prevProjects) =>
       prevProjects.map((project) => {
@@ -110,7 +113,7 @@ function Projects() {
           return {
             ...project,
             orcamento_id: newBudgetId,
-            budget: orcamento ? orcamento.name : "R$ 0,00",
+            orcamentoNome: orcamento ? orcamento.name : "Orçamento Desconhecido",
           };
         }
         return project;
@@ -125,7 +128,6 @@ function Projects() {
           <h1>Meus Projetos</h1>
           <h2>Transformando ideias em realidade, um projeto de cada vez!</h2>
         </div>
-
         <LinkButton text="Criar Projeto" to="/criar-projeto" />
       </div>
 
@@ -145,12 +147,12 @@ function Projects() {
                 name={project.name}
                 category={project.category ?? "Categoria Desconhecida"}
                 orcamento_id={project.orcamento_id}
+                orcamentoNome={project.orcamentoNome}
                 handleRemove={handleRemove}
                 updateBudget={updateProjectBudget}
               />
             ))
           )}
-
           {removeLoading && <Loading />}
         </Container>
       </div>
