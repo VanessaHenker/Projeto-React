@@ -113,7 +113,7 @@ function ProjectOne() {
         {showForm ? (
           <ProjectForm
             handleSubmit={saveProject}
-            projectData={isNewProject ? undefined : project!}
+            projectData={!isNewProject && project ? project : undefined}
             btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'}
           />
         ) : (
