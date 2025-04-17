@@ -61,34 +61,39 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     }));
   }
 
-  function isFormValid() {
+  function isFormValid(): boolean {
+    const { name, budget, orcamento_id, categoryId } = project;
+
     return (
-      project.name.trim() !== '' &&
-      !isNaN(project.budget) &&
-      project.budget > 0 &&
-      (project.orcamento_id && project.orcamento_id.trim() !== '') &&
-      (project.categoryId && project.categoryId.trim() !== '')
+      name.trim() !== '' &&
+      !isNaN(budget) &&
+      Number(budget) > 0 &&
+      orcamento_id?.trim() !== '' &&
+      categoryId?.trim() !== ''
     );
   }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
 
+    console.log('Formulário submetido');
+
     if (!isFormValid()) {
       alert('Preencha todos os campos corretamente.');
       return;
     }
 
+    console.log('Dados do projeto enviados:', project);
     handleSubmit(project);
   }
 
   return (
     <form onSubmit={submit} className={styles.form}>
       <Input
-        type='text'
-        text='Nome do projeto'
-        name='name'
-        placeholder='Insira o nome do projeto'
+        type="text"
+        text="Nome do projeto"
+        name="name"
+        placeholder="Insira o nome do projeto"
         handleOnChange={handleChange}
         value={project.name}
       />
@@ -103,14 +108,14 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
       />
 
       <Select
-        text='Selecione uma categoria'
-        name='categoryId'
+        text="Selecione uma categoria"
+        name="categoryId"
         handleOnChange={handleChange}
         value={project.categoryId || ''}
         options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
-      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' disabled={!isFormValid()} />
+      <SubmitButton text={btnText || 'Criar Projeto'} type="submit" />
     </form>
   );
 }
