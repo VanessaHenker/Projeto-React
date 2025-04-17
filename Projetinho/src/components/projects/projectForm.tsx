@@ -1,7 +1,6 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
-import Orcamento from '../form/orcamento';
 import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
@@ -31,7 +30,7 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    id: projectData?.id || '',
+    id: projectData?.id || undefined,
     name: projectData?.name || '',
     budget: projectData?.budget || 0,
     categoryId: projectData?.categoryId || '',
@@ -64,21 +63,12 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   function submit(e: React.FormEvent) {
     e.preventDefault();
 
-    // Logs de depuração para verificar os valores
-    console.log("Estado atual do projeto: ", project);
-
-    // Verificação se os campos estão preenchidos corretamente
-    if (
-      project.name.trim() === '' ||
-      isNaN(project.budget) || project.budget <= 0 ||
-      !project.orcamento_id || project.orcamento_id.trim() === '' ||
-      !project.categoryId || project.categoryId.trim() === ''
-    ) {
-      alert('Preencha todos os campos corretamente.');
+    if (!project.name || !project.budget || !project.orcamento_id || !project.categoryId) {
+      alert('Preencha todos os campos.');
       return;
     }
 
-    handleSubmit(project); // Envia os dados pro componente pai (ProjectOne)
+    handleSubmit(project);
   }
 
   return (
@@ -92,13 +82,21 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         value={project.name}
       />
 
-      <Orcamento
-        text="Selecione um orçamento"
-        name="orcamento_id"
+      <Input
+        type='number'
+        text='Orçamento estimado (valor)'
+        name='budget'
+        placeholder='Informe o valor estimado'
+        handleOnChange={handleChange}
+        value={project.budget}
+      />
+
+      <Select
+        text='Selecione um orçamento'
+        name='orcamento_id'
         handleOnChange={handleChange}
         value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
-        placeholder="Escolha um orçamento"
       />
 
       <Select
