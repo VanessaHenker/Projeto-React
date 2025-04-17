@@ -9,8 +9,9 @@ import Projects from './pages/projects';
 import Footer from './components/footer';
 import Home from './components/home';
 import Contact from './components/contact';
-import Newproject from './pages/newProject';
+
 import ProjectOne from './pages/projectOne';
+import NewProject from './pages/Newproject';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/company" element={<Company />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/newproject" element={<Newproject />} />
+          <Route path="/newproject" element={<NewProject/>} />
           <Route path="/projectOne/:id" element={<ProjectOne />} />
         </Routes>
       </Container>
