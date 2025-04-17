@@ -64,12 +64,15 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   function submit(e: React.FormEvent) {
     e.preventDefault();
 
-    // Validação para garantir que todos os campos estejam preenchidos corretamente
+    // Logs de depuração para verificar os valores
+    console.log("Estado atual do projeto: ", project);
+
+    // Verificação se os campos estão preenchidos corretamente
     if (
       project.name.trim() === '' ||
       isNaN(project.budget) || project.budget <= 0 ||
-      !project.orcamento_id || project.orcamento_id === '' ||
-      !project.categoryId || project.categoryId === ''
+      !project.orcamento_id || project.orcamento_id.trim() === '' ||
+      !project.categoryId || project.categoryId.trim() === ''
     ) {
       alert('Preencha todos os campos corretamente.');
       return;

@@ -4,7 +4,7 @@ interface SubmitButtonProps {
   disabled?: boolean;
 }
 
-function SubmitButton({ text, type = 'button', disabled = false }: SubmitButtonProps) {
+function SubmitButton({ text, type = 'submit', disabled = false }: SubmitButtonProps) {
   return (
     <button type={type} disabled={disabled}>
       {text}
