@@ -28,7 +28,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   updateBudget,
 }) => {
   const [orcamentoOptions, setOrcamentoOptions] = useState<Option[]>([]);
+  const [currentOrcamento, setCurrentOrcamento] = useState<string>(orcamento_id);
 
+  // Carrega os orçamentos quando o componente é montado
   useEffect(() => {
     const fetchOrcamentos = async () => {
       try {
@@ -47,6 +49,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     fetchOrcamentos();
   }, []);
 
+  // Atualiza o orçamento no projeto
   const handleBudgetChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newBudgetId = e.target.value;
 
@@ -60,12 +63,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       });
 
       if (!response.ok) throw new Error("Erro ao atualizar o orçamento.");
-      updateBudget(id, newBudgetId);
+      updateBudget(id, newBudgetId); // Atualiza o orçamento no componente pai
+      setCurrentOrcamento(newBudgetId); // Atualiza o estado local
     } catch (error) {
       console.error("Erro ao atualizar orçamento:", error);
     }
   };
 
+  // Retorna a classe CSS apropriada para a categoria
   const getCategoryClass = (category: string) => {
     switch (category.toLowerCase()) {
       case "development":
@@ -95,7 +100,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <Orcamento
           text="Alterar Orçamento:"
           name="orcamento_id"
-          value={orcamento_id}
+          value={currentOrcamento}
           handleOnChange={handleBudgetChange}
           options={orcamentoOptions}
         />
