@@ -31,7 +31,7 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    id: projectData?.id || undefined,
+    id: projectData?.id || '',
     name: projectData?.name || '',
     budget: projectData?.budget || 0,
     categoryId: projectData?.categoryId || '',
@@ -64,12 +64,18 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   function submit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!project.name || !project.budget || !project.orcamento_id || !project.categoryId) {
-      alert('Preencha todos os campos.');
+    // Validação para garantir que todos os campos estejam preenchidos corretamente
+    if (
+      project.name.trim() === '' ||
+      isNaN(project.budget) || project.budget <= 0 ||
+      !project.orcamento_id || project.orcamento_id === '' ||
+      !project.categoryId || project.categoryId === ''
+    ) {
+      alert('Preencha todos os campos corretamente.');
       return;
     }
 
-    handleSubmit(project); // 🔥 Envia os dados pro componente pai (ProjectOne)
+    handleSubmit(project); // Envia os dados pro componente pai (ProjectOne)
   }
 
   return (
