@@ -1,6 +1,7 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
+import Orcamento from '../form/orcamento';
 import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
@@ -30,7 +31,7 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    id: projectData?.id || undefined,
+    id: projectData?.id || '',
     name: projectData?.name || '',
     budget: projectData?.budget || 0,
     categoryId: projectData?.categoryId || '',
@@ -42,14 +43,14 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   useEffect(() => {
     fetch('http://localhost:5000/categories')
-      .then(res => res.json())
+      .then(response => response.json())
       .then(setCategories)
-      .catch(err => console.error("Erro ao carregar categorias:", err));
+      .catch(error => console.error('Erro ao carregar categorias:', error));
 
     fetch('http://localhost:5000/orcamentos')
-      .then(res => res.json())
+      .then(response => response.json())
       .then(setOrcamentos)
-      .catch(err => console.error("Erro ao carregar orçamentos:", err));
+      .catch(error => console.error('Erro ao carregar orçamentos:', error));
   }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -60,10 +61,21 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     }));
   }
 
+  function isFormValid() {
+    return (
+      project.name.trim() !== '' &&
+      !isNaN(project.budget) &&
+      project.budget > 0 &&
+      (project.orcamento_id && project.orcamento_id.trim() !== '') &&
+      (project.categoryId && project.categoryId.trim() !== '')
+    );
+  }
+
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!project.name || !project.budget || !project.categoryId || !project.orcamento_id) {
-      alert("Preencha todos os campos.");
+
+    if (!isFormValid()) {
+      alert('Preencha todos os campos corretamente.');
       return;
     }
 
@@ -73,40 +85,32 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   return (
     <form onSubmit={submit} className={styles.form}>
       <Input
-        type="text"
-        text="Nome do projeto"
-        name="name"
-        placeholder="Insira o nome do projeto"
+        type='text'
+        text='Nome do projeto'
+        name='name'
+        placeholder='Insira o nome do projeto'
         handleOnChange={handleChange}
         value={project.name}
       />
 
-      <Input
-        type="number"
-        text="Orçamento estimado"
-        name="budget"
-        placeholder="Insira o orçamento"
-        handleOnChange={handleChange}
-        value={project.budget}
-      />
-
-      <Select
+      <Orcamento
         text="Selecione um orçamento"
         name="orcamento_id"
-        value={project.orcamento_id || ''}
         handleOnChange={handleChange}
+        value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
+        placeholder="Escolha um orçamento"
       />
 
       <Select
-        text="Selecione uma categoria"
-        name="categoryId"
-        value={project.categoryId || ''}
+        text='Selecione uma categoria'
+        name='categoryId'
         handleOnChange={handleChange}
-        options={categories.map(c => ({ value: c.id, label: c.name }))}
+        value={project.categoryId || ''}
+        options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
-      <SubmitButton text={btnText} type="submit" />
+      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' disabled={!isFormValid()} />
     </form>
   );
 }
