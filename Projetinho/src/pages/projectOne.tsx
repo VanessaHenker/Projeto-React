@@ -59,8 +59,7 @@ function ProjectOne() {
 
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
-      } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+      } catch {
       } finally {
         setLoading(false);
       }
@@ -83,30 +82,24 @@ function ProjectOne() {
         body: JSON.stringify(updatedProject),
       });
 
-      if (!response.ok) throw new Error('Erro ao salvar o projeto');
+      if (!response.ok) throw new Error();
 
       const data = await response.json();
       setProject(data);
       setShowForm(false);
       setIsNewProject(false);
-    } catch (error) {
-      console.error('Erro ao salvar projeto:', error);
-    }
+    } catch {}
   };
 
-  if (loading) {
-    return <div className={styles.loadingMessage}>Carregando projeto...</div>;
-  }
+  if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
 
-  if (!project) {
-    return <div className={styles.loadingMessage}>Projeto não encontrado.</div>;
-  }
+  if (!project) return <div className={styles.loadingMessage}>Projeto não encontrado.</div>;
 
   return (
     <div className={styles.projectContainer}>
       <Container>
         <h1 className={styles.projectTitle}>
-          {isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project.name}`}
+          {isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project?.name}`}
         </h1>
 
         <button
@@ -143,11 +136,11 @@ function ProjectOne() {
           <div>
             <p>
               <FaTags /> Categoria:{' '}
-              {categories.find((cat) => cat.id === project.categoryId)?.name || 'N/A'}
+              {categories.find((cat) => cat.id === project?.categoryId)?.name || 'Não definida'}
             </p>
             <p>
               <FaMoneyBillAlt /> Orçamento:{' '}
-              {orcamentos.find((o) => o.id === project.orcamento_id)?.name || 'N/A'}
+              {orcamentos.find((o) => o.id === project?.orcamento_id)?.name || 'Não definido'}
             </p>
           </div>
         )}
