@@ -112,7 +112,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           type="edit"
           label="Editar"
           iconClass={styles.icon}
-          to={`/projectOne/${id}`}
+          to={`/projetos/${id}`}
         />
         <ActionButton
           type="delete"
