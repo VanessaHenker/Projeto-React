@@ -1,7 +1,6 @@
 import styles from './projectForm.module.css';
 import Input from '../form/input';
 import Select from '../form/select';
-import Orcamento from '../form/orcamento';
 import SubmitButton from '../form/submitButton';
 import { useState, useEffect } from 'react';
 
@@ -31,7 +30,7 @@ interface ProjectFormProps {
 
 function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   const [project, setProject] = useState<Project>({
-    id: projectData?.id || '',
+    id: projectData?.id || undefined,
     name: projectData?.name || '',
     budget: projectData?.budget || 0,
     categoryId: projectData?.categoryId || '',
@@ -40,6 +39,7 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<OrcamentoOption[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:5000/categories')
@@ -61,78 +61,67 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
     }));
   }
 
-  function isFormValid(): boolean {
-    const { name, budget, orcamento_id, categoryId } = project;
-
-    if (name.trim() === '') {
-      alert('O nome do projeto é obrigatório.');
-      return false;
-    }
-
-    if (isNaN(budget) || budget <= 0) {
-      alert('Orçamento deve ser um número válido maior que zero.');
-      return false;
-    }
-
-    if (!orcamento_id || String(orcamento_id).trim() === '') {
-      alert('Selecione um orçamento.');
-      return false;
-    }
-
-    if (!categoryId || String(categoryId).trim() === '') {
-      alert('Selecione uma categoria.');
-      return false;
-    }
-
-    return true;
-  }
-
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (isSubmitting) return;
 
-    if (!isFormValid()) return;
+    if (!project.orcamento_id) {
+      alert('Preencha o campo de orçamento corretamente.');
+      return;
+    }
 
-    handleSubmit(project);
+    setIsSubmitting(true);
+
+    const method = projectData ? 'PATCH' : 'POST';
+    const url = projectData
+      ? `http://localhost:5000/projects/${project.id}`
+      : 'http://localhost:5000/projects';
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(project),
+      });
+
+      const data = await response.json();
+      console.log('Projeto salvo com sucesso:', data);
+      handleSubmit(data);
+    } catch (err) {
+      console.error('Erro ao salvar projeto:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
     <form onSubmit={submit} className={styles.form}>
       <Input
-        type="text"
-        text="Nome do projeto"
-        name="name"
-        placeholder="Insira o nome do projeto"
+        type='text'
+        text='Nome do projeto'
+        name='name'
+        placeholder='Insira o nome do projeto'
         handleOnChange={handleChange}
         value={project.name}
       />
 
-      <Input
-        type="number"
-        text="Orçamento do projeto"
-        name="budget"
-        placeholder="Insira o valor do orçamento"
-        handleOnChange={handleChange}
-        value={project.budget}
-      />
-
-      <Orcamento
-        text="Selecione um orçamento"
-        name="orcamento_id"
+      <Select
+        text='Selecione um orçamento'
+        name='orcamento_id'
         handleOnChange={handleChange}
         value={project.orcamento_id || ''}
         options={orcamentos.map(o => ({ value: o.id, label: o.name }))}
-        placeholder="Escolha um orçamento"
       />
 
       <Select
-        text="Selecione uma categoria"
-        name="categoryId"
+        text='Selecione uma categoria'
+        name='categoryId'
         handleOnChange={handleChange}
         value={project.categoryId || ''}
         options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
       />
 
-      <SubmitButton text={btnText || 'Criar Projeto'} type="submit" />
+      <SubmitButton text={btnText || 'Criar Projeto'} type='submit' />
     </form>
   );
 }
