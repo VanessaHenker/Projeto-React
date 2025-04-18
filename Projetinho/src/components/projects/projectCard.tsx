@@ -9,12 +9,12 @@ interface Option {
 }
 
 interface ProjectCardProps {
-  id: string | number; // Garantir que o `id` seja string ou número
+  id: string | number; // id pode ser string ou number
   name: string;
   category: string;
   orcamento_id: string;
   orcamentoNome?: string;
-  handleRemove: (id: string) => void;
+  handleRemove: (id: string) => void; // Garantir que a função aceite id como string
   updateBudget: (id: string, newBudgetId: string) => void;
 }
 
@@ -60,7 +60,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         return res.json();
       })
       .then(() => {
-        updateBudget(id, newBudgetId);
+        updateBudget(id.toString(), newBudgetId); // Garantir que id seja convertido para string
         setCurrentOrcamento(newBudgetId);
       })
       .catch((error) => {
@@ -108,19 +108,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </p>
 
       <div className={styles.contentButtons}>
-        {/* Passando a URL de forma correta */}
-        <ActionButton
-          type="edit"
-          label="Editar"
-          iconClass={styles.icon}
-          to={`/projectOne/${id}`} // Certificando que a URL está correta com o `id`
-        />
+      <ActionButton
+  type="edit"
+  label="Editar"
+  iconClass={styles.icon}
+  to={`/projectOne/${id.toString()}`}
+/>
+
 
         <ActionButton
           type="delete"
           label="Excluir"
           iconClass={styles.icon}
-          onClick={() => handleRemove(id.toString())} // Garantir que o `id` seja passado como string
+          onClick={() => handleRemove(id.toString())} // Garantir que id seja convertido para string
         />
       </div>
     </div>

@@ -64,26 +64,34 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
   function isFormValid(): boolean {
     const { name, budget, orcamento_id, categoryId } = project;
 
-    return (
-      name.trim() !== '' &&
-      !isNaN(budget) &&
-      Number(budget) > 0 &&
-      orcamento_id?.trim() !== '' &&
-      categoryId?.trim() !== ''
-    );
+    if (name.trim() === '') {
+      alert('O nome do projeto é obrigatório.');
+      return false;
+    }
+
+    if (isNaN(budget) || budget <= 0) {
+      alert('Orçamento deve ser um número válido maior que zero.');
+      return false;
+    }
+
+    if (!orcamento_id || String(orcamento_id).trim() === '') {
+      alert('Selecione um orçamento.');
+      return false;
+    }
+
+    if (!categoryId || String(categoryId).trim() === '') {
+      alert('Selecione uma categoria.');
+      return false;
+    }
+
+    return true;
   }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
 
-    console.log('Formulário submetido');
+    if (!isFormValid()) return;
 
-    if (!isFormValid()) {
-      alert('Preencha todos os campos corretamente.');
-      return;
-    }
-
-    console.log('Dados do projeto enviados:', project);
     handleSubmit(project);
   }
 
@@ -96,6 +104,15 @@ function ProjectForm({ handleSubmit, btnText, projectData }: ProjectFormProps) {
         placeholder="Insira o nome do projeto"
         handleOnChange={handleChange}
         value={project.name}
+      />
+
+      <Input
+        type="number"
+        text="Orçamento do projeto"
+        name="budget"
+        placeholder="Insira o valor do orçamento"
+        handleOnChange={handleChange}
+        value={project.budget}
       />
 
       <Orcamento
