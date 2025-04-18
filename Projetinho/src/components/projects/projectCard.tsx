@@ -114,6 +114,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           iconClass={styles.icon}
           to={`/projectOne/${id}`}
         />
+
+
         <ActionButton
           type="delete"
           label="Excluir"

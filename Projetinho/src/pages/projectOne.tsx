@@ -5,7 +5,7 @@ function ProjectOne() {
 
   return (
     <div>
-      <p>Projeto com ID: {id}</p>dd
+      <p>Projeto com ID: {id}</p>
     </div>
   );
 }
