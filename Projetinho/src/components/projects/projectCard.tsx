@@ -13,7 +13,7 @@ interface ProjectCardProps {
   name: string;
   category: string;
   orcamento_id: string;
-  orcamentoNome?: string; // ← Aqui foi adicionado
+  orcamentoNome?: string;
   handleRemove: (id: string) => void;
   updateBudget: (id: string, newBudgetId: string) => void;
 }
@@ -30,47 +30,44 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const [orcamentoOptions, setOrcamentoOptions] = useState<Option[]>([]);
   const [currentOrcamento, setCurrentOrcamento] = useState<string>(orcamento_id);
 
-  // Carrega os orçamentos quando o componente é montado
   useEffect(() => {
-    const fetchOrcamentos = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/orcamentos");
-        const data = await response.json();
+    fetch("http://localhost:5000/orcamentos")
+      .then((res) => res.json())
+      .then((data) => {
         const options = data.map((orcamento: { id: string; name: string }) => ({
           value: orcamento.id,
           label: orcamento.name,
         }));
         setOrcamentoOptions(options);
-      } catch (error) {
+      })
+      .catch((error) => {
         console.error("Erro ao carregar os orçamentos:", error);
-      }
-    };
-
-    fetchOrcamentos();
+      });
   }, []);
 
-  // Atualiza o orçamento no projeto
-  const handleBudgetChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleBudgetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newBudgetId = e.target.value;
 
-    try {
-      const response = await fetch(`http://localhost:5000/projects/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ orcamento_id: newBudgetId }),
+    fetch(`http://localhost:5000/projects/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ orcamento_id: newBudgetId }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao atualizar o orçamento.");
+        return res.json();
+      })
+      .then(() => {
+        updateBudget(id, newBudgetId);
+        setCurrentOrcamento(newBudgetId);
+      })
+      .catch((error) => {
+        console.error("Erro ao atualizar orçamento:", error);
       });
-
-      if (!response.ok) throw new Error("Erro ao atualizar o orçamento.");
-      updateBudget(id, newBudgetId); // Atualiza o orçamento no componente pai
-      setCurrentOrcamento(newBudgetId); // Atualiza o estado local
-    } catch (error) {
-      console.error("Erro ao atualizar orçamento:", error);
-    }
   };
 
-  // Retorna a classe CSS apropriada para a categoria
   const getCategoryClass = (category: string) => {
     switch (category.toLowerCase()) {
       case "development":
