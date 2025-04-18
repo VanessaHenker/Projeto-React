@@ -24,11 +24,11 @@ const ActionButton: React.FC<ActionButtonProps> = ({
         <Link to={to} className={`${styles.editButton} ${styles.button} ${styles.link}`}>
           {label} <BsPencil className={iconClass} />
         </Link>
-      ) : (
+      ) : type === "delete" && onClick ? (
         <span className={`${styles.deleteButton} ${styles.button}`} onClick={onClick}>
           {label} <BsFillTrashFill className={iconClass} />
         </span>
-      )}
+      ) : null}
     </div>
   );
 };
