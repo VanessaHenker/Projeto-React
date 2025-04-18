@@ -9,7 +9,7 @@ interface Option {
 }
 
 interface ProjectCardProps {
-  id: string;
+  id: string | number; // Garantir que o `id` seja string ou número
   name: string;
   category: string;
   orcamento_id: string;
@@ -108,19 +108,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </p>
 
       <div className={styles.contentButtons}>
+        {/* Passando a URL de forma correta */}
         <ActionButton
           type="edit"
           label="Editar"
           iconClass={styles.icon}
-          to={`/projectOne/${id}`}
+          to={`/projectOne/${id}`} // Certificando que a URL está correta com o `id`
         />
-
 
         <ActionButton
           type="delete"
           label="Excluir"
           iconClass={styles.icon}
-          onClick={() => handleRemove(id)}
+          onClick={() => handleRemove(id.toString())} // Garantir que o `id` seja passado como string
         />
       </div>
     </div>
