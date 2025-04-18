@@ -39,27 +39,27 @@ function Projects() {
   const navigate = useNavigate();
   const message = location.state?.message || "";
 
-  const fetchCategoriesAndOrcamentos = async () => {
-    try {
-      const [categoriesData, orcamentosData] = await Promise.all([
-        fetch("http://localhost:5000/categories").then((res) => res.json()),
-        fetch("http://localhost:5000/orcamentos").then((res) => res.json()),
-      ]);
-      setCategories(categoriesData);
-      setOrcamentos(orcamentosData);
-    } catch (err) {
-      console.error("Erro ao buscar categorias ou orçamentos", err);
-      setError("Falha ao carregar categorias ou orçamentos. Tente novamente.");
-    }
-  };
-
   useEffect(() => {
     if (message) {
       setProjectMessage(message);
       setTimeout(() => setProjectMessage(""), 3000);
       navigate(".", { replace: true });
     }
-    fetchCategoriesAndOrcamentos();
+
+    const fetchData = async () => {
+      try {
+        const [categoriesData, orcamentosData] = await Promise.all([
+          fetch("http://localhost:5000/categories").then((res) => res.json()),
+          fetch("http://localhost:5000/orcamentos").then((res) => res.json()),
+        ]);
+        setCategories(categoriesData);
+        setOrcamentos(orcamentosData);
+      } catch {
+        setError("Falha ao carregar categorias ou orçamentos. Tente novamente.");
+      }
+    };
+
+    fetchData();
   }, [message, navigate]);
 
   useEffect(() => {
@@ -79,13 +79,12 @@ function Projects() {
         return {
           ...project,
           category: category ? category.name : "Categoria Desconhecida",
-          orcamentoNome: orcamento ? orcamento.name : "Orçamento Desconhecido"
+          orcamentoNome: orcamento ? orcamento.name : "Orçamento Desconhecido",
         };
       });
 
       setProjects(updatedProjects);
-    } catch (err) {
-      console.error("Erro na requisição dos projetos:", err);
+    } catch {
       setError("Falha ao carregar projetos. Tente novamente.");
     }
   };
@@ -97,7 +96,7 @@ function Projects() {
       setProjects((prev) => prev.filter((p) => p.id !== id));
       setProjectMessage("Projeto removido com sucesso!");
       setTimeout(() => setProjectMessage(""), 3000);
-    } catch (error) {
+    } catch {
       setProjectMessage("Erro ao remover projeto!");
       setTimeout(() => setProjectMessage(""), 3000);
     } finally {
