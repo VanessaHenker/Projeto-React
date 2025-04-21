@@ -1,26 +1,29 @@
 .projectCard {
   background-color: #ffffff;
   border-radius: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #ddd; 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 2em;
   margin-bottom: 2em;
-  display: flex;
   flex-direction: column;
   align-items: center;
   transition: all 0.3s ease;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; 
+  width: 40%;
   max-width: 500px;
   box-sizing: border-box;
 }
 
+.projectCard:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+}
+
 .header {
+  justify-content: space-between;
   width: 100%;
   margin-bottom: 1.5em;
-  display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
 .header h4 {
@@ -36,50 +39,53 @@
   border-radius: 7px;
 }
 
-.budgetSection {
-  width: 100%;
-  margin-bottom: 1em;
-}
-
 .categoryText {
   font-size: 1.1em;
   margin: 0;
-  color: #777;
+  color: #777; 
   font-weight: 500;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 1em;
+ justify-content: center;
+ padding: 1em;
 }
 
-.categoryDot {
+.categoryText .categoryDot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   margin-right: 0.6em;
-  background-color: #00bbff;
 }
 
-.categoryDot.planejamento {
-  background-color: #ffc107;
+.categoryText.development .categoryDot {
+  background-color: #28a745; 
 }
 
-.categoryDot.infraestrutura {
-  background-color: #17a2b8;
+.categoryText.design .categoryDot {
+  background-color: #ff6347; 
 }
 
-.categoryDot.desing {
-  background-color: #ff6347;
+.categoryText.management .categoryDot {
+  background-color: #ff9800; 
 }
 
-.categoryDot.desenvolvimento {
-  background-color: #28a745;
+.categoryText.defaultCategory .categoryDot {
+  background-color: #00bbff; 
 }
 
+.contentButtons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 10px;
+}
 /* Responsividade */
 @media (max-width: 768px) {
   .projectCard {
     padding: 1.5em;
+    width: 100%;
+    max-width: 100%;
     margin: 0 1em;
   }
 

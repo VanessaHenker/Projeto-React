@@ -92,11 +92,11 @@ function ProjectOne() {
   return (
     <div className={styles.projectContainer}>
       <h1 className={styles.projectTitle}>{project?.name}</h1>
-
+  
       <button className={styles.editButton} onClick={() => setShowForm(prev => !prev)}>
         {showForm ? 'Cancelar' : 'Editar Projeto'}
       </button>
-
+  
       {showForm ? (
         <div className={styles.projectFormContainer}>
           <ProjectForm
@@ -107,16 +107,24 @@ function ProjectOne() {
         </div>
       ) : (
         <div className={styles.projectDescription}>
-          <p>
-            <FaTags className={styles.icon} /> Categoria: <span>{categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}</span>
-          </p>
-          <p>
-            <FaMoneyBillAlt className={styles.icon} /> Orçamento: <span>{orcamentos.find(o => o.id === project?.orcamento_id)?.name || 'N/A'}</span>
-          </p>
+          <div className={styles.categoria}>
+            <FaTags className={styles.icon} />
+            <span>
+              Categoria: {categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}
+            </span>
+          </div>
+  
+          <div className={styles.orcamento}>
+            <FaMoneyBillAlt className={styles.icon} />
+            <span>
+              Orçamento: {orcamentos.find(o => o.id === project?.orcamento_id)?.name || 'N/A'}
+            </span>
+          </div>
         </div>
       )}
     </div>
   );
+  
 }
 
 export default ProjectOne;
