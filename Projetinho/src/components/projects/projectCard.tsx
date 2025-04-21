@@ -3,7 +3,6 @@ import styles from "./projectCard.module.css";
 import Orcamento from "../form/orcamento";
 import ActionButton from "../layout/actionButton";
 
-// Definindo o tipo de opção
 interface Option {
   value: string;
   label: string;
@@ -15,7 +14,7 @@ interface ProjectCardProps {
   category: string;
   orcamento_id: string;
   handleRemove: (id: string) => void;
-  updateBudget: (id: string, newBudgetId: string) => void; 
+  updateBudget: (id: string, newBudgetId: string) => void;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -28,26 +27,31 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const [orcamentoOptions, setOrcamentoOptions] = useState<Option[]>([]);
 
-  // Carrega as opções de orçamento
   useEffect(() => {
+    let isMounted = true;
+
     const fetchOrcamentos = async () => {
       try {
         const response = await fetch("http://localhost:5000/orcamentos");
         const data = await response.json();
-        const options = data.map((orcamento: { id: string, name: string }) => ({
-          value: orcamento.id,
-          label: orcamento.name,
-        }));
-        setOrcamentoOptions(options);
+        if (isMounted) {
+          const options = data.map((orcamento: { id: string; name: string }) => ({
+            value: orcamento.id,
+            label: orcamento.name,
+          }));
+          setOrcamentoOptions(options);
+        }
       } catch (error) {
         console.error("Erro ao carregar os orçamentos:", error);
       }
     };
 
     fetchOrcamentos();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  // Atualiza orçamento via API
   const handleBudgetChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newBudgetId = e.target.value;
 
@@ -70,18 +74,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     }
   };
 
-  const getCategoryClass = (category: string) => {
-    switch (category.toLowerCase()) {
-      case "development":
-        return styles.development;
-      case "design":
-        return styles.design;
-      case "management":
-        return styles.management;
-      default:
-        return styles.defaultCategory;
-    }
-  };
+  const categoryClass =
+    styles[category.toLowerCase()] || styles.defaultCategory;
 
   return (
     <div className={styles.projectCard}>
@@ -99,7 +93,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         />
       </div>
 
-      <p className={`${styles.categoryText} ${getCategoryClass(category)}`}>
+      <p className={`${styles.categoryText} ${categoryClass}`}>
         <span className={styles.categoryDot}></span> {category}
       </p>
 
