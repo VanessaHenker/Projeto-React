@@ -10,7 +10,7 @@ interface Project {
   name: string;
   budget: number;
   categoryId?: string;
-  orcamento_id?: string; // agora incluído
+  orcamento_id?: string; 
 }
 
 interface Category {
@@ -106,9 +106,7 @@ function ProjectOne() {
           {showForm ? 'Cancelar' : 'Editar Projeto'}
         </button>
 
-        <button onClick={() => { setIsNewProject(true); setShowForm(true); setProject(null); }}>
-          Criar Novo Projeto
-        </button>
+   
 
         {showForm ? (
           <ProjectForm
