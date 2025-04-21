@@ -20,6 +20,7 @@
   font-size: 1rem;
   outline: none; 
   transition: border-color 0.3s ease; 
+
 }
 
 .formControl input:focus,
@@ -50,3 +51,183 @@
   color: #aaa;
 }
 
+.projectContainer {
+  width: 100%;
+  max-width: 600px;
+  margin: 60px auto;
+  padding: 40px;
+  background-color: #ffffff;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.projectTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+  color: transparent;
+  background: linear-gradient(45deg, #ffbb33, #dbd9d4);
+  background-clip: text;
+  padding: 15px;
+  background-color: #3e3e63;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: inline-block;
+  width: 95%;
+}
+
+.projectTitle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.projectDescription {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fafafa;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 20px;
+}
+
+.projectDescription:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.projectDescription span {
+  font-weight: 600;
+  color: #333;
+}
+
+.projectDescription .icon {
+  margin-left: 10px;
+  color: #888;
+  font-size: 1.3rem;
+  transition: color 0.3s ease;
+}
+
+.projectDescription:hover .icon {
+  color: #ffbb33;
+}
+
+button {
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(45deg, #ffbb33, #ff7f50);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #ff7f50, #ffbb33);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.projectFormContainer {
+  margin-top: 40px;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.projectFormContainer input,
+.projectFormContainer select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #333;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  box-sizing: border-box;
+}
+
+.projectFormContainer input:focus,
+.projectFormContainer select:focus {
+  background-color: #f0f0f0;
+  border-color: #333;
+  outline: none;
+}
+
+.projectFormContainer .projectNameInput {
+  width: 100%;
+  max-width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+}
+
+.loadingMessage {
+  font-size: 1.5rem;
+  color: #888;
+  text-align: center;
+  margin-top: 30px;
+  animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .projectContainer {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .projectTitle {
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+
+  .projectDescription {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  button {
+    padding: 12px 14px;
+    font-size: 0.9em;
+    width: 100%;
+  }
+
+  .projectFormContainer {
+    padding: 15px;
+  }
+}

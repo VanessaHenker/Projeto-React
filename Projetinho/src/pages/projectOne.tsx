@@ -107,12 +107,12 @@ function ProjectOne() {
         </div>
       ) : (
         <div className={styles.projectDescription}>
-          <p>
+          <div className={styles.categoria}>
             <FaTags className={styles.icon} /> Categoria: <span>{categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}</span>
-          </p>
-          <p>
+          </div>
+          <div className={styles.orcamento}>
             <FaMoneyBillAlt className={styles.icon} /> Orçamento: <span>{orcamentos.find(o => o.id === project?.orcamento_id)?.name || 'N/A'}</span>
-          </p>
+          </div>
         </div>
       )}
     </div>
