@@ -86,12 +86,11 @@ function ProjectOne() {
     }
   };
 
-  if (loading) return <div className={styles.loading}>Carregando projeto...</div>;
+  if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
   if (error) return <div className={styles.errorMessage}>{error}</div>;
 
   return (
     <div className={styles.projectContainer}>
-
       <h1 className={styles.projectTitle}>{project?.name}</h1>
 
       <button className={styles.editButton} onClick={() => setShowForm(prev => !prev)}>
@@ -99,7 +98,7 @@ function ProjectOne() {
       </button>
 
       {showForm ? (
-        <div className={styles.formWrapper}>
+        <div className={styles.projectFormContainer}>
           <ProjectForm
             handleSubmit={saveProject}
             projectData={project!}
@@ -107,18 +106,15 @@ function ProjectOne() {
           />
         </div>
       ) : (
-        <div className={styles.details}>
+        <div className={styles.projectDescription}>
           <p>
-            <FaTags className={styles.icon} /> Categoria:{' '}
-            <span>{categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}</span>
+            <FaTags className={styles.icon} /> Categoria: <span>{categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}</span>
           </p>
           <p>
-            <FaMoneyBillAlt className={styles.icon} /> Orçamento:{' '}
-            <span>{orcamentos.find(o => o.id === project?.orcamento_id)?.name || 'N/A'}</span>
+            <FaMoneyBillAlt className={styles.icon} /> Orçamento: <span>{orcamentos.find(o => o.id === project?.orcamento_id)?.name || 'N/A'}</span>
           </p>
         </div>
       )}
-
     </div>
   );
 }
