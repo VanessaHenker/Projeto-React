@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './projectOne.module.css';
-import Container from '../components/layout/container';
 import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
 
@@ -91,35 +90,35 @@ function ProjectOne() {
   if (error) return <div className={styles.errorMessage}>{error}</div>;
 
   return (
-    <div className={styles.container}>
-      <Container>
-        <h1 className={styles.title}>Projeto: {project?.name}</h1>
+    <div className={styles.projectContainer}>
 
-        <button className={styles.editButton} onClick={() => setShowForm(prev => !prev)}>
-          {showForm ? 'Cancelar' : 'Editar Projeto'}
-        </button>
+      <h1 className={styles.projectTitle}>{project?.name}</h1>
 
-        {showForm ? (
-          <div className={styles.formWrapper}>
-            <ProjectForm
-              handleSubmit={saveProject}
-              projectData={project!}
-              btnText="Salvar Alterações"
-            />
-          </div>
-        ) : (
-          <div className={styles.details}>
-            <p>
-              <FaTags className={styles.icon} /> Categoria:{' '}
-              <span>{categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}</span>
-            </p>
-            <p>
-              <FaMoneyBillAlt className={styles.icon} /> Orçamento:{' '}
-              <span>{orcamentos.find(o => o.id === project?.orcamento_id)?.name || 'N/A'}</span>
-            </p>
-          </div>
-        )}
-      </Container>
+      <button className={styles.editButton} onClick={() => setShowForm(prev => !prev)}>
+        {showForm ? 'Cancelar' : 'Editar Projeto'}
+      </button>
+
+      {showForm ? (
+        <div className={styles.formWrapper}>
+          <ProjectForm
+            handleSubmit={saveProject}
+            projectData={project!}
+            btnText="Salvar Alterações"
+          />
+        </div>
+      ) : (
+        <div className={styles.details}>
+          <p>
+            <FaTags className={styles.icon} /> Categoria:{' '}
+            <span>{categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}</span>
+          </p>
+          <p>
+            <FaMoneyBillAlt className={styles.icon} /> Orçamento:{' '}
+            <span>{orcamentos.find(o => o.id === project?.orcamento_id)?.name || 'N/A'}</span>
+          </p>
+        </div>
+      )}
+
     </div>
   );
 }
