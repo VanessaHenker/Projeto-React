@@ -10,7 +10,7 @@ interface Project {
   name: string;
   budget: number;
   categoryId?: string;
-  orcamento_id?: string; 
+  orcamento_id?: string;
 }
 
 interface Category {
@@ -30,7 +30,6 @@ function ProjectOne() {
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [isNewProject, setIsNewProject] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -70,14 +69,8 @@ function ProjectOne() {
 
   const saveProject = async (updatedProject: Project) => {
     try {
-      const url = isNewProject
-        ? 'http://localhost:5000/projects'
-        : `http://localhost:5000/projects/${updatedProject.id}`;
-
-      const method = isNewProject ? 'POST' : 'PATCH';
-
-      const response = await fetch(url, {
-        method,
+      const response = await fetch(`http://localhost:5000/projects/${updatedProject.id}`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedProject),
       });
@@ -87,7 +80,6 @@ function ProjectOne() {
       const data = await response.json();
       setProject(data);
       setShowForm(false);
-      setIsNewProject(false);
     } catch (error) {
       console.error('Erro ao salvar projeto:', error);
     }
@@ -99,31 +91,31 @@ function ProjectOne() {
     <div className={styles.projectContainer}>
       <Container>
         <h1 className={styles.projectTitle}>
-          {isNewProject ? 'Criar Novo Projeto' : `Projeto: ${project?.name}`}
+          Projeto: {project?.name}
         </h1>
 
-        <button onClick={() => { setIsNewProject(false); setShowForm(prev => !prev); }}>
+        <button onClick={() => setShowForm(prev => !prev)}>
           {showForm ? 'Cancelar' : 'Editar Projeto'}
         </button>
 
-   
-
         {showForm ? (
-          <ProjectForm
-            handleSubmit={saveProject}
-            projectData={isNewProject ? undefined : project!}
-            btnText={isNewProject ? 'Criar Projeto' : 'Salvar Alterações'}
-          />
+          <div className={styles.projectFormContainer}>
+            <ProjectForm
+              handleSubmit={saveProject}
+              projectData={project!}
+              btnText="Salvar Alterações"
+            />
+          </div>
         ) : (
           project && (
-            <div>
+            <div className={styles.projectDescription}>
               <p>
-                <FaTags /> Categoria:{' '}
-                {categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}
+                <FaTags className={styles.icon} /> Categoria:{' '}
+                <span>{categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</span>
               </p>
               <p>
-                <FaMoneyBillAlt /> Orçamento:{' '}
-                {orcamentos.find(o => o.id === project.orcamento_id)?.name || 'N/A'}
+                <FaMoneyBillAlt className={styles.icon} /> Orçamento:{' '}
+                <span>{orcamentos.find(o => o.id === project.orcamento_id)?.name || 'N/A'}</span>
               </p>
             </div>
           )
