@@ -30,6 +30,7 @@ function ProjectOne() {
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -59,6 +60,7 @@ function ProjectOne() {
         setOrcamentos(orcamentosData);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
+        setError('Ocorreu um erro ao carregar as informações do projeto.');
       } finally {
         setLoading(false);
       }
@@ -85,21 +87,20 @@ function ProjectOne() {
     }
   };
 
-  if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
+  if (loading) return <div className={styles.loading}>Carregando projeto...</div>;
+  if (error) return <div className={styles.errorMessage}>{error}</div>;
 
   return (
-    <div className={styles.projectContainer}>
+    <div className={styles.container}>
       <Container>
-        <h1 className={styles.projectTitle}>
-          Projeto: {project?.name}
-        </h1>
+        <h1 className={styles.title}>Projeto: {project?.name}</h1>
 
-        <button onClick={() => setShowForm(prev => !prev)}>
+        <button className={styles.editButton} onClick={() => setShowForm(prev => !prev)}>
           {showForm ? 'Cancelar' : 'Editar Projeto'}
         </button>
 
         {showForm ? (
-          <div className={styles.projectFormContainer}>
+          <div className={styles.formWrapper}>
             <ProjectForm
               handleSubmit={saveProject}
               projectData={project!}
@@ -107,18 +108,16 @@ function ProjectOne() {
             />
           </div>
         ) : (
-          project && (
-            <div className={styles.projectDescription}>
-              <p>
-                <FaTags className={styles.icon} /> Categoria:{' '}
-                <span>{categories.find(cat => cat.id === project.categoryId)?.name || 'N/A'}</span>
-              </p>
-              <p>
-                <FaMoneyBillAlt className={styles.icon} /> Orçamento:{' '}
-                <span>{orcamentos.find(o => o.id === project.orcamento_id)?.name || 'N/A'}</span>
-              </p>
-            </div>
-          )
+          <div className={styles.details}>
+            <p>
+              <FaTags className={styles.icon} /> Categoria:{' '}
+              <span>{categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}</span>
+            </p>
+            <p>
+              <FaMoneyBillAlt className={styles.icon} /> Orçamento:{' '}
+              <span>{orcamentos.find(o => o.id === project?.orcamento_id)?.name || 'N/A'}</span>
+            </p>
+          </div>
         )}
       </Container>
     </div>

@@ -180,3 +180,10 @@ button:active {
     padding: 15px;
   }
 }
+
+.errorMessage {
+  font-size: 1.2rem;
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
