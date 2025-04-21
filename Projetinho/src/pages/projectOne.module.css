@@ -28,6 +28,8 @@
   pointer-events: none;
 }
 
+
+
 .projectTitle {
   font-family: 'Poppins', sans-serif;
   font-size: 2rem;
@@ -38,13 +40,13 @@
   background: linear-gradient(45deg, #ffbb33, #dbd9d4);
   background-clip: text;
   padding: 15px;
-  background-color: #3e3e63; 
+  background-color: #3e3e63; /* fundo escuro e elegante para o título */
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   display: inline-block;
-  width: 97%;
+  width: 95%;
 }
 
 .projectTitle:hover {
@@ -53,46 +55,39 @@
 }
 
 .projectDescription {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  gap: 30px; 
-  margin-top: 30px;
-  justify-content: center;
-}
-
-.categoria,
-.orcamento {
-  display: flex;
-  align-items: center;
-  padding: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 15px;
   border-radius: 8px;
-  background-color: #f9f6f6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: #fafafa; /* fundo muito suave e neutro para a descrição */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 20px;
 }
 
-.categoria:hover,
-.orcamento:hover {
+.projectDescription:hover {
   transform: scale(1.03);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.categoria span,
-.orcamento span {
+.projectDescription span {
   font-weight: 600;
   color: #333;
-  margin-left: 6px;
 }
 
-.icon {
-  margin-right: 8px;
+.projectDescription .icon {
+  margin-left: 10px;
   color: #888;
   font-size: 1.3rem;
   transition: color 0.3s ease;
 }
 
-.categoria:hover .icon,
-.orcamento:hover .icon {
+.projectDescription:hover .icon {
   color: #ffbb33;
 }
 

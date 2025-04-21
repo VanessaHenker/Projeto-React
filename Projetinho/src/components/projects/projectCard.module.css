@@ -5,6 +5,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 2em;
   margin-bottom: 2em;
+  display: flex;
   flex-direction: column;
   align-items: center;
   transition: all 0.3s ease;
@@ -14,16 +15,12 @@
   box-sizing: border-box;
 }
 
-.projectCard:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  transform: translateY(-8px);
-}
-
 .header {
-  justify-content: space-between;
   width: 100%;
   margin-bottom: 1.5em;
+  display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .header h4 {
@@ -37,6 +34,11 @@
   font-family: "Times New Roman", serif;
   padding: 10px;
   border-radius: 7px;
+}
+
+.budgetSection {
+  width: 100%;
+  margin-bottom: 1em;
 }
 
 .categoryText {
@@ -55,31 +57,23 @@
   height: 8px;
   border-radius: 50%;
   margin-right: 0.6em;
-}
-
-/* Cores por categoria */
-.development .categoryDot {
-  background-color: #28a745;
-}
-
-.design .categoryDot {
-  background-color: #ff6347;
-}
-
-.management .categoryDot {
-  background-color: #ff9800;
-}
-
-.defaultCategory .categoryDot {
   background-color: #00bbff;
 }
 
-.contentButtons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  padding: 10px;
+.categoryDot.planejamento {
+  background-color: #ffc107;
+}
+
+.categoryDot.infraestrutura {
+  background-color: #17a2b8;
+}
+
+.categoryDot.desing {
+  background-color: #ff6347;
+}
+
+.categoryDot.desenvolvimento {
+  background-color: #28a745;
 }
 
 /* Responsividade */
