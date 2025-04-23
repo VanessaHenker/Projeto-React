@@ -30,7 +30,7 @@ function ProjectOne() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [services, setShowService] = useState(false);
+  const [showServiceForm, setShowServiceForm] = useState(false); // Correção aplicada aqui
 
   useEffect(() => {
     if (!id) return;
@@ -93,11 +93,11 @@ function ProjectOne() {
   return (
     <div className={styles.projectContainer}>
       <h1 className={styles.projectTitle}>{project?.name}</h1>
-  
+
       <button className={styles.editButton} onClick={() => setShowForm(prev => !prev)}>
         {showForm ? 'Cancelar' : 'Editar Projeto'}
       </button>
-  
+
       {showForm ? (
         <div className={styles.projectFormContainer}>
           <ProjectForm
@@ -114,7 +114,7 @@ function ProjectOne() {
               Categoria: {categories.find(cat => cat.id === project?.categoryId)?.name || 'N/A'}
             </span>
           </div>
-  
+
           <div className={styles.orcamento}>
             <FaMoneyBillAlt className={styles.icon} />
             <span>
@@ -123,20 +123,31 @@ function ProjectOne() {
           </div>
         </div>
       )}
-      <div className= {styles.serviceForm}>
+
+      <div className={styles.serviceForm}>
         <h2>Adicione um serviço</h2>
-        <button className={styles.editButton} onClick={() => toggleServiceForm(prev => !prev)}>
-        {showForm ? 'Fechar' : 'Adicionar serviço'}
-      </button>
-      <div className= {styles.projectInfo}>
-        {showServiceForm && <div>Formulário do serviço<div/>
-        </>}
+
+        <button 
+          className={styles.editButton} 
+          onClick={() => setShowServiceForm(prev => !prev)}
+        >
+          {showServiceForm ? 'Fechar' : 'Adicionar serviço'}
+        </button>
+
+        <div className={styles.projectInfo}>
+          {showServiceForm && (
+            <div>
+              <p>Formulário do serviço</p>
+              {/* Insira o componente de formulário aqui, como <ServiceForm /> se necessário */}
+            </div>
+          )}
+        </div>
       </div>
-      </div>
+
+      <h2>Serviços</h2>
+      <p>Itens de serviço</p>
     </div>
-    
   );
-  
 }
 
 export default ProjectOne;
