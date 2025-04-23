@@ -30,6 +30,7 @@ function ProjectOne() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [services, setShowService] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -124,6 +125,13 @@ function ProjectOne() {
       )}
       <div className= {styles.serviceForm}>
         <h2>Adicione um serviço</h2>
+        <button className={styles.editButton} onClick={() => toggleServiceForm(prev => !prev)}>
+        {showForm ? 'Fechar' : 'Adicionar serviço'}
+      </button>
+      <div className= {styles.projectInfo}>
+        {showServiceForm && <div>Formulário do serviço<div/>
+        </>}
+      </div>
       </div>
     </div>
     
