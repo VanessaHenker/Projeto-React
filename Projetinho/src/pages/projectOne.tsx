@@ -122,7 +122,11 @@ function ProjectOne() {
           </div>
         </div>
       )}
+      <div className= {styles.serviceForm}>
+        <h2>Adicione um serviço</h2>
+      </div>
     </div>
+    
   );
   
 }
