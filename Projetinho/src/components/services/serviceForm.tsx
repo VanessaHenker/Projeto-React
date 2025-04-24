@@ -1,19 +1,20 @@
 import Input from "../form/input"
 import SubmitButton from "../form/submitButton"
+import styles from "../form/ServiceForm.module.css" 
 
-function ServiceForm({handleSubmit, btnText, projectData}) {
+function ServiceForm({ handleSubmit, btnText, projectData }) {
 
-  function submit() {
-
+  function submit(e) {
+    e.preventDefault()
+    handleSubmit(projectData)
   }
 
-
-  function hendleChange(e) {
-
+  function handleChange(e) {
+    projectData[e.target.name] = e.target.value
   }
 
   return (
-    <form anSubmit {submit} className={styles.from}>
+    <form onSubmit={submit} className={styles.form}>
       <Input
         type="text"
         text="Nome do serviço"
@@ -31,13 +32,14 @@ function ServiceForm({handleSubmit, btnText, projectData}) {
       />
 
       <Input
-        type="number"
+        type="text"
         text="Descrição do serviço"
-        name= "name"
+        name="description"
         placeholder="Descreva o serviço"
         handleOnChange={handleChange}
       />
-      <SubmitButton text = {texBton}/>
+
+      <SubmitButton text={btnText} />
     </form>
   )
 }
