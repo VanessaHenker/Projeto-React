@@ -1,9 +1,9 @@
 
 function ServiceForm() {
   return (
-    <div>
-      
-    </div>
+    <form action="">
+      <input type="text" />
+    </form>
   )
 }
 

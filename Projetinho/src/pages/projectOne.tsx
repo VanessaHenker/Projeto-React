@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import styles from './projectOne.module.css';
 import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
+import ServiceForm from '../components/services/serviceForm';
 
 interface Project {
   id?: string;
@@ -136,9 +137,7 @@ function ProjectOne() {
 
         <div className={styles.projectInfo}>
           {showServiceForm && (
-            <div>
-              <p>Formulário do serviço</p>
-            </div>
+            <ServiceForm />
           )}
         </div>
       </div>
