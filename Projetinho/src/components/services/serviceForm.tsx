@@ -1,16 +1,38 @@
-import Input from "../form/input"
-import SubmitButton from "../form/submitButton"
-import styles from "../form/ServiceForm.module.css" 
+import { useState, FormEvent, ChangeEvent } from "react";
+import Input from "../form/input";
+import SubmitButton from "../form/submitButton";
+import styles from "../form/ServiceForm.module.css";
 
-function ServiceForm({ handleSubmit, btnText, projectData }) {
 
-  function submit(e) {
-    e.preventDefault()
-    handleSubmit(projectData)
+interface Service {
+  name: string;
+  cost: string;
+  description: string;
+}
+
+interface ServiceFormProps {
+  handleSubmit: (service: Service) => void;
+  btnText: string;
+}
+
+function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
+  const [service, setService] = useState<Service>({
+    name: "",
+    cost: "",
+    description: "",
+  });
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setService((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   }
 
-  function handleChange(e) {
-    projectData[e.target.name] = e.target.value
+  function submit(e: FormEvent) {
+    e.preventDefault();
+    handleSubmit(service);
   }
 
   return (
@@ -21,6 +43,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }) {
         name="name"
         placeholder="Insira o nome do serviço"
         handleOnChange={handleChange}
+        value={service.name}
       />
 
       <Input
@@ -29,6 +52,7 @@ function ServiceForm({ handleSubmit, btnText, projectData }) {
         name="cost"
         placeholder="Insira o valor total"
         handleOnChange={handleChange}
+        value={service.cost}
       />
 
       <Input
@@ -37,11 +61,12 @@ function ServiceForm({ handleSubmit, btnText, projectData }) {
         name="description"
         placeholder="Descreva o serviço"
         handleOnChange={handleChange}
+        value={service.description}
       />
 
       <SubmitButton text={btnText} />
     </form>
-  )
+  );
 }
 
-export default ServiceForm
+export default ServiceForm;

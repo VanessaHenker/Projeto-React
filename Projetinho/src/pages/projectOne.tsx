@@ -31,7 +31,8 @@ function ProjectOne() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showServiceForm, setShowServiceForm] = useState(false); // Correção aplicada aqui
+  const [showServiceForm, setShowServiceForm] = useState(false); 
+  const createService();
 
   useEffect(() => {
     if (!id) return;
@@ -137,7 +138,11 @@ function ProjectOne() {
 
         <div className={styles.projectInfo}>
           {showServiceForm && (
-            <ServiceForm />
+            <ServiceForm 
+            handleSubmit = {createService}
+            btnText = "Adicionar Serviço"
+            projectData = {project}
+            />
           )}
         </div>
       </div>
