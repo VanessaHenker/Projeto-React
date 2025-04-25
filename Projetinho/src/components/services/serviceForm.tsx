@@ -1,7 +1,7 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import Input from "../form/input";
 import SubmitButton from "../form/submitButton";
-import styles from "../form/ServiceForm.module.css";
+import styles from "../services/serviceForm.module.css";
 
 interface Service {
   name: string;

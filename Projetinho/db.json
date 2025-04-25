@@ -5,7 +5,9 @@
       "name": "teia",
       "budget": 0,
       "categoryId": "1",
-      "orcamento_id": "3"
+      "orcamento_id": "3",
+      "services": [
+      ]
     }
   ],
   "categories": [
