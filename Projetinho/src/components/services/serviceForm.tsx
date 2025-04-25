@@ -21,7 +21,7 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
     description: "",
   });
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
     setService((prev) => ({
       ...prev,
