@@ -1,10 +1,7 @@
-import {parse, v4 as uuidv4} from 'uuid'
-
 import { useState, FormEvent, ChangeEvent } from "react";
 import Input from "../form/input";
 import SubmitButton from "../form/submitButton";
 import styles from "../form/ServiceForm.module.css";
-
 
 interface Service {
   name: string;
@@ -35,13 +32,7 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
   function submit(e: FormEvent) {
     e.preventDefault();
     handleSubmit(service);
-  }
-
-
-  function createService(project){
-    const last service = project.services[project.services.length -1]
-
-    lastService.id
+    setService({ name: "", cost: "", description: "" }); // limpar formulário após envio
   }
 
   return (
