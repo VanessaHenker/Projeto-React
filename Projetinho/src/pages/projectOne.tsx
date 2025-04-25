@@ -11,6 +11,14 @@ interface Project {
   budget: number;
   categoryId?: string;
   orcamento_id?: string;
+  services?: Service[];
+}
+
+interface Service {
+  id?: string;
+  name: string;
+  cost: string;
+  description: string;
 }
 
 interface Category {
@@ -32,7 +40,6 @@ function ProjectOne() {
   const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showServiceForm, setShowServiceForm] = useState(false); 
-  const createService();
 
   useEffect(() => {
     if (!id) return;
@@ -42,7 +49,7 @@ function ProjectOne() {
         const [projectRes, categoriesRes, orcamentosRes] = await Promise.all([
           fetch(`http://localhost:5000/projects/${id}`),
           fetch('http://localhost:5000/categories'),
-          fetch('http://localhost:5000/orcamentos')
+          fetch('http://localhost:5000/orcamentos'),
         ]);
 
         if (!projectRes.ok || !categoriesRes.ok || !orcamentosRes.ok) {
@@ -56,7 +63,8 @@ function ProjectOne() {
         setProject({
           ...projectData,
           id: String(projectData.id),
-          budget: Number(projectData.budget)
+          budget: Number(projectData.budget),
+          services: projectData.services || []
         });
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
@@ -87,6 +95,18 @@ function ProjectOne() {
     } catch (error) {
       console.error('Erro ao salvar projeto:', error);
     }
+  };
+
+  const createService = async (newService: Service) => {
+    if (!project) return;
+
+    const updatedServices = [...(project.services || []), { ...newService, id: crypto.randomUUID() }];
+    const updatedProject = { ...project, services: updatedServices };
+
+    setProject(updatedProject);
+    setShowServiceForm(false);
+
+    await saveProject(updatedProject);
   };
 
   if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
@@ -139,16 +159,27 @@ function ProjectOne() {
         <div className={styles.projectInfo}>
           {showServiceForm && (
             <ServiceForm 
-            handleSubmit = {createService}
-            btnText = "Adicionar Serviço"
-            projectData = {project}
+              handleSubmit={createService}
+              btnText="Adicionar Serviço"
             />
           )}
         </div>
       </div>
 
       <h2>Serviços</h2>
-      <p>Itens de serviço</p>
+      {project?.services?.length ? (
+        <ul>
+          {project.services.map(service => (
+            <li key={service.id}>
+              {service.name} - R$ {service.cost}
+              <br />
+              <em>{service.description}</em>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Nenhum serviço adicionado.</p>
+      )}
     </div>
   );
 }
