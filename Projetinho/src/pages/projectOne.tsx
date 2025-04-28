@@ -21,6 +21,7 @@ interface Service {
   name: string;
   cost: string;
   description: string;
+  category: string;
 }
 
 interface Category {
@@ -42,6 +43,7 @@ function ProjectOne() {
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [showServiceForm, setShowServiceForm] = useState(false);
+  const [serviceToEdit, setServiceToEdit] = useState<Service | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -114,6 +116,33 @@ function ProjectOne() {
     await saveProject(updatedProject);
   };
 
+  const updateService = async (updatedService: Service) => {
+    if (!project) return;
+
+    const updatedServices = project.services?.map(service =>
+      service.id === updatedService.id ? updatedService : service
+    );
+
+    const updatedProject = { ...project, services: updatedServices };
+
+    setProject(updatedProject);
+    setServiceToEdit(null); // Limpar o serviço editado
+    setShowServiceForm(false);
+
+    await saveProject(updatedProject);
+  };
+
+  const deleteService = async (serviceId: string) => {
+    if (!project) return;
+
+    const updatedServices = project.services?.filter(service => service.id !== serviceId);
+    const updatedProject = { ...project, services: updatedServices };
+
+    setProject(updatedProject);
+
+    await saveProject(updatedProject);
+  };
+
   if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
   if (error) return <div className={styles.errorMessage}>{error}</div>;
 
@@ -164,8 +193,9 @@ function ProjectOne() {
         {showServiceForm && (
           <div className={styles.projectInfo}>
             <ServiceForm
-              handleSubmit={createService}
-              btnText="Adicionar Serviço"
+              handleSubmit={serviceToEdit ? updateService : createService}
+              btnText={serviceToEdit ? 'Salvar Alterações' : 'Adicionar Serviço'}
+              service={serviceToEdit || { name: '', cost: '', description: '', category: '' }}
             />
           </div>
         )}
@@ -178,11 +208,13 @@ function ProjectOne() {
           <ul>
             {project.services.map(service => (
               <li key={service.id}>
-                <ServiceCard 
-                  id={service.id!}
+                <ServiceCard
+                  id={service.id}
                   name={service.name}
                   cost={service.cost}
                   description={service.description}
+                  handleEdit={() => setServiceToEdit(service)}
+                  handleRemove={() => deleteService(service.id!)}
                 />
               </li>
             ))}
@@ -190,7 +222,7 @@ function ProjectOne() {
         ) : (
           <p>Não há serviços cadastrados.</p>
         )}
-      </Container>
+      </Container> 
     </div>
   );
 }

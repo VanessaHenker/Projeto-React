@@ -1,20 +1,11 @@
 {
   "projects": [
     {
-      "id": "8da3",
-      "name": "teia",
+      "id": "efc9",
+      "name": "Meu projeto",
       "budget": 0,
-      "categoryId": "1",
-      "orcamento_id": "3",
-      "services": [
-        {
-          "name": "a",
-          "cost": "21",
-          "description": "dd",
-          "category": "",
-          "id": "1e0a9ac6-6f9f-4f79-9536-65a4eb94dfa7"
-        }
-      ]
+      "categoryId": "2",
+      "orcamento_id": "2"
     }
   ],
   "categories": [
