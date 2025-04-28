@@ -8,7 +8,6 @@ interface Service {
   name: string;
   cost: string;
   description: string;
-  category: string;
 }
 
 interface ServiceFormProps {
@@ -21,7 +20,6 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
     name: "",
     cost: "",
     description: "",
-    category: "",
   });
 
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -35,14 +33,7 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
   function submit(e: FormEvent) {
     e.preventDefault();
     handleSubmit(service);
-
-    // Limpar formulário depois de enviar
-    setService({
-      name: "",
-      cost: "",
-      description: "",
-      category: "",
-    });
+    setService({ name: "", cost: "", description: "" });
   }
 
   return (
@@ -55,7 +46,6 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
         handleOnChange={handleChange}
         value={service.name}
       />
-
       <Input
         type="number"
         text="Custo do serviço"
@@ -64,7 +54,6 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
         handleOnChange={handleChange}
         value={service.cost}
       />
-
       <Input
         type="text"
         text="Descrição do serviço"
