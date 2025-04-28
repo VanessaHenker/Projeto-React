@@ -7,6 +7,13 @@
       "categoryId": "1",
       "orcamento_id": "3",
       "services": [
+        {
+          "name": "teste",
+          "cost": "4000",
+          "description": "3333",
+          "category": "Desenvolvimento",
+          "id": "65151243-d500-4412-9d4d-e3d62311b24b"
+        }
       ]
     }
   ],

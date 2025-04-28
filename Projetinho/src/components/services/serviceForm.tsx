@@ -4,9 +4,11 @@ import SubmitButton from "../form/submitButton";
 import styles from "../services/serviceForm.module.css";
 
 interface Service {
+  id?: string;
   name: string;
   cost: string;
   description: string;
+  category: string;
 }
 
 interface ServiceFormProps {
@@ -19,12 +21,13 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
     name: "",
     cost: "",
     description: "",
+    category: "",
   });
 
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
-    setService((prev) => ({
-      ...prev,
+    setService((prevService) => ({
+      ...prevService,
       [name]: value,
     }));
   }
@@ -32,7 +35,14 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
   function submit(e: FormEvent) {
     e.preventDefault();
     handleSubmit(service);
-    setService({ name: "", cost: "", description: "" }); // limpar formulário após envio
+
+    // Limpar formulário depois de enviar
+    setService({
+      name: "",
+      cost: "",
+      description: "",
+      category: "",
+    });
   }
 
   return (
@@ -48,9 +58,9 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
 
       <Input
         type="number"
-        text="Custo de serviço"
+        text="Custo do serviço"
         name="cost"
-        placeholder="Insira o valor total"
+        placeholder="Insira o valor do serviço"
         handleOnChange={handleChange}
         value={service.cost}
       />
@@ -63,6 +73,24 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
         handleOnChange={handleChange}
         value={service.description}
       />
+
+      <div className={styles.input_group}>
+        <label htmlFor="category">Categoria do serviço</label>
+        <select
+          id="category"
+          name="category"
+          onChange={handleChange}
+          value={service.category}
+          className={styles.select}
+          required
+        >
+          <option value="">Selecione uma categoria</option>
+          <option value="Design">Design</option>
+          <option value="Desenvolvimento">Desenvolvimento</option>
+          <option value="Planejamento">Planejamento</option>
+          <option value="Consultoria">Consultoria</option>
+        </select>
+      </div>
 
       <SubmitButton text={btnText} />
     </form>
