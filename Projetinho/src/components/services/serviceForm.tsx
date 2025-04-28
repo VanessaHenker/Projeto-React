@@ -8,10 +8,11 @@ interface Service {
   name: string;
   cost: string;
   description: string;
+  category: string; 
 }
 
 interface ServiceFormProps {
-  handleSubmit: (service: Service) => void;
+  handleSubmit: (service: Service) => void | Promise<void>;
   btnText: string;
   service: Service; 
 }
@@ -27,14 +28,28 @@ function ServiceForm({ handleSubmit, btnText, service }: ServiceFormProps) {
     }));
   }
 
-  function submit(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
+
     if (Number(serviceData.cost) <= 0) {
       alert('O custo do serviço deve ser um valor positivo');
       return;
     }
-    handleSubmit(serviceData);
-    setServiceData({ name: "", cost: "", description: "" });
+    if (!serviceData.category) {
+      alert('A categoria do serviço é obrigatória');
+      return;
+    }
+
+    await handleSubmit(serviceData); 
+
+
+    setServiceData({
+      id: '', 
+      name: "",
+      cost: "",
+      description: "",
+      category: ""
+    });
   }
 
   return (
@@ -62,6 +77,14 @@ function ServiceForm({ handleSubmit, btnText, service }: ServiceFormProps) {
         placeholder="Descreva o serviço"
         handleOnChange={handleChange}
         value={serviceData.description}
+      />
+      <Input
+        type="text"
+        text="Categoria do serviço"
+        name="category"
+        placeholder="Insira a categoria do serviço"
+        handleOnChange={handleChange}
+        value={serviceData.category}
       />
       <SubmitButton text={btnText} />
     </form>
