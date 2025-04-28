@@ -1,0 +1,85 @@
+.projectCard {
+  background-color: #fff6f0; /* Fundo suave, puxado para o laranja claro */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+  padding: 1.25rem;
+  margin: 1rem 0;
+  max-width: 420px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  overflow: hidden;
+}
+
+.projectCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.projectCard h4 {
+  font-family: 'Georgia', serif;
+  font-size: 1.5rem;
+  color: #ffffff;
+  background-color: #ff7043; /* Cor de fundo laranja */
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  text-align: center;
+}
+
+.projectCard p {
+  font-family: 'Times New Roman', serif;
+  font-size: 1rem;
+  color: #666666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.projectCard p span {
+  font-weight: bold;
+}
+
+.editButton, .removeButton {
+  background-color: #ff7043; /* Cor de fundo laranja */
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.editButton:hover, .removeButton:hover {
+  background-color: #e64a19; /* Cor de fundo laranja escuro ao passar o mouse */
+  transform: translateY(-2px);
+}
+
+.removeButton {
+  background-color: #ff3d00; /* Cor vermelha mais intensa para o remover */
+}
+
+.removeButton:hover {
+  background-color: #e32d00;
+}
+
+.projectCard button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.projectCard button {
+  margin-top: 1rem;
+}
+
+.projectCard .buttonContainer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.projectCard .buttonContainer button {
+  margin-right: 1rem;
+}

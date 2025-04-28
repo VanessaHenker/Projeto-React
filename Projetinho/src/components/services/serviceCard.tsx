@@ -21,8 +21,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ id, name, cost, description, 
     <div className={styles.projectCard}>
       <h4>{name}</h4>
       <p><span>Custo total:</span> R$ {cost}</p>
-      <p>{description}</p>
-
+      <p><span>Descrição:</span> {description}</p>
       <button onClick={() => handleEdit({ id, name, cost, description })} className={styles.editButton}>
         Editar Serviço
       </button>

@@ -213,7 +213,7 @@ function ProjectOne() {
         {project?.services && project.services.length > 0 ? (
           <ul>
             {project.services.map(service => (
-              <li key={service.id}>
+              <div key={service.id}>
                 <ServiceCard
                   id={service.id}
                   name={service.name}
@@ -225,7 +225,7 @@ function ProjectOne() {
                   }}
                   handleRemove={() => deleteService(service.id)}
                 />
-              </li>
+              </div>
             ))}
           </ul>
         ) : (
