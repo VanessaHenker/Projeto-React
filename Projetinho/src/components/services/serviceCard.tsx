@@ -1,13 +1,20 @@
-import styles from '../services/serviceCard.module.css'
+import styles from '../services/serviceCard.module.css';
 
-function ServiceCard(id, name, cost, description, handleRemove) {
-  return (
-    <div className= {styles.projectCard}>
-      <h4>{name}</h4>
-      <p><Span>Custo total:</Span> R$ {cost}</p>
-      <p>{description}</p>
-    </div>
-  )
+interface ServiceCardProps {
+  id: string;
+  name: string;
+  cost: string;
+  description: string;
 }
 
-export default ServiceCard
+function ServiceCard({ id, name, cost, description }: ServiceCardProps) {
+  return (
+    <div className={styles.projectCard}>
+      <h4>{name}</h4>
+      <p><span>Custo total:</span> R$ {cost}</p>
+      <p>{description}</p>
+    </div>
+  );
+}
+
+export default ServiceCard;
