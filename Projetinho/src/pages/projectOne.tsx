@@ -4,6 +4,7 @@ import styles from './projectOne.module.css';
 import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
 import ServiceForm from '../components/services/serviceForm';
+import Container from '../components/layout/container'; 
 
 interface Project {
   id?: string;
@@ -37,9 +38,9 @@ function ProjectOne() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [orcamentos, setOrcamentos] = useState<Orcamento[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [showServiceForm, setShowServiceForm] = useState(false); 
+  const [showForm, setShowForm] = useState(false);
+  const [showServiceForm, setShowServiceForm] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -64,7 +65,7 @@ function ProjectOne() {
           ...projectData,
           id: String(projectData.id),
           budget: Number(projectData.budget),
-          services: projectData.services || []
+          services: projectData.services || [],
         });
         setCategories(categoriesData);
         setOrcamentos(orcamentosData);
@@ -90,7 +91,10 @@ function ProjectOne() {
       if (!response.ok) throw new Error('Erro ao salvar o projeto');
 
       const data = await response.json();
-      setProject(data);
+      setProject({
+        ...data,
+        services: data.services || [],
+      });
       setShowForm(false);
     } catch (error) {
       console.error('Erro ao salvar projeto:', error);
@@ -149,37 +153,40 @@ function ProjectOne() {
       <div className={styles.serviceForm}>
         <h2>Adicione um serviço</h2>
 
-        <button 
-          className={styles.editButton} 
+        <button
+          className={styles.editButton}
           onClick={() => setShowServiceForm(prev => !prev)}
         >
           {showServiceForm ? 'Fechar' : 'Adicionar serviço'}
         </button>
 
-        <div className={styles.projectInfo}>
-          {showServiceForm && (
-            <ServiceForm 
+        {showServiceForm && (
+          <div className={styles.projectInfo}>
+            <ServiceForm
               handleSubmit={createService}
               btnText="Adicionar Serviço"
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       <h2>Serviços</h2>
-      {project?.services?.length ? (
-        <ul>
-          {project.services.map(service => (
-            <li key={service.id}>
-              {service.name} - R$ {service.cost}
-              <br />
-              <em>{service.description}</em>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Nenhum serviço adicionado.</p>
-      )}
+
+      <Container customClass="start">
+        {project?.services && project.services.length > 0 ? (
+          <ul>
+            {project.services.map(service => (
+              <li key={service.id}>
+                <strong>{service.name}</strong> — R$ {service.cost}
+                <br />
+                <em>{service.description}</em>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Não há serviços cadastrados.</p>
+        )}
+      </Container>
     </div>
   );
 }

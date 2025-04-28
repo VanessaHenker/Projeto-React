@@ -73,25 +73,6 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
         handleOnChange={handleChange}
         value={service.description}
       />
-
-      <div className={styles.input_group}>
-        <label htmlFor="category">Categoria do serviço</label>
-        <select
-          id="category"
-          name="category"
-          onChange={handleChange}
-          value={service.category}
-          className={styles.select}
-          required
-        >
-          <option value="">Selecione uma categoria</option>
-          <option value="Design">Design</option>
-          <option value="Desenvolvimento">Desenvolvimento</option>
-          <option value="Planejamento">Planejamento</option>
-          <option value="Consultoria">Consultoria</option>
-        </select>
-      </div>
-
       <SubmitButton text={btnText} />
     </form>
   );
