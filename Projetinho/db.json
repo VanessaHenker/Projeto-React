@@ -2,19 +2,26 @@
   "projects": [
     {
       "id": "efc9",
-      "name": "Meu projeto",
+      "name": "Trocando nome",
       "budget": 0,
       "categoryId": "2",
-      "orcamento_id": "2",
+      "orcamento_id": "1",
       "services": [
         {
           "id": "f6c0c388-1331-435d-b7c4-56f9de0ee0e8",
           "name": "Meu serviço",
-          "cost": "200",
+          "cost": "400",
           "description": "Serviço feito por mim ",
           "category": "Categoria"
         }
       ]
+    },
+    {
+      "id": "bfd0",
+      "name": "Teste",
+      "budget": 0,
+      "categoryId": "2",
+      "orcamento_id": "3"
     }
   ],
   "categories": [

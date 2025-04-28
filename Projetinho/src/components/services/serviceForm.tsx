@@ -43,12 +43,7 @@ function ServiceForm({ handleSubmit, btnText, service }: ServiceFormProps) {
       alert('O custo do serviço deve ser um valor positivo');
       return;
     }
-
-    if (!serviceData.category) {
-      alert('A categoria do serviço é obrigatória');
-      return;
-    }
-
+    
     await handleSubmit(serviceData);
 
     setServiceData({
@@ -86,14 +81,7 @@ function ServiceForm({ handleSubmit, btnText, service }: ServiceFormProps) {
         handleOnChange={handleChange}
         value={serviceData.description}
       />
-      <Input
-        type="text"
-        text="Categoria do serviço"
-        name="category"
-        placeholder="Insira a categoria do serviço"
-        handleOnChange={handleChange}
-        value={serviceData.category}
-      />
+     
       <SubmitButton text={btnText} />
     </form>
   );
