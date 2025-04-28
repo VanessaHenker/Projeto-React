@@ -5,6 +5,7 @@ import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
 import ServiceForm from '../components/services/serviceForm';
 import Container from '../components/layout/container'; 
+import ServiceCard from '../components/services/serviceCard';
 
 interface Project {
   id?: string;
@@ -177,9 +178,12 @@ function ProjectOne() {
           <ul>
             {project.services.map(service => (
               <li key={service.id}>
-                <strong>{service.name}</strong> — R$ {service.cost}
-                <br />
-                <em>{service.description}</em>
+                <ServiceCard 
+                  id={service.id!}
+                  name={service.name}
+                  cost={service.cost}
+                  description={service.description}
+                />
               </li>
             ))}
           </ul>

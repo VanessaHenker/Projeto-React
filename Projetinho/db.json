@@ -7,7 +7,13 @@
       "categoryId": "1",
       "orcamento_id": "3",
       "services": [
-        
+        {
+          "name": "a",
+          "cost": "21",
+          "description": "dd",
+          "category": "",
+          "id": "1e0a9ac6-6f9f-4f79-9536-65a4eb94dfa7"
+        }
       ]
     }
   ],
