@@ -3,13 +3,15 @@ import Input from "../form/input";
 import SubmitButton from "../form/submitButton";
 import styles from "../services/serviceForm.module.css";
 
+
 interface Service {
-  id?: string;
+  id: string;
   name: string;
   cost: string;
   description: string;
   category: string; 
 }
+
 
 interface ServiceFormProps {
   handleSubmit: (service: Service) => void | Promise<void>;
@@ -18,7 +20,13 @@ interface ServiceFormProps {
 }
 
 function ServiceForm({ handleSubmit, btnText, service }: ServiceFormProps) {
-  const [serviceData, setServiceData] = useState<Service>(service);
+  const [serviceData, setServiceData] = useState<Service>({
+    id: service.id || crypto.randomUUID(), 
+    name: service.name,
+    cost: service.cost,
+    description: service.description,
+    category: service.category,
+  });
 
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
@@ -30,21 +38,21 @@ function ServiceForm({ handleSubmit, btnText, service }: ServiceFormProps) {
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-
+    
     if (Number(serviceData.cost) <= 0) {
       alert('O custo do serviço deve ser um valor positivo');
       return;
     }
+
     if (!serviceData.category) {
       alert('A categoria do serviço é obrigatória');
       return;
     }
 
-    await handleSubmit(serviceData); 
-
+    await handleSubmit(serviceData);
 
     setServiceData({
-      id: '', 
+      id: crypto.randomUUID(),
       name: "",
       cost: "",
       description: "",

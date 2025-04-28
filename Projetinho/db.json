@@ -5,7 +5,16 @@
       "name": "Meu projeto",
       "budget": 0,
       "categoryId": "2",
-      "orcamento_id": "2"
+      "orcamento_id": "2",
+      "services": [
+        {
+          "id": "62f7d4f4-4c26-4ed4-9531-23eb0172b301",
+          "name": "teste",
+          "cost": "100",
+          "description": "aa",
+          "category": "a"
+        }
+      ]
     }
   ],
   "categories": [

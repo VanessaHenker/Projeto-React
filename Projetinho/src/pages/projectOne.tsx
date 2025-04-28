@@ -4,7 +4,7 @@ import styles from './projectOne.module.css';
 import { FaTags, FaMoneyBillAlt } from 'react-icons/fa';
 import ProjectForm from '../components/projects/projectForm';
 import ServiceForm from '../components/services/serviceForm';
-import Container from '../components/layout/container'; 
+import Container from '../components/layout/container';
 import ServiceCard from '../components/services/serviceCard';
 
 interface Project {
@@ -112,6 +112,7 @@ function ProjectOne() {
 
     setProject(updatedProject);
     setShowServiceForm(false);
+    setServiceToEdit(null);
 
     await saveProject(updatedProject);
   };
@@ -126,8 +127,8 @@ function ProjectOne() {
     const updatedProject = { ...project, services: updatedServices };
 
     setProject(updatedProject);
-    setServiceToEdit(null);
     setShowServiceForm(false);
+    setServiceToEdit(null);
 
     await saveProject(updatedProject);
   };
@@ -181,13 +182,18 @@ function ProjectOne() {
       )}
 
       <div className={styles.serviceForm}>
-        <h2>Adicione um serviço</h2>
+        <h2>{serviceToEdit ? 'Editar Serviço' : 'Adicione um serviço'}</h2>
 
         <button
           className={styles.editButton}
-          onClick={() => setShowServiceForm(prev => !prev)}
+          onClick={() => {
+            setShowServiceForm(prev => {
+              if (prev) setServiceToEdit(null);
+              return !prev;
+            });
+          }}
         >
-          {showServiceForm ? 'Fechar' : 'Adicionar serviço'}
+          {showServiceForm ? 'Fechar' : serviceToEdit ? 'Cancelar Edição' : 'Adicionar serviço'}
         </button>
 
         {showServiceForm && (
@@ -213,7 +219,10 @@ function ProjectOne() {
                   name={service.name}
                   cost={service.cost}
                   description={service.description}
-                  handleEdit={() => setServiceToEdit(service)}
+                  handleEdit={() => {
+                    setServiceToEdit(service);
+                    setShowServiceForm(true);
+                  }}
                   handleRemove={() => deleteService(service.id)}
                 />
               </li>
@@ -222,7 +231,7 @@ function ProjectOne() {
         ) : (
           <p>Não há serviços cadastrados.</p>
         )}
-      </Container> 
+      </Container>
     </div>
   );
 }
