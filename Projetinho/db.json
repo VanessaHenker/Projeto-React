@@ -9,10 +9,10 @@
       "services": [
         {
           "id": "f6c0c388-1331-435d-b7c4-56f9de0ee0e8",
-          "name": "w",
-          "cost": "2300",
-          "description": "u",
-          "category": "y"
+          "name": "Meu serviço",
+          "cost": "200",
+          "description": "Serviço feito por mim ",
+          "category": "Categoria"
         }
       ]
     }

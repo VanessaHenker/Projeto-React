@@ -39,7 +39,7 @@
 }
 
 .editButton, .removeButton {
-  background-color: #ff7043; /* Cor de fundo laranja */
+  background-color: #ff7043; 
   color: #ffffff;
   border: none;
   padding: 10px 20px;
@@ -53,12 +53,12 @@
 }
 
 .editButton:hover, .removeButton:hover {
-  background-color: #e64a19; /* Cor de fundo laranja escuro ao passar o mouse */
+  background-color: #e64a19; 
   transform: translateY(-2px);
 }
 
 .removeButton {
-  background-color: #ff3d00; /* Cor vermelha mais intensa para o remover */
+  background-color: #ff3d00; 
 }
 
 .removeButton:hover {

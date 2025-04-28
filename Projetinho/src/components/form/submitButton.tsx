@@ -1,4 +1,4 @@
-import styles from './submitButton.module.css'; // Importe o arquivo CSS para o botão, se necessário
+import styles from './submitButton.module.css'; 
 
 interface SubmitButtonProps {
   text: string;

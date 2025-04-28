@@ -145,6 +145,7 @@ function ProjectOne() {
   };
 
   if (loading) return <div className={styles.loadingMessage}>Carregando projeto...</div>;
+
   if (error) return <div className={styles.errorMessage}>{error}</div>;
 
   return (
@@ -182,7 +183,8 @@ function ProjectOne() {
       )}
 
       <div className={styles.serviceForm}>
-        <h2>{serviceToEdit ? 'Editar Serviço' : 'Adicione um serviço'}</h2>
+
+      <h2 className={styles.servicetitle}>{serviceToEdit ? 'Editar Serviço' : 'Adicione um serviço'}</h2>
 
         <button
           className={styles.editButton}
@@ -207,7 +209,7 @@ function ProjectOne() {
         )}
       </div>
 
-      <h2>Serviços</h2>
+      <h2 className={styles.descriptionService}> Serviços: </h2>
 
       <Container customClass="start">
         {project?.services && project.services.length > 0 ? (
