@@ -13,18 +13,15 @@ interface Service {
 interface ServiceFormProps {
   handleSubmit: (service: Service) => void;
   btnText: string;
+  service: Service; 
 }
 
-function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
-  const [service, setService] = useState<Service>({
-    name: "",
-    cost: "",
-    description: "",
-  });
+function ServiceForm({ handleSubmit, btnText, service }: ServiceFormProps) {
+  const [serviceData, setServiceData] = useState<Service>(service);
 
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
-    setService((prevService) => ({
+    setServiceData((prevService) => ({
       ...prevService,
       [name]: value,
     }));
@@ -32,8 +29,12 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
 
   function submit(e: FormEvent) {
     e.preventDefault();
-    handleSubmit(service);
-    setService({ name: "", cost: "", description: "" });
+    if (Number(serviceData.cost) <= 0) {
+      alert('O custo do serviço deve ser um valor positivo');
+      return;
+    }
+    handleSubmit(serviceData);
+    setServiceData({ name: "", cost: "", description: "" });
   }
 
   return (
@@ -44,7 +45,7 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
         name="name"
         placeholder="Insira o nome do serviço"
         handleOnChange={handleChange}
-        value={service.name}
+        value={serviceData.name}
       />
       <Input
         type="number"
@@ -52,7 +53,7 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
         name="cost"
         placeholder="Insira o valor do serviço"
         handleOnChange={handleChange}
-        value={service.cost}
+        value={serviceData.cost}
       />
       <Input
         type="text"
@@ -60,7 +61,7 @@ function ServiceForm({ handleSubmit, btnText }: ServiceFormProps) {
         name="description"
         placeholder="Descreva o serviço"
         handleOnChange={handleChange}
-        value={service.description}
+        value={serviceData.description}
       />
       <SubmitButton text={btnText} />
     </form>
