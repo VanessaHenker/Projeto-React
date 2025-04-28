@@ -17,7 +17,7 @@ interface Project {
 }
 
 interface Service {
-  id?: string;
+  id: string;
   name: string;
   cost: string;
   description: string;
@@ -126,7 +126,7 @@ function ProjectOne() {
     const updatedProject = { ...project, services: updatedServices };
 
     setProject(updatedProject);
-    setServiceToEdit(null); // Limpar o serviço editado
+    setServiceToEdit(null);
     setShowServiceForm(false);
 
     await saveProject(updatedProject);
@@ -195,7 +195,7 @@ function ProjectOne() {
             <ServiceForm
               handleSubmit={serviceToEdit ? updateService : createService}
               btnText={serviceToEdit ? 'Salvar Alterações' : 'Adicionar Serviço'}
-              service={serviceToEdit || { name: '', cost: '', description: '', category: '' }}
+              service={serviceToEdit || { id: '', name: '', cost: '', description: '', category: '' }}
             />
           </div>
         )}
@@ -214,7 +214,7 @@ function ProjectOne() {
                   cost={service.cost}
                   description={service.description}
                   handleEdit={() => setServiceToEdit(service)}
-                  handleRemove={() => deleteService(service.id!)}
+                  handleRemove={() => deleteService(service.id)}
                 />
               </li>
             ))}

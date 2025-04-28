@@ -1,22 +1,29 @@
 import styles from '../services/serviceCard.module.css';
 
+interface Service {
+  id: string;
+  name: string;
+  cost: string;
+  description: string;
+}
+
 interface ServiceCardProps {
-  id: string; 
+  id: string;
   name: string;
   cost: string;
   description: string;
   handleRemove: (id: string) => void;
-  handleEdit: (id: string) => void;  
+  handleEdit: (service: Service) => void;
 }
 
-function ServiceCard({ id, name, cost, description, handleRemove, handleEdit }: ServiceCardProps) {
+const ServiceCard: React.FC<ServiceCardProps> = ({ id, name, cost, description, handleRemove, handleEdit }) => {
   return (
     <div className={styles.projectCard}>
       <h4>{name}</h4>
       <p><span>Custo total:</span> R$ {cost}</p>
       <p>{description}</p>
 
-      <button onClick={() => handleEdit(id)} className={styles.editButton}>
+      <button onClick={() => handleEdit({ id, name, cost, description })} className={styles.editButton}>
         Editar Serviço
       </button>
 
@@ -25,6 +32,6 @@ function ServiceCard({ id, name, cost, description, handleRemove, handleEdit }: 
       </button>
     </div>
   );
-}
+};
 
 export default ServiceCard;
