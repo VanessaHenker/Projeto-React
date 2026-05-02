@@ -12,7 +12,6 @@ import Contact from './components/contact';
 
 import ProjectOne from './pages/projectOne';
 import Projects from './pages/projects';
-import NewProject from './pages/Newproject';
 
 
 function App() {
@@ -25,7 +24,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/company" element={<Company />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/newproject" element={<NewProject />} />
+
           <Route path="/projectOne/:id" element={<ProjectOne />} />
         </Routes>
       </Container>
