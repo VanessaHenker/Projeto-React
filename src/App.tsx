@@ -5,12 +5,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Company from './components/company';
 import Container from './components/layout/container';
 import NavBar from './components/layout/navBar';
-import Projects from './pages/projects';
+
 import Footer from './components/footer';
 import Home from './components/home';
 import Contact from './components/contact';
 import Newproject from './pages/Newproject';
 import ProjectOne from './pages/projectOne';
+import Projects from './pages/projects';
+
 
 function App() {
   return (
