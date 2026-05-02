@@ -1,36 +1,43 @@
-import React from "react";
 import { BsPencil, BsFillTrashFill } from "react-icons/bs";
-import styles from './actionButton.module.css';
 import { Link } from "react-router-dom";
+import styles from "./actionButton.module.css";
 
 interface ActionButtonProps {
   type: "edit" | "delete";
   label: string;
   iconClass: string;
   onClick?: () => void;
-  to?: string; 
+  to?: string;
 }
 
-const ActionButton: React.FC<ActionButtonProps> = ({
+function ActionButton({
   type,
   label,
   iconClass,
   onClick,
   to,
-}) => {
-  return (
-    <div>
-      {type === "edit" && to ? (
-        <Link to={to} className={`${styles.editButton} ${styles.button} ${styles.link}`}>
-          {label} <BsPencil className={iconClass} />
-        </Link>
-      ) : type === "delete" && onClick ? (
-        <span className={`${styles.deleteButton} ${styles.button}`} onClick={onClick}>
-          {label} <BsFillTrashFill className={iconClass} />
-        </span>
-      ) : null}
-    </div>
-  );
-};
+}: ActionButtonProps) {
+  if (type === "edit" && to) {
+    return (
+      <Link to={to} className={`${styles.button} ${styles.editButton} ${styles.link}`}>
+        {label} <BsPencil className={iconClass} />
+      </Link>
+    );
+  }
+
+  if (type === "delete" && onClick) {
+    return (
+      <button
+        type="button"
+        className={`${styles.button} ${styles.deleteButton}`}
+        onClick={onClick}
+      >
+        {label} <BsFillTrashFill className={iconClass} />
+      </button>
+    );
+  }
+
+  return null;
+}
 
 export default ActionButton;

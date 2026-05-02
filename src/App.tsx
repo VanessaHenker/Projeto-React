@@ -9,9 +9,9 @@ import NavBar from './components/layout/navBar';
 import Footer from './components/footer';
 import Home from './components/home';
 import Contact from './components/contact';
-
-import ProjectOne from './pages/projectOne';
-import Projects from './pages/projects';
+import NewProject from './pages/NewProject';
+import Projects from './pages/Projects';
+import ProjectOne from './pages/ProjectOne';
 
 
 function App() {
@@ -21,11 +21,11 @@ function App() {
       <Container customClass='min-height'>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects" element={<Projects/>} />
           <Route path="/company" element={<Company />} />
           <Route path="/contact" element={<Contact />} />
-
-          <Route path="/projectOne/:id" element={<ProjectOne />} />
+          <Route path="/newproject" element={<NewProject />} />
+          <Route path="/projectOne/:id" element={<ProjectOne/>} />
         </Routes>
       </Container>
       <Footer />
