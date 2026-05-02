@@ -26,7 +26,6 @@ function App() {
           <Route path="/projectOne/:id" element={<ProjectOne />} />
         </Routes>
       </Container>
-
       <Footer />
     </Router>
   );
